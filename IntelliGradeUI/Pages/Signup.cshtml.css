@@ -1,0 +1,11 @@
+﻿.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+}
+
+main{
+    background: linear-gradient(90deg, #1CB5E0 0%, #000851 100%);
+}

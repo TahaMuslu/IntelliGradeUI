@@ -40,6 +40,30 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yZ290UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-g66dn3tzbj
+
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-qy8e0sa5j4
+
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-rd1zuytd63
+
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Shared/_Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9IZWFkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-ozb7lfkn4o
+
 [C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-w6xsxoyvur
+
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Shared/_LayoutEmpty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXRFbXB0eS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-28fsn0v8dd
+
+[C:/Users/taha-/Documents/ASP.Net/IntelliGradeUI/IntelliGradeUI/Pages/Signup.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2lnbnVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-van4bzyw5g
