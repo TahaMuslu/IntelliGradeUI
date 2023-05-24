@@ -1,0 +1,106 @@
+﻿@page
+@model ClasroomModel
+@{
+    ViewData["Title"] = "Classroom";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5 mb-3">
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAnotherPage()">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
+                        <div class="ms-2 c-details">
+                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
+                        </div>
+                      
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+       <div class="col-md-1">
+
+       </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10" >
+            <div class="card p-3 mb-2" style="background-color:lavender">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
+                        <div class="ms-2 c-details">
+                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10" >
+            <div class="card p-3 mb-2" style="background-color:navajowhite">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
+                        <div class="ms-2 c-details">
+                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <div class="card p-3 mb-2">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
+                        <div class="ms-2 c-details">
+                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script>
+        function redirectToAnotherPage() {
+            window.location.href = '@Url.Page("/Task")';
+        }
+    </script>
+}

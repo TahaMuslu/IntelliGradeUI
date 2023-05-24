@@ -1,0 +1,65 @@
+﻿a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/*.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}*/
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.dropdown-menu {
+    min-width: unset !important;
+}
+
+.tab {
+    border-bottom: 1px solid #000000;
+}
+
+    .tab:hover {
+        background-color: rgba(32,33,36,0.039);
+    }
+
+.tab-active {
+    border-bottom: 4px solid #4f7abd;
+}
+
+    .tab-active > a > span {
+        color: #4f7abd;
+    }
+
+.login-btn:hover {
+    color: #4f7abd;
+    dis
+}
+
+@media (max-width: 576px) {
+    .tab, .tab-active {
+        border-bottom: 0px solid #000000;
+    }
+}
