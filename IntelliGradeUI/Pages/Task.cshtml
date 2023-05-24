@@ -1,0 +1,65 @@
+﻿@page
+@model TaskModel
+@{
+    ViewData["Title"] = "Task";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5 mb-3">
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-8">
+            <div class="card p-3 mb-2" >
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                      
+                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
+                        <div class="ms-4 c-details">
+                            <h6 class="mb-0">Hafta 11_Lab. Uygulaması &nbsp; | &nbsp; Deadline: <span> 23/03/2023</span></h6>
+                            <p>100 Puan</p>
+
+                            <a href="../wwwroot/images/LoginPage.png" download style="color:cornflowerblue">homework.pdf</a>
+                        </div>
+                        
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+       <div class="col-md-3">
+
+            <div class="card p-3 mb-2">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="ms-2 c-details d-flex flex-row">
+                            <h6 class="mb-0">Çalışmanız: &nbsp;</h6> <span>Teslim Edilmedi</span>
+                        </div>
+
+                        <div class="loadButton">
+                            <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile">
+                                <input type="file" name="file" class="form-control" />
+                                <button type="submit" class="btn btn-primary mt-2">Teslim Et</button>
+                            </form>
+
+                          
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+       </div>
+    </div>
+
+    
+    </div>
+
+
+
+
+
+
