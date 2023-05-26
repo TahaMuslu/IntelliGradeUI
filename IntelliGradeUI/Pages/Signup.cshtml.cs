@@ -31,14 +31,14 @@ namespace IntelliGradeUI.Pages
 
 
             var user = new User();
+            user.id = Guid.NewGuid().ToString();
             user.nameSurname = nameSurname;
             user.email = email;
             user.password = password;
-            user.id = Guid.NewGuid().ToString();
             user.teacherGrades = new List<string>();
             user.studentGrades = new List<string>();
 
-            Console.WriteLine(PostRequests.Post(user,"user","register"));
+            Console.WriteLine(PostRequests.Post(user,"user","register").status);
 
             Response.Redirect("/Login");
 

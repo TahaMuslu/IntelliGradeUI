@@ -15,6 +15,9 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public string className { get; set; }
 
+        [BindProperty]
+        public string classCode { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -35,8 +38,23 @@ namespace IntelliGradeUI.Pages
             model.teacherIds = new List<string>();
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
+            Console.WriteLine(model.id);
+
+
+            Console.WriteLine(PostRequests.Post(model, "lesson", "create", AdminToken.HaciAbiToken).status);
+            Response.Redirect("/Index");
+        }
+
+
+        public void OnPostJoinClass()
+        {
+            Console.WriteLine(PutRequests.Put("lesson", "/joinclass/" + classCode, AdminToken.HaciAbiToken).status);
+
+            Response.Redirect("/Index");
 
         }
+
+
 
     }
 }
