@@ -17,8 +17,8 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.layout {
+    margin-bottom: 60px;
 }
 
 .h-min{
@@ -27,4 +27,8 @@ body {
 
 .w-min {
     width: min-content;
+}
+
+.after-d-none ::after{
+    display: none;
 }
