@@ -18,13 +18,26 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public string classCode { get; set; }
 
+        [BindProperty]
+        public string classId { get; set; }
+
+        [BindProperty]
+        public Response result { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
+
+
+
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            string token = Request.Cookies["Token"];
+            this.result = await GetRequests.Get("user", "getclasses", token);
+
+            return Page();
         }
 
         public void OnPostCreateClass()
@@ -33,7 +46,7 @@ namespace IntelliGradeUI.Pages
             model.id = Guid.NewGuid().ToString();
             model.className = className;
             model.createdBy = "";
-            model.createdDate = "";
+            model.createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
             model.classCode = "";
             model.teacherIds = new List<string>();
             model.studentIds = new List<string>();
@@ -53,6 +66,24 @@ namespace IntelliGradeUI.Pages
             Response.Redirect("/Index");
 
         }
+
+
+        public void OnPostDeleteClass(string id)
+        {
+
+            DeleteRequests.Delete("lesson", "delete/" + id, AdminToken.HaciAbiToken);
+
+            Response.Cookies.Append("Token", Request.Cookies["Token"]);
+            Response.Redirect("/Index");
+        }
+
+
+        public void OnPostCheckButtonClicked()
+        {
+            Console.WriteLine("Button clicked!");
+
+        }
+
 
 
 

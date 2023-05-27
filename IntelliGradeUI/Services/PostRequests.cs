@@ -17,10 +17,7 @@ namespace IntelliGradeUI.Services
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
 
-            Console.WriteLine("URL: " + url);
-            Console.WriteLine("Request Json: " + json);
-            Console.WriteLine("Status Code: " + statusCode);
-            Console.WriteLine("Response: " + result);
+            Console.WriteLine(ResponseWriter.WriteResponse("POST", url, json, statusCode, result));
 
             return new Response(result, statusCode);
         }
@@ -40,10 +37,7 @@ namespace IntelliGradeUI.Services
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
 
-            Console.WriteLine("URL: " + url);
-            Console.WriteLine("Request Json: " + json);
-            Console.WriteLine("Status Code: " + statusCode);
-            Console.WriteLine("Response: " + result);
+            Console.WriteLine(ResponseWriter.WriteResponse("POST", url, json, statusCode, result));
 
             return new Response(result, statusCode);
         }

@@ -31,7 +31,7 @@ namespace IntelliGradeUI.Pages
                 Console.WriteLine("Kullanýcý bulunamadý");
             else
             {
-                Response.Cookies.Append("", result);
+                Response.Cookies.Append("Token", result);
                 Response.Redirect("/Index");
             }
 
