@@ -10,8 +10,8 @@
 
         public string password { get; set; }
 
-        public List<string> teacherGrades { get; set; }
+        public List<string> teacherLessons { get; set; }
 
-        public List<string> studentGrades { get; set; }
+        public List<string> studentLessons { get; set; }
     }
 }

@@ -35,10 +35,10 @@ namespace IntelliGradeUI.Pages
             user.nameSurname = nameSurname;
             user.email = email;
             user.password = password;
-            user.teacherGrades = new List<string>();
-            user.studentGrades = new List<string>();
+            user.teacherLessons = new List<string>();
+            user.studentLessons = new List<string>();
 
-            Console.WriteLine(PostRequests.Post(user,"user","register").status);
+            PostRequests.Post(user, "user", "register");
 
             Response.Redirect("/Login");
 

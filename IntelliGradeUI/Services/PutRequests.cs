@@ -18,6 +18,10 @@ namespace IntelliGradeUI.Services
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
 
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
+
             return new Response(result, statusCode);
         }
 
@@ -30,6 +34,10 @@ namespace IntelliGradeUI.Services
             var response = client.PutAsync(url, null);
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
+
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
 
             return new Response(result, statusCode);
         }
@@ -46,6 +54,11 @@ namespace IntelliGradeUI.Services
             var response = client.PutAsync(url, data);
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
+
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Request Json: " + json);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
 
             return new Response(result, statusCode);
         }
@@ -64,6 +77,11 @@ namespace IntelliGradeUI.Services
             var response = client.PutAsync(url, data);
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
+
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Request Json: " + json);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
 
             return new Response(result, statusCode);
         }

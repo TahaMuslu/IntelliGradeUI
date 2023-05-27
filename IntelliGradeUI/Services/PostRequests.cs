@@ -13,10 +13,14 @@ namespace IntelliGradeUI.Services
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
             using var client = new HttpClient();
-
             var response = client.PostAsync(url, data);
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
+
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Request Json: " + json);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
 
             return new Response(result, statusCode);
         }
@@ -35,7 +39,12 @@ namespace IntelliGradeUI.Services
             var response = client.PostAsync(url, data);
             string result = response.Result.Content.ReadAsStringAsync().Result;
             string statusCode = response.Result.StatusCode.ToString();
-            
+
+            Console.WriteLine("URL: " + url);
+            Console.WriteLine("Request Json: " + json);
+            Console.WriteLine("Status Code: " + statusCode);
+            Console.WriteLine("Response: " + result);
+
             return new Response(result, statusCode);
         }
 
