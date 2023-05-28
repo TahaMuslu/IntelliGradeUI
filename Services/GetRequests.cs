@@ -1,6 +1,6 @@
 ﻿using IntelliGradeUI.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace IntelliGradeUI.Services
@@ -30,7 +30,7 @@ namespace IntelliGradeUI.Services
             var response = await client.GetAsync(url);
       
             string result = await response.Content.ReadAsStringAsync();
-            List<Lesson> objectResult = JsonConvert.DeserializeObject<List<Lesson>>(result);
+            List<Lesson>? objectResult = JsonConvert.DeserializeObject<List<Lesson>>(result);
             string statusCode =  response.StatusCode.ToString();
 
             Console.WriteLine(ResponseWriter.WriteResponse("GET", url, statusCode, result));

@@ -24,15 +24,12 @@ namespace IntelliGradeUI.Pages
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-
-
-
         }
 
         public async Task<IActionResult> OnGet()
         {
-            string token = Request.Cookies["Token"];
-            this.result = await GetRequests.Get("user", "getclasses", token);
+            
+            result = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
 
             return Page();
         }
@@ -51,14 +48,14 @@ namespace IntelliGradeUI.Pages
             Console.WriteLine(model.id);
 
 
-            Console.WriteLine(PostRequests.Post(model, "lesson", "create", AdminToken.HaciAbiToken).status);
+            Console.WriteLine(PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]));
             Response.Redirect("/Index");
         }
 
 
         public void OnPostJoinClass()
         {
-            Console.WriteLine(PutRequests.Put("lesson", "/joinclass/" + classCode, AdminToken.HaciAbiToken).status);
+            Console.WriteLine(PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]));
 
             Response.Redirect("/Index");
 
