@@ -65,13 +65,6 @@ namespace IntelliGradeUI.Pages
         }
 
 
-        public void OnPostCheckButtonClicked()
-        {
-            Console.WriteLine("Button clicked!");
-
-        }
-
-
         public void OnPostDeleteClass(string id)
         {
 
