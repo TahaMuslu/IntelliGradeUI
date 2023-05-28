@@ -1,0 +1,9 @@
+﻿namespace IntelliGradeUI.Models
+{
+    public static class AdminToken
+    {
+
+        public static string HaciAbiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjM1MzI2NCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImhhY2lfYWJpQGhvdG1haWwuY29tIiwiZXhwIjoxNjg1OTgyMzg0LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDM3NCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0Mzc0In0.gNoCa8S8y3YCyQN9DdFWrQ3X2_RheHls_xw-tr_p29g";
+
+    }
+}

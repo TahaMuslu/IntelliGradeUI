@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IntelliGradeUI.Models;
+using IntelliGradeUI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace IntelliGradeUI.Pages
 {
@@ -7,14 +12,75 @@ namespace IntelliGradeUI.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
+        [BindProperty]
+        public string className { get; set; }
+
+        [BindProperty]
+        public string classCode { get; set; }
+
+        [BindProperty]
+        public Response result { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
+
+
+
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
+        {
+            string token = Request.Cookies["Token"];
+            this.result = await GetRequests.Get("user", "getclasses", token);
+
+            return Page();
+        }
+
+        public void OnPostCreateClass()
+        {
+            var model = new Lesson();
+            model.id = Guid.NewGuid().ToString();
+            model.className = className;
+            model.createdBy = "";
+            model.createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+            model.classCode = "";
+            model.teacherIds = new List<string>();
+            model.studentIds = new List<string>();
+            model.assignmentIds = new List<string>();
+            Console.WriteLine(model.id);
+
+
+            Console.WriteLine(PostRequests.Post(model, "lesson", "create", AdminToken.HaciAbiToken).status);
+            Response.Redirect("/Index");
+        }
+
+
+        public void OnPostJoinClass()
+        {
+            Console.WriteLine(PutRequests.Put("lesson", "/joinclass/" + classCode, AdminToken.HaciAbiToken).status);
+
+            Response.Redirect("/Index");
+
+        }
+
+
+        public void OnPostDeleteClass(string id)
         {
 
+            DeleteRequests.Delete("lesson", "delete/" + id, AdminToken.HaciAbiToken);
+
+            Response.Cookies.Append("Token", Request.Cookies["Token"]);
+            Response.Redirect("/Index");
         }
+
+
+        
+
+
+
+
+
+
     }
 }

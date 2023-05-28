@@ -5,3 +5,90 @@
 }
 
 
+
+
+<!-- Create Class -->
+<div class="modal fade" id="createClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form id="createClass" method="post" asp-page-handler="CreateClass">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Sınıf Oluştur</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <input type="text" id="className" value="" asp-for="className" placeholder="Sınıf İsmi" required class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Sınıf Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Join Class -->
+<div class="modal fade" id="joinClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form id="joinClass" method="post" asp-page-handler="JoinClass">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Sınıfa Katıl</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <input type="text" id="classCode" value="" asp-for="classCode" placeholder="Sınıf Kodu" required class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Sınıfa Katıl</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.result != null && Model.result.lessons != null)
+{
+    <div class="container mt-5 mb-3">
+        <div class="row">
+            @for (int i = 0; i < Model.result.lessons.Count; i++)
+            {
+                <div class="col-md-4">
+
+
+                    <a href="/Classroom" style="text-decoration:none; color:black;">
+
+                        <div class="card p-3 mb-2">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center">
+                                    <div class="icon"> <i class="fa-regular fa-user fa-sm"></i> </div>
+                                    <div class="ms-2 c-details">
+                                        <h6 class="mb-0">@Model.result.lessons[i].createdBy</h6>
+                                        <span>@Model.result.lessons[i].createdDate.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                </div>
+                                <form method="post" asp-page-handler="DeleteClass">
+                                    <input type="hidden" name="id" value="@(Model.result.lessons[i].id)">
+                                    <button type="submit" class="btn btn-danger">Sınıfı Sil</button>
+                                </form>
+                            </div>
+                            <div class="mt-5">
+                                <h3 class="heading">@Model.result.lessons[i].className</h3>
+                                <div class="mt-5">
+                                    <div class="mt-3"> <i class="fa fa-users"></i> <span class="text1">@Model.result.lessons[i].studentIds.Count Student</span> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}

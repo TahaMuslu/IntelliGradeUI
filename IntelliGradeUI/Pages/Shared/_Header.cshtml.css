@@ -53,9 +53,10 @@ button.accept-policy {
         color: #4f7abd;
     }
 
-.login-btn:hover {
+login-btn:hover {
     color: #4f7abd;
-    dis
+    background-color: red;
+    display: block;
 }
 
 @media (max-width: 576px) {
@@ -63,3 +64,16 @@ button.accept-policy {
         border-bottom: 0px solid #000000;
     }
 }
+
+.fa-door-open {
+    color: red;
+}
+
+.fa-right-to-bracket {
+    color: green;
+}
+
+.fa-house {
+    color: forestgreen;
+}
+
