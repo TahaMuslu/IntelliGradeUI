@@ -19,9 +19,6 @@ namespace IntelliGradeUI.Pages
         public string classCode { get; set; }
 
         [BindProperty]
-        public string classId { get; set; }
-
-        [BindProperty]
         public Response result { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger)
@@ -68,6 +65,13 @@ namespace IntelliGradeUI.Pages
         }
 
 
+        public void OnPostCheckButtonClicked()
+        {
+            Console.WriteLine("Button clicked!");
+
+        }
+
+
         public void OnPostDeleteClass(string id)
         {
 
@@ -78,11 +82,9 @@ namespace IntelliGradeUI.Pages
         }
 
 
-        public void OnPostCheckButtonClicked()
-        {
-            Console.WriteLine("Button clicked!");
+        
 
-        }
+
 
 
 
