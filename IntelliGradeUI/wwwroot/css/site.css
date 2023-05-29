@@ -32,3 +32,30 @@ html {
 .after-d-none ::after{
     display: none;
 }
+
+
+.toast {
+    animation: slideInRight 0.5s, slideOutRight 0.5s 4s;
+}
+
+
+@keyframes slideInRight {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0);
+    }
+}
+

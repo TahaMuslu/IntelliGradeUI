@@ -28,9 +28,7 @@ namespace IntelliGradeUI.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            
             result = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
-
             return Page();
         }
 
@@ -45,36 +43,29 @@ namespace IntelliGradeUI.Pages
             model.teacherIds = new List<string>();
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
-            Console.WriteLine(model.id);
 
 
-            Console.WriteLine(PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]));
+            PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
         public void OnPostJoinClass()
         {
-            Console.WriteLine(PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]));
-
+            PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]);
             Response.Redirect("/Index");
-
         }
 
 
         public void OnPostDeleteClass(string id)
         {
 
-            DeleteRequests.Delete("lesson", "delete/" + id, AdminToken.HaciAbiToken);
-
-            Response.Cookies.Append("Token", Request.Cookies["Token"]);
+            DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
-        
-
-
+       
 
 
 
