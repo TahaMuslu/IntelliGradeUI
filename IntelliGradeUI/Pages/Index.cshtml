@@ -54,11 +54,11 @@
 </div>
 
 
-@if (Model.result != null && Model.result.lessons != null)
+@if (Model.result != null)
 {
     <div class="container mt-5 mb-3">
         <div class="row">
-            @for (int i = 0; i < Model.result.lessons.Count; i++)
+            @for (int i = 0; i < Model.result.Count; i++)
             {
                 <div class="col-md-4">
 
@@ -70,19 +70,19 @@
                                 <div class="d-flex flex-row align-items-center">
                                     <div class="icon"> <i class="fa-regular fa-user fa-sm"></i> </div>
                                     <div class="ms-2 c-details">
-                                        <h6 class="mb-0">@Model.result.lessons[i].createdBy</h6>
-                                        <span>@Model.result.lessons[i].createdDate.ToString("dd/MM/yyyy")</span>
+                                        <h6 class="mb-0">@Model.result[i].createdBy</h6>
+                                        <span>@Model.result[i].createdDate.ToString("dd/MM/yyyy")</span>
                                     </div>
                                 </div>
                                 <form method="post" asp-page-handler="DeleteClass">
-                                    <input type="hidden" name="id" value="@(Model.result.lessons[i].id)">
+                                    <input type="hidden" name="id" value="@(Model.result[i].id)">
                                     <button type="submit" class="btn btn-danger">Sınıfı Sil</button>
                                 </form>
                             </div>
                             <div class="mt-5">
-                                <h3 class="heading">@Model.result.lessons[i].className</h3>
+                                <h3 class="heading">@Model.result[i].className</h3>
                                 <div class="mt-5">
-                                    <div class="mt-3"> <i class="fa fa-users"></i> <span class="text1">@Model.result.lessons[i].studentIds.Count Student</span> </div>
+                                    <div class="mt-3"> <i class="fa fa-users"></i> <span class="text1">@Model.result[i].studentIds.Count Student</span> </div>
                                 </div>
                             </div>
                         </div>

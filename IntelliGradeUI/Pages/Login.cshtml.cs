@@ -30,8 +30,8 @@ namespace IntelliGradeUI.Pages
                 password = "d-block";
             else
             {
-
-                Response.Cookies.Append("Username", "");
+                string username = GetRequests.Get("user", "getusername", result).Result.message;
+                Response.Cookies.Append("UserName", username);
                 Response.Cookies.Append("Token", result);
                 Response.Redirect("/Index");
             }

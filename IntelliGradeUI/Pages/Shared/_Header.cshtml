@@ -1,6 +1,7 @@
 ﻿@{
     string pageName = ViewContext.RouteData.Values["page"].ToString();
     string cookie = Context.Request.Cookies["Token"];
+    string userName = Context.Request.Cookies["UserName"];
 }
 
 
@@ -47,7 +48,7 @@
                         </li>
                         <li class="nav-item dropdown justify-content-end align-items-end">
                             <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                username
+                                @userName
                             </a>
                             <ul class="dropdown-menu">
                                 <li>

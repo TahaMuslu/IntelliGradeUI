@@ -2,6 +2,7 @@
 using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -19,7 +20,7 @@ namespace IntelliGradeUI.Pages
         public string classCode { get; set; }
 
         [BindProperty]
-        public Response result { get; set; }
+        public List<Lesson> result { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger)
         {
@@ -28,7 +29,8 @@ namespace IntelliGradeUI.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            result = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
+            Response objectResult = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
+            result = JsonConvert.DeserializeObject<List<Lesson>>(objectResult.message);
             return Page();
         }
 

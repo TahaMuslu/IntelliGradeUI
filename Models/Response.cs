@@ -13,11 +13,6 @@
             this.status = status;
         }
 
-        public Response (List<Lesson> lessons,string status)
-        {
-            this.lessons = lessons;
-            this.status = status;
-        }
 
         public Response()
         {
