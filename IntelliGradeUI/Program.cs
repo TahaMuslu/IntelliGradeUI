@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using System.Numerics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +25,26 @@ app.UseStaticFiles("/wwwroot/images");
 
 app.UseDirectoryBrowser("/wwwroot/images");
 
+app.UseStaticFiles("/wwwroot/assets");
+
+app.UseDirectoryBrowser("/wwwroot/assets");
+
+app.UseStaticFiles("/wwwroot/vendor");
+
+app.UseDirectoryBrowser("/wwwroot/vendor");
+
 app.UseRouting();
 
 
 
 app.UseAuthorization();
 
+//default direct to base page
+
+app.MapGet("/", () => Results.Redirect("/Base"));
+
+
 app.MapRazorPages();
+
 
 app.Run();

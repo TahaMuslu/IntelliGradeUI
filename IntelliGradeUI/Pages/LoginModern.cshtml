@@ -1,5 +1,5 @@
 ﻿@page
-@model LoginModel
+@model LoginModernModel
 @{
     Layout = null;
 }
@@ -10,7 +10,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/cool.css" />
+    <link rel="stylesheet" href="./css/cool.css"  />
 
     <title>Sign in & Sign up Form</title>
 </head>
@@ -18,7 +18,7 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form id="login" method="post" class="sign-in-form" asp-page-handler="Login">
+                <form id="login"  method="post" class="sign-in-form" asp-page-handler="Login">
                     <h2 class="title">Giriş Yap</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -45,19 +45,19 @@
                         </a>
                     </div>
                 </form>
-                <form  method="post" id="register" asp-page-handler="Register" class="sign-up-form">
+                <form action="#" class="sign-up-form">
                     <h2 class="title">Kayıt Ol</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="namesurname" required asp-for="nameSurname"  placeholder="Ad Soyad" />
+                        <input type="text" placeholder="Ad Soyad" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
+                        <input type="email" placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
+                        <input type="password" placeholder="Parola" />
                     </div>
                     <input type="submit" class="btn" value="Kayıt Ol" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>
@@ -115,14 +115,9 @@
     const sign_up_btn = document.querySelector("#sign-up-btn");
     const container = document.querySelector(".container");
 
-
-    
-
     sign_up_btn.addEventListener("click", () => {
         container.classList.add("sign-up-mode");
     });
-
-    //sign_up_btn.click();
 
     sign_in_btn.addEventListener("click", () => {
         container.classList.remove("sign-up-mode");
