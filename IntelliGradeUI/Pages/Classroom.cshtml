@@ -6,101 +6,83 @@
 }
 
 <div class="container mt-5 mb-3">
-    <div class="row">
-        <div class="col-md-1">
 
-        </div>
-        <div class="col-md-10">
-            <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAnotherPage()">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
-                        <div class="ms-2 c-details">
-                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
-                        </div>
-                      
-                    </div>
-                </div>
-             
-            </div>
-        </div>
-       <div class="col-md-1">
+    <form class="d-flex justify-content-center" onsubmit="return false;">
+       
+        <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
+    </form>
 
-       </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10" >
-            <div class="card p-3 mb-2" style="background-color:lavender">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
-                        <div class="ms-2 c-details">
-                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
-                        </div>
-
-                    </div>
-                </div>
+    @for(int i=0;i<@Model.assignment.Count();i++)
+    {
+        <div class="row mt-2">
+            <div class="col-md-1">
 
             </div>
-        </div>
-        <div class="col-md-1">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10" >
-            <div class="card p-3 mb-2" style="background-color:navajowhite">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
-                        <div class="ms-2 c-details">
-                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
+            <div class="col-md-10">
+                <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAnotherPage()">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0">@Model.assignment[i].title</h6> <span>Created At 23/03/2023</span>
+                            </div>
+                          
                         </div>
-
                     </div>
+                 
                 </div>
-
             </div>
-        </div>
-        <div class="col-md-1">
-        </div>
-    </div>
+           <div class="col-md-1">
 
-    <div class="row">
-        <div class="col-md-1">
+           </div>
         </div>
-        <div class="col-md-10">
-            <div class="card p-3 mb-2">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs"></i> </div>
-                        <div class="ms-2 c-details">
-                            <h6 class="mb-0">Mustafa Emirhan Yıldız , Hafta 11_Lab. Uygulaması</h6> <span>Created At 23/03/2023</span>
-                        </div>
+    }
+    
+   
+</div>
 
+
+<div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
+                <div class="modal-header">
+                    <h1 class="modal-title   fs-5" id="staticBackdropLabel">Ödev Oluştur</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <input type="text" id="assignmentTitle" asp-for="assignmentTitle" value="" placeholder="Başlık"  class="form-control form-control-lg mt-2" />
+
+                        <input type="text" id="asignmentDefinition" asp-for="assignmentDefinition" value="" placeholder="Tanım"  class="form-control form-control-lg mt-2" />
+
+                        <textarea class="form-control mt-2" id="assignmentDescription" asp-for="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
+
+                        <textarea type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
+
+                        <input type="text" id="assignmentDeadline" asp-for="assignmentDeadline" value="" placeholder="Teslim Tarihi"  class="form-control form-control-lg mt-2" />
+                  
+                        
+                        <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
                     </div>
+                </div> 
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button type="submit" class="btn btn-primary">Ödev Oluştur</button>
                 </div>
-
-            </div>
-        </div>
-        <div class="col-md-1">
+            </form>
         </div>
     </div>
 </div>
 
 
 
-
-
 @section Scripts {
     <script>
-        function redirectToAnotherPage() {
-            window.location.href = '@Url.Page("/Task")';
+        function redirectToTaskPage(taskId) {
+            var redirectUrl = '@Url.Page("/Task")?taskId=' + taskId;
+            window.location.href = redirectUrl;
         }
+
+ 
     </script>
 }

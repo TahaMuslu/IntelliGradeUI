@@ -2,6 +2,7 @@
 using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -19,21 +20,17 @@ namespace IntelliGradeUI.Pages
         public string classCode { get; set; }
 
         [BindProperty]
-        public Response result { get; set; }
+        public List<Lesson> result { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-
-
-
         }
 
         public async Task<IActionResult> OnGet()
         {
-            string token = Request.Cookies["Token"];
-            this.result = await GetRequests.Get("user", "getclasses", token);
-
+            Response objectResult = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
+            result = JsonConvert.DeserializeObject<List<Lesson>>(objectResult.message);
             return Page();
         }
 
@@ -48,36 +45,29 @@ namespace IntelliGradeUI.Pages
             model.teacherIds = new List<string>();
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
-            Console.WriteLine(model.id);
 
 
-            Console.WriteLine(PostRequests.Post(model, "lesson", "create", AdminToken.HaciAbiToken).status);
+            PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
         public void OnPostJoinClass()
         {
-            Console.WriteLine(PutRequests.Put("lesson", "/joinclass/" + classCode, AdminToken.HaciAbiToken).status);
-
+            PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]);
             Response.Redirect("/Index");
-
         }
 
 
         public void OnPostDeleteClass(string id)
         {
 
-            DeleteRequests.Delete("lesson", "delete/" + id, AdminToken.HaciAbiToken);
-
-            Response.Cookies.Append("Token", Request.Cookies["Token"]);
+            DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
-        
-
-
+       
 
 
 

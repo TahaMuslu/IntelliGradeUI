@@ -26,11 +26,12 @@ namespace IntelliGradeUI.Pages
 
             string result = PostRequests.Post(loginUser, "user", "login").message;
 
-            Console.WriteLine(result);
             if (result.Equals("{\"statusCode\":404,\"message\":\"Kullanýcý bulunamadý\"}"))
-                Console.WriteLine("Kullanýcý bulunamadý");
+                password = "d-block";
             else
             {
+                string username = GetRequests.Get("user", "getusername", result).Result.message;
+                Response.Cookies.Append("UserName", username);
                 Response.Cookies.Append("Token", result);
                 Response.Redirect("/Index");
             }
