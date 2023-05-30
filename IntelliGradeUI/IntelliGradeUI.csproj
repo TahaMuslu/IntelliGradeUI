@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\base.css" />
+    <None Include="wwwroot\css\cool.css" />
     <None Include="wwwroot\images\LoginPage.png" />
   </ItemGroup>
 

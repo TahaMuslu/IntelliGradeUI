@@ -6,39 +6,44 @@
 }
 
 <div class="container mt-5 mb-3">
+    <p class="bg-dark d-inline-block text-white p-2 rounded-3">
+        Class Code:  @Model.lesson.classCode
+    </p>
 
-    <form class="d-flex justify-content-center" onsubmit="return false;">
-       
-        <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
-    </form>
+    @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+    {
+        <form class="d-flex justify-content-center" onsubmit="return false;">
 
-    @for(int i=0;i<@Model.assignment.Count();i++)
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
+        </form>
+    }
+
+    @for (int i = 0; i < @Model.assignment.Count(); i++)
     {
         <div class="row mt-2">
             <div class="col-md-1">
-
             </div>
             <div class="col-md-10">
-                <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAnotherPage()">
+                <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id')">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-row align-items-center">
-                            <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
-                            <div class="ms-2 c-details">
-                                <h6 class="mb-0">@Model.assignment[i].title</h6> <span>Created At 23/03/2023</span>
+                            <div class="icon">
+                                <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i>
                             </div>
-                          
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0">@Model.assignment[i].title</h6> <span>Created At @Model.assignment[i].date.ToShortDateString()</span>
+                            </div>
                         </div>
                     </div>
-                 
                 </div>
             </div>
-           <div class="col-md-1">
-
-           </div>
+            <div class="col-md-1">
+            </div>
         </div>
     }
-    
-   
+
+
+
 </div>
 
 
@@ -52,20 +57,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-outline mb-4">
-                        <input type="text" id="assignmentTitle" asp-for="assignmentTitle" value="" placeholder="Başlık"  class="form-control form-control-lg mt-2" />
+                        <input required type="text" id="assignmentTitle" asp-for="assignmentTitle" value="" placeholder="Başlık" class="form-control form-control-lg mt-2" />
 
-                        <input type="text" id="asignmentDefinition" asp-for="assignmentDefinition" value="" placeholder="Tanım"  class="form-control form-control-lg mt-2" />
+                        <input required type="text" id="asignmentDefinition" asp-for="assignmentDefinition" value="" placeholder="Tanım" class="form-control form-control-lg mt-2" />
 
-                        <textarea class="form-control mt-2" id="assignmentDescription" asp-for="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
+                        <textarea required class="form-control mt-2" id="assignmentDescription" asp-for="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
 
-                        <textarea type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
+                        <textarea required type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
 
-                        <input type="text" id="assignmentDeadline" asp-for="assignmentDeadline" value="" placeholder="Teslim Tarihi"  class="form-control form-control-lg mt-2" />
-                  
-                        
+                        <input required type="datetime-local" id="assignmentDeadline" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" value="" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
+
                         <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
+
+                        <input type="hidden" id="classId" asp-for="classId" value="@Model.classId" />
+                        <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@Model.currentUser.id" />
+
                     </div>
-                </div> 
+                </div>
                 <div class="modal-footer d-flex justify-content-center ">
                     <button type="submit" class="btn btn-primary">Ödev Oluştur</button>
                 </div>
@@ -78,11 +86,9 @@
 
 @section Scripts {
     <script>
-        function redirectToTaskPage(taskId) {
-            var redirectUrl = '@Url.Page("/Task")?taskId=' + taskId;
+        function redirectToAssignmentPage(assignmentId,lessonId) {
+            var redirectUrl = '@Url.Page("/Assignment")?classId='+lessonId +'&assignmentId=' + assignmentId;
             window.location.href = redirectUrl;
         }
-
- 
     </script>
 }

@@ -31,21 +31,30 @@
                     <li class="nav-item tab @(pageName == "/Classroom" ? "tab-active" : "")">
                         <a class="tab nav-link text-black" asp-page="/Classroom"><span>Classroom</span></a>
                     </li>
+                    <li class="nav-item tab @(pageName == "/LoginModern" ? "tab-active" : "")">
+                        <a class="tab nav-link text-black" asp-page="/LoginModern"><span>LoginModern</span></a>
+                    </li>
+                    <li class="nav-item tab @(pageName == "/Base" ? "tab-active" : "")">
+                        <a class="tab nav-link text-black" asp-page="/Base"><span>Base</span></a>
+                    </li>
                 </ul>
             </div>
             @{
                 if (@cookie != null)
                 {
                     <ul class="navbar-collapse collapse navbar-nav flex-grow-1 align-items-end justify-content-end">
-                        <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
-                            <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-plus fa-lg mb-1 pb-2"></i>
-                            </a>
-                            <ul class="dropdown-menu" style="transform: translateX(-40px)">
-                                <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#joinClass">Sınıfa Katıl</a></li>
-                                <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#createClass">Sınıf Oluştur</a></li>
-                            </ul>
-                        </li>
+                        @if (Context.Request.Path == "/" || Context.Request.Path == "/Index")
+                        {
+                            <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
+                                <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-plus fa-lg mb-1 pb-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" style="transform: translateX(-40px)">
+                                    <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#joinClass">Sınıfa Katıl</a></li>
+                                    <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#createClass">Sınıf Oluştur</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="nav-item dropdown justify-content-end align-items-end">
                             <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 @userName
@@ -77,3 +86,4 @@
         </div>
     </nav>
 </header>
+

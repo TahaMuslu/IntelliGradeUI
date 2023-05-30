@@ -1,90 +1,141 @@
 ﻿@page
 @model LoginModel
 @{
-    ViewData["Title"] = "Login";
-    Layout = "_LayoutEmpty";
+    Layout = null;
 }
 
-<main class="vh-100 d-flex flex-column" role="main">
-    <div class="container pt-4">
-        <a class="btn btn-warning btn-lg" asp-page="/Index"><i class="fa-solid fa-arrow-left"></i></a>
-    </div>
-    <section class="w-100 flex-grow-1 row px-5 px-md-0">
-        <div class="col-12 col-md-10 col-lg-9 col-xl-7 card mx-auto my-auto py-4 box-shadow shadow">
-            <div class="row">
-                <div class="col-sm-6 text-black">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/cool.css" />
 
-                    <div class="px-5 ms-xl-4">
-                        @*<i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>*@
-                        <span class="h1 fw-bold mb-0">Logo</span>
+    <title>Sign in & Sign up Form</title>
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                <form id="login" method="post" class="sign-in-form" asp-page-handler="Login">
+                    <h2 class="title">Giriş Yap</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="email" id="email" asp-for="email" required placeholder="Email" />
                     </div>
-
-                    <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-3 mt-md-3 pt-xl-0 mt-xl-n5">
-
-                        <form method="post" style="width: 23rem;">
-
-                            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
-
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="email">Email address</label>
-                                <input type="email" id="email" asp-for="email" required class="form-control form-control-lg" />
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" asp-for="password" required class="form-control form-control-lg" />
-                            </div>
-
-                            <div class="pt-1 mb-4">
-                                <button class="btn btn-info btn-lg btn-block" type="submit">Log In</button>
-                            </div>
-
-                            <p class="small mb-3 pb-lg-2"><a class="text-muted" asp-page="ForgotPassword">Forgot password?</a></p>
-                            <p>Don't have an account? <a asp-page="/Signup" class="link-info">Register here</a></p>
-
-                        </form>
-
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
-
-                </div>
-                <div class="col-sm-6 px-4 d-none d-sm-flex">
-                    <img src="~/images/LoginPage.png"
-                         alt="Login image" class="w-100 rounded-3" style="object-fit: cover; object-position: center;">
-                </div>
+                    <input type="submit" value="Giriş Yap" class="btn solid" />
+                    <p class="social-text">Ya da sosyal medya hesaplarınla giriş yap</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </form>
+                <form  method="post" id="register" asp-page-handler="Register" class="sign-up-form">
+                    <h2 class="title">Kayıt Ol</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="namesurname" required asp-for="nameSurname"  placeholder="Ad Soyad" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
+                    </div>
+                    <input type="submit" class="btn" value="Kayıt Ol" />
+                    <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
-</main>
 
-<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3 d-block">
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <rect width="100%" height="100%" fill="#e3242b"></rect>
-            </svg>
-            <strong class="me-auto">IntelliGrade</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Kullanıcı adı veya şifre hatalı!
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Buralarda Yeni Misin?</h3>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
+                        ex ratione. Aliquid!
+                    </p>
+                    <button class="btn transparent" id="sign-up-btn">
+                        Kayıt Ol
+                    </button>
+                </div>
+                <img src="~/images/log.svg" class="image" alt="" />
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Zaten Hesabın Var Mı?</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+                        laboriosam ad deleniti.
+                    </p>
+                    <button class="btn transparent" id="sign-in-btn">
+                        Giriş Yap
+                    </button>
+                </div>
+                <img src="~/images/register.svg" class="image" alt="" />
+            </div>
         </div>
     </div>
-</div>
+
+</body>
+<script>
+    const sign_in_btn = document.querySelector("#sign-in-btn");
+    const sign_up_btn = document.querySelector("#sign-up-btn");
+    const container = document.querySelector(".container");
+
+    sign_up_btn.addEventListener("click", () => {
+        container.classList.add("sign-up-mode");
+    });
+
+    sign_in_btn.addEventListener("click", () => {
+        container.classList.remove("sign-up-mode");
+    });
+
+    if(@Model.register==true)
+    sign_up_btn.click();
+    
+
+</script>
+</html>
 
 
 
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
 
-        let toast = document.querySelector('.toast');
-        toast.classList.add('@Model.password');
-        setTimeout(function () {
-            toast.classList.remove('d-block');
-        }, 4400);
-    </script>
-}
+
+
 
 
 
