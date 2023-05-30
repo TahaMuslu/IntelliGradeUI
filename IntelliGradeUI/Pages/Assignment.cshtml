@@ -15,37 +15,157 @@
                     <div class="d-flex flex-row align-items-center">
                         <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
                         <div class="ms-4 c-details">
-                            @*<h6 class="mb-0">@Model.assignment.title &nbsp; | &nbsp; Deadline: <span> @Model.assignment.deadline </span></h6>*@
+                            <h6 class="mb-0">@Model.assignment.title &nbsp; | &nbsp; Deadline: <span> @Model.assignment.deadline </span></h6>
                             <p>Maksimum Puan: 100 Puan</p>
-                            <a href="/images/LoginPage.png" download style="color:cornflowerblue">homework.pdf</a>
+                            @if (Model.assignment.fileUrl != null)
+                            {
+                                <a href="@Model.assignment.fileUrl" download style="color:cornflowerblue">Talimatlar</a>
+                                <br />
+                                <br />
+                            }
+                            Problem Tanımı:
+                            <br />
+                            @Model.assignment.definition
+                            <br />
+                            <br />
+                            Açıklama:
+                            <br />
+                            @Model.assignment.description
+                            <br />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card p-3 mb-2">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="ms-2 c-details d-flex flex-row">
-                            <h6 class="mb-0">Çalışmanız: &nbsp;</h6> <span>Teslim Edilmedi</span>
-                        </div>
+        @if (Model.assignment.teacherId != Model.currentUser.id)
+        {
+            <div class="col-md-3">
+                <div class="card p-3 mb-2">
+                    <div class="d-flex justify-content-between w-100">
+                        <div class="d-flex flex-column align-items-center w-100">
+                            <div class="ms-2 c-details d-flex flex-row align-items-center">
+                                <h6 class="mb-0">Çalışmanız: &nbsp;</h6>
+                                @if (Model.findStudentFile() == "")
+                                {
+                                    <span style="color:red;font-size:medium">
+                                        Teslim Edilmedi
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span style="color:limegreen;font-size:medium">
+                                        Teslim Edildi
+                                    </span>
+                                }
+                            </div>
+                            <div class="loadButton w-100">
+                                @if (Model.findStudentFile() == "")
+                                {
+                                    <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile" class="w-100 d-flex flex-column align-items-center justify-content-center">
+                                        @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
+                                        {
+                                            <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.rar" class="form-control" />
+                                            <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
+                                            <button type="submit" class="btn btn-primary mt-2">Teslim Et</button>
+                                        }
+                                        else
+                                        {
+                                            <div class="row border rounded-3 border-danger justify-content-center align-items-center w-100">
+                                                <p class="col-6 h-100 justify-content-center text-center w-100 m-0 p-0 d-flex">
+                                                    Maalesef süre dolduğu için teslim edemezsiniz.
+                                                </p>
+                                            </div>
+                                        }
+                                    </form>
 
-                        <div class="loadButton">
-                            <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile">
-                                <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control" />
-                                <button type="submit" class="btn btn-primary mt-2">Teslim Et</button>
-                            </form>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-page-handler="DeleteFile" class="w-100 d-flex flex-column align-items-center justify-content-center">
+
+                                        <div class="row border rounded-3 border-primary align-items-center w-100">
+                                            <p class="col-6 h-100 justify-content-center m-0 p-0 d-flex">
+                                                Çalışmanız
+                                            </p>
+                                            <a href="@Model.findStudentFile()" download class="btn btn-primary rounded-0 rounded-end col-6">Dosyayı İndir</a>
+                                        </div>
+                                        @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
+                                        {
+                                            <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
+                                            <button type="submit" class="btn btn-danger mt-2 mx-0 px-0 w-100">Gönderimi İptal Et</button>
+                                        }
+                                    </form>
+
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="col-md-3">
+                <div class="card p-3 mb-2">
+                    <div class="d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
+                                <h6 class="mb-0 text-center">
+                                    Ödevi Teslim Eden Sayısı:
+                                    <br />
+                                    <br />
+                                    @{
+                                        try
+                                        {
+                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">@Model.assignment.uploadedHomeworks.Count()</span>
+                                        }
+                                        catch
+                                        {
+                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">0</span>
+                                        }
+                                    }
+                                </h6>
+                            </div>
+                            <div class="loadButton mt-2">
+                                <button type="submit" onclick="redirectToNoteListPage('@Model.assignment.id')" class="btn btn-primary mt-2">Ödevlere Git</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-3 mb-2">
+                    <div class="d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
+                                <h6 class="mb-0 text-center">
+                                    Ödevi Sil
+                                </h6>
+                            </div>
+                            <div class="loadButton mt-2">
+                                <form method="post" asp-page-handler="DeleteAssignment">
+                                    <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
+                                    <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
+                                    <button type="submit" class="btn btn-danger mt-2">Ödevi Sil</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
 
 
 
-
+@section Scripts {
+    <script>
+        function redirectToNoteListPage(assignmentId) {
+            var redirectUrl = '@Url.Page("/NoteList")?assignmentId=' + assignmentId;
+            window.location.href = redirectUrl;
+        }
+    </script>
+}
 

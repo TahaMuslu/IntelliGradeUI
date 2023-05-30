@@ -2,6 +2,7 @@ using IntelliGradeUI.Models;
 using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace IntelliGradeUI.Pages
 {
@@ -30,7 +31,9 @@ namespace IntelliGradeUI.Pages
                 password = "d-block";
             else
             {
-                string username = GetRequests.Get("user", "getusername", result).Result.message;
+                string user = "";
+                user = GetRequests.Get("user", "getuser", result).Result.message;
+                string username = JsonConvert.DeserializeObject<User>(user).nameSurname;
                 Response.Cookies.Append("UserName", username);
                 Response.Cookies.Append("Token", result);
                 Response.Redirect("/Index");
