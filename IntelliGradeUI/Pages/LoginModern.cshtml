@@ -26,7 +26,7 @@
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" asp-for="password" placeholder="Parola" />
+                        <input type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
                     <input type="submit" value="Giriş Yap" class="btn solid" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla giriş yap</p>
@@ -45,19 +45,19 @@
                         </a>
                     </div>
                 </form>
-                <form action="#" class="sign-up-form">
+                <form method="post" asp-asp-page-handler="Signup" class="sign-up-form">
                     <h2 class="title">Kayıt Ol</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Ad Soyad" />
+                        <input type="text" asp-for="nameSurname" required placeholder="Ad Soyad" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email" />
+                        <input type="email" asp-for="email" required placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Parola" />
+                        <input type="password" asp-for="password" required placeholder="Parola" />
                     </div>
                     <input type="submit" class="btn" value="Kayıt Ol" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>
@@ -122,6 +122,13 @@
     sign_in_btn.addEventListener("click", () => {
         container.classList.remove("sign-up-mode");
     });
+
+    console.log(@Model.register)
+
+    if(@Model.register=="true"){
+        sign_up_btn.click();
+    }
+
 </script>
 </html>
 

@@ -22,6 +22,9 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public string emailRegister { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string register { get; set; }
+
 
         public void OnGet()
         {
@@ -41,6 +44,7 @@ namespace IntelliGradeUI.Pages
 
             PostRequests.Post(user, "user", "register");
 
+            Response.Redirect("/Login");
 
         }
 
