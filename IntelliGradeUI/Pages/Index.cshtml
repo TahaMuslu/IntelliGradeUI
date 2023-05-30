@@ -34,7 +34,7 @@
 <div class="modal fade" id="joinClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <form id="joinClass" method="post" asp-page-handler="JoinClass">
+            <form id="joinClass" method="post" asp-page-handler="JoinClass" >
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Sınıfa Katıl</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -63,7 +63,7 @@
                 <div class="col-md-4">
 
 
-                    <a href="/Classroom" style="text-decoration:none; color:black;">
+                    <a href="/Classroom?classId=@Model.result[i].id" style="text-decoration:none; color:black;">
 
                         <div class="card p-3 mb-2">
                             <div class="d-flex justify-content-between">

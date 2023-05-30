@@ -18,6 +18,8 @@ namespace Models
         public List<string> requirements { get; set; }
         public List<Homework> uploadedHomeworks { get; set; }
         public DateTime date { get; set; }
-        public DateTime deadline { get; set; }
+
+        public DateTime deadline { get; set; } 
+
     }
 }

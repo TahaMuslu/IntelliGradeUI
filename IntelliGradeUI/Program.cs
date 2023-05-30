@@ -26,6 +26,8 @@ app.UseDirectoryBrowser("/wwwroot/images");
 
 app.UseRouting();
 
+
+
 app.UseAuthorization();
 
 app.MapRazorPages();

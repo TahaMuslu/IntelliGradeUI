@@ -13,5 +13,6 @@ namespace Models
         public string filePath { get; set; }
         public string fileUrl { get; set; }
 
+        public string fileUrl { get; set; } 
     }
 }
