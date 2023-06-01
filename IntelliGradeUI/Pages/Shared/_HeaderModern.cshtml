@@ -14,8 +14,14 @@
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto ">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-            <li class="nav-item active">
-                <a class="nav-link" href="javascript:void(0);" @(pageName == "/Index" ? "tab-active" : "")><i class="fas fa-home"></i>Ana Sayfa</a>
+            <li class="nav-item @(pageName == "/Index" ? "active" : "")">
+                <a class="nav-link " href="/Index" ><i class="fas fa-home"></i> Sınıflarım</a>
+            </li>
+            <li class="nav-item @(pageName == "/Index" ? "d-none" : "") @(pageName.StartsWith("/Classroom")  || pageName.StartsWith("/Assignment")? "active" : "")">
+                <a class="nav-link " href="/Classroom?classId=@Context.Request.Query["classId"]"><i class="fa-sharp fa-solid fa-calendar"></i> Akış</a>
+            </li>
+            <li class="nav-item @(pageName == "/Index" ? "d-none" : "")  @(pageName.StartsWith("/Students") ? "active" : "") ">
+                <a class="nav-link  " href="/Students?classId=@Context.Request.Query["classId"]"><i class="fas fa-chalkboard-teacher"></i>Öğrenciler</a>
             </li>
 
            
