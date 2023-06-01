@@ -8,7 +8,7 @@
 <header class="sticky-top">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid position-relative">
-            <a class="navbar-brand flex-grow-1" asp-area="" asp-page="/Index"><i class="fa-solid fa-house"></i></a>
+            <a class="navbar-brand flex-grow-1 header-title" asp-area="" asp-page="/Index">IntelliGrade</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -16,11 +16,9 @@
             <div class="navbar-collapse collapse position-absolute justify-content-center start-50 translate-middle-x">
                 <ul class="navbar-nav align-items-end">
                     <li class="nav-item tab @(pageName == "/Index" ? "tab-active" : "")">
-                        <a class="nav-link text-black" href="/Index"><span>Home</span></a>
+                        <a class="nav-link text-black" href="/Index"><span>Ana Sayfa</span></a>
                     </li>
-                    <li class="nav-item tab @(pageName.StartsWith("/NoteList") ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><span>Note List</span></a>
-                    </li>
+                 
                 </ul>
             </div>
             @{
