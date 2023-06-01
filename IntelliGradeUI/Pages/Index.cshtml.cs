@@ -29,6 +29,10 @@ namespace IntelliGradeUI.Pages
 
         public async Task<IActionResult> OnGet()
         {
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
             Response objectResult = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
             result = JsonConvert.DeserializeObject<List<Lesson>>(objectResult.message);
             return Page();

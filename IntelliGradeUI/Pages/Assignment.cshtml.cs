@@ -27,6 +27,10 @@ namespace IntelliGradeUI.Pages
 
         public void OnGet()
         {
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
             string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).Result.message;
             assignment = JsonConvert.DeserializeObject<Assignment>(result);
             currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message);

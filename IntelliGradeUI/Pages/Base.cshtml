@@ -66,8 +66,25 @@
                             <li class="scroll-to-section"><a href="#top" class="active">Ana Sayfa</a></li>
                             <li class="scroll-to-section"><a href="#services">Servisler</a></li>
                             <li class="scroll-to-section"><a href="#team">Takımımız</a></li>
-                            <li class="scroll-to-section"><a href="/Login?register=false">Giriş Yap</a></li>
-                            <li class="scroll-to-section"><a href="/Login?register=true">Hemen Kayıt Ol!</a></li>
+                            @if (Request.Cookies["Token"] != null)
+                            {
+                                <li class="scroll-to-section"><a href="/Index">Sınıflarım</a></li>
+                                <li class="scroll-to-section nav-item dropdown justify-content-end align-items-end">
+                                    <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @Request.Cookies["UserName"]
+                                    </a>
+                                    <ul class="dropdown-menu p-0 shadow-lg" style="background-color: #7a6ad8;">
+                                        <li class="text-center p-0">
+                                            <a class="w-100 h-100 rounded-0" style="cursor: pointer;" onclick=logOut()>Log Out</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="scroll-to-section"><a href="/Login?register=false">Giriş Yap</a></li>
+                                <li class="scroll-to-section"><a href="/Login?register=true">Hemen Kayıt Ol!</a></li>
+                            }
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -668,10 +685,12 @@
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    @*<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>*@
     <script src="/assets/js/isotope.min.js"></script>
     <script src="/assets/js/owl-carousel.js"></script>
     <script src="/assets/js/counter.js"></script>

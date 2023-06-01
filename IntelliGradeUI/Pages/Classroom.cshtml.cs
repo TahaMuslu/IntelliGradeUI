@@ -38,26 +38,30 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public User currentUser { get; set; }
 
-
-
-
-
         MultipartFormDataContent content = new MultipartFormDataContent();
-
-
-
 
         public void OnGet()
         {
-            string result = GetRequests.Get("Assignment", "getbyclass/" + classId, Request.Cookies["Token"]).Result.message;
-            this.assignment = JsonConvert.DeserializeObject<List<Assignment>>(result);
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
+            else if (classId == null)
+            {
+                Response.Redirect("/Index");
+            }
+            else
+            {
 
-            string result2 = GetRequests.Get("lesson", "getbyid/" + classId, Request.Cookies["Token"]).Result.message;
-            this.lesson = JsonConvert.DeserializeObject<Lesson>(result2);
+                string result = GetRequests.Get("Assignment", "getbyclass/" + classId, Request.Cookies["Token"]).Result.message;
+                this.assignment = JsonConvert.DeserializeObject<List<Assignment>>(result);
 
-            string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message;
-            this.currentUser = JsonConvert.DeserializeObject<User>(result3);
+                string result2 = GetRequests.Get("lesson", "getbyid/" + classId, Request.Cookies["Token"]).Result.message;
+                this.lesson = JsonConvert.DeserializeObject<Lesson>(result2);
 
+                string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message;
+                this.currentUser = JsonConvert.DeserializeObject<User>(result3);
+            }
 
         }
 
@@ -83,10 +87,10 @@ namespace IntelliGradeUI.Pages
             }
             content.Add(new StringContent(jsonData, Encoding.UTF8, "application/json"), "Assignment.UploadedHomeworks");
 
-            DateTime tempDate = DateTime.ParseExact(DateTime.Now.ToString(), "dd-MMM-yy HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime tempDate = DateTime.ParseExact(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"), "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             string iso8601Date = tempDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
-            DateTime tempDateDeadline = DateTime.ParseExact(assignmentDeadline.ToString(), "dd-MMM-yy HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime tempDateDeadline = DateTime.ParseExact(assignmentDeadline.ToString("dd.MM.yyyy HH:mm:ss"), "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             string iso8601DateDeadline = tempDateDeadline.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
             content.Add(new StringContent(iso8601DateDeadline), "Assignment.Deadline");
             content.Add(new StringContent(iso8601Date), "Assignment.Date");
@@ -110,7 +114,7 @@ namespace IntelliGradeUI.Pages
             PostRequests.PostOnFormData(content, "Assignment", "create/" + classId, Request.Cookies["Token"].ToString());
 
             OnGet();
-
+            Response.Redirect("/Classroom?classId=" + classId);
 
         }
 

@@ -108,29 +108,27 @@
         {
             <div class="col-md-3">
                 <div class="card p-3 mb-2">
-                    <div class="d-flex justify-content-center">
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
-                                <h6 class="mb-0 text-center">
-                                    Ödevi Teslim Eden Sayısı:
-                                    <br />
-                                    <br />
-                                    @{
-                                        try
-                                        {
-                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">@Model.assignment.uploadedHomeworks.Count()</span>
-                                        }
-                                        catch
-                                        {
-                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">0</span>
-                                        }
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
+                            <h6 class="mb-0 text-center">
+                                Ödevi Teslim Eden Sayısı:
+                                <br />
+                                <br />
+                                @{
+                                    try
+                                    {
+                                        <span style="color:limegreen;font-size:medium;font-weight:bold;">@Model.assignment.uploadedHomeworks.Count()</span>
                                     }
-                                </h6>
-                            </div>
-                            <div class="loadButton mt-2">
-                                <button type="submit" onclick="redirectToNoteListPage('@Model.assignment.id')" class="btn btn-primary mt-2">Ödevlere Git</button>
+                                    catch
+                                    {
+                                        <span style="color:limegreen;font-size:medium;font-weight:bold;">0</span>
+                                    }
+                                }
+                            </h6>
+                        </div>
+                        <div class="loadButton mt-2 w-100">
+                            <a type="submit" href="/NoteList?classId=@Model.Request.Query["classId"]&assignmentId=@Model.Request.Query["assignmentId"]" class="btn btn-primary mt-2 w-100">Ödevlere Git</a>
 
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,12 +158,4 @@
 
 
 
-@section Scripts {
-    <script>
-        function redirectToNoteListPage(assignmentId) {
-            var redirectUrl = '@Url.Page("/NoteList")?assignmentId=' + assignmentId;
-            window.location.href = redirectUrl;
-        }
-    </script>
-}
 

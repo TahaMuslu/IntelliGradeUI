@@ -16,26 +16,10 @@
             <div class="navbar-collapse collapse position-absolute justify-content-center start-50 translate-middle-x">
                 <ul class="navbar-nav align-items-end">
                     <li class="nav-item tab @(pageName == "/Index" ? "tab-active" : "")">
-                        <a class="nav-link text-black" asp-page="/Index"><span>Home</span></a>
+                        <a class="nav-link text-black" href="/Index"><span>Home</span></a>
                     </li>
-                    <li class="nav-item tab @(pageName == "/Privacy" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/Privacy"><span>Privacy</span></a>
-                    </li>
-                    <li class="nav-item tab @(pageName == "/NoteList" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/NoteList"><span>Note List</span></a>
-                    </li>
-                    <li class="nav-item tab @(pageName == "/Home" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/Home"><span>Home</span></a>
-                    </li>
-
-                    <li class="nav-item tab @(pageName == "/Classroom" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/Classroom"><span>Classroom</span></a>
-                    </li>
-                    <li class="nav-item tab @(pageName == "/LoginModern" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/LoginModern"><span>LoginModern</span></a>
-                    </li>
-                    <li class="nav-item tab @(pageName == "/Base" ? "tab-active" : "")">
-                        <a class="tab nav-link text-black" asp-page="/Base"><span>Base</span></a>
+                    <li class="nav-item tab @(pageName.StartsWith("/NoteList") ? "tab-active" : "")">
+                        <a class="tab nav-link text-black" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><span>Note List</span></a>
                     </li>
                 </ul>
             </div>

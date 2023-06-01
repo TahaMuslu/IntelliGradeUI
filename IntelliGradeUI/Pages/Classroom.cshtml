@@ -7,9 +7,9 @@
 
 <div class="container mt-5 mb-3">
     <p class="bg-dark d-inline-block text-white p-2 rounded-3">
-        Class Code:  @Model.lesson.classCode
+        Class Code:  @(Model.lesson != null ? Model.lesson.classCode : "")
     </p>
-
+    @if(Model.lesson!=null)
     @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
     {
         <form class="d-flex justify-content-center" onsubmit="return false;">
@@ -17,7 +17,7 @@
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
         </form>
     }
-
+    @if (Model.assignment != null)
     @for (int i = 0; i < @Model.assignment.Count(); i++)
     {
         <div class="row mt-2">
@@ -41,9 +41,6 @@
             </div>
         </div>
     }
-
-
-
 </div>
 
 
@@ -65,12 +62,12 @@
 
                         <textarea required type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
 
-                        <input required type="datetime-local" id="assignmentDeadline" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" value="" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
+                        <input required type="datetime-local" id="assignmentDeadline" value="" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
 
                         <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
 
                         <input type="hidden" id="classId" asp-for="classId" value="@Model.classId" />
-                        <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@Model.currentUser.id" />
+                        <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@(Model.currentUser!=null ? Model.currentUser.id : "")" />
 
                     </div>
                 </div>
@@ -86,9 +83,11 @@
 
 @section Scripts {
     <script>
-        function redirectToAssignmentPage(assignmentId,lessonId) {
-            var redirectUrl = '@Url.Page("/Assignment")?classId='+lessonId +'&assignmentId=' + assignmentId;
+        function redirectToAssignmentPage(assignmentId, lessonId) {
+            var redirectUrl = '@Url.Page("/Assignment")?classId=' + lessonId + '&assignmentId=' + assignmentId;
             window.location.href = redirectUrl;
         }
+
+
     </script>
 }
