@@ -1,17 +1,17 @@
 ﻿
-
 .card {
-    background-color: lightgreen;
+    border: none;
     border-radius: 10px;
-    border: 1px solid white;
-    padding: 20px;
-    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.1);
-    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: rgba(122, 106, 216, 0.15);
+    border: 1px solid grey;
 }
 
-i{
-color: #4f7abd;
-}
+    .card:hover {
+        cursor: pointer;
+        background-color: rgba(122, 106, 216, 0.3);
+        border: 1.5px solid #7a6ad8;
+    }
 
 .c-details span {
     font-weight: 300;
@@ -29,17 +29,10 @@ color: #4f7abd;
     font-size: 39px
 }
 
-.badge span {
-    background-color: #fffbec;
-    width: 60px;
-    height: 25px;
-    padding-bottom: 3px;
-    border-radius: 5px;
-    display: flex;
-    color: #fed85d;
-    justify-content: center;
-    align-items: center
-}
+    .icon img {
+        width: 32px;
+        height: 32px;
+    }
 
 .progress {
     height: 10px;
@@ -56,5 +49,17 @@ color: #4f7abd;
 }
 
 .text2 {
-    color: #a5aec0
+    color: #a5aec0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#def-p {
+    font-size: 14px;
+}
+
+.badge p {
+    padding: 10px;
+    background-color: #7a6ad8;
+    border-radius: 4px;
 }

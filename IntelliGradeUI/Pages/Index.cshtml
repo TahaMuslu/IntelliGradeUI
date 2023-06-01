@@ -22,7 +22,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="submit" class="btn btn-primary">Sınıf Oluştur</button>
+                    <button type="submit" class="btn btn-grade">Sınıf Oluştur</button>
                 </div>
             </form>
         </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="submit" class="btn btn-primary">Sınıfa Katıl</button>
+                    <button type="submit" class="btn btn-grade">Sınıfa Katıl</button>
                 </div>
             </form>
         </div>
@@ -91,7 +91,7 @@
                                 <form method="post" asp-page-handler="DeleteClass">
                                     <input type="hidden" name="id" value="@(Model.result[i].id)">
 
-                                    <button type="submit" class="btn btn-primary">Sınıftan Ayrıl</button>
+                                    <button type="submit" class="btn btn-grade">Sınıftan Ayrıl</button>
                                 </form>
 
                         </div>
