@@ -64,8 +64,9 @@
                                     <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile" class="w-100 d-flex flex-column align-items-center justify-content-center">
                                         @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
                                         {
-                                            <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.rar" class="form-control" />
+                                            <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.txt,.c,.cpp,.cs,.py,.java" class="form-control" />
                                             <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
+                                            <input type="hidden" name="cuser_id" asp-for="cuser_id" value="@Model.currentUser.id" />
                                             <button type="submit" class="btn btn-primary mt-2">Teslim Et</button>
                                         }
                                         else
@@ -144,7 +145,7 @@
                                 <form method="post" asp-page-handler="DeleteAssignment">
                                     <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
                                     <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
-                                    <button type="submit" class="btn btn-danger mt-2">Ödevi Sil</button>
+                                    <button type="submit" class="btn btn-danger mt-2 mx-auto w-100">Ödevi Sil</button>
                                 </form>
                             </div>
                         </div>

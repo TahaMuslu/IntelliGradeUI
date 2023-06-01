@@ -69,8 +69,8 @@
                             @if (Request.Cookies["Token"] != null)
                             {
                                 <li class="scroll-to-section"><a href="/Index">Sınıflarım</a></li>
-                                <li class="scroll-to-section nav-item dropdown justify-content-end align-items-end">
-                                    <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <li class="scroll-to-section dropdown d-sm-none d-md-block">
+                                    <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         @Request.Cookies["UserName"]
                                     </a>
                                     <ul class="dropdown-menu p-0 shadow-lg" style="background-color: #7a6ad8;">
@@ -78,6 +78,9 @@
                                             <a class="w-100 h-100 rounded-0" style="cursor: pointer;" onclick=logOut()>Log Out</a>
                                         </li>
                                     </ul>
+                                </li>
+                                <li class="scroll-to-section d-md-none" onclick=logOut()>
+                                    <a>Log Out</a>
                                 </li>
                             }
                             else

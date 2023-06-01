@@ -42,12 +42,11 @@
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center mt-3 mt-md-0 h-min">
                                     <span class=" border border-1 rounded-2 p-1 fs-6 bg-success text-light">
-                                        @*@Model.assignment.uploadedHomeworks[i].grade*@
-                                        Notu: 100
+                                        Notu: @Model.assignment.uploadedHomeworks[i].grade
                                     </span>
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0 h-min">
-                                    <a href="@Model.assignment.uploadedHomeworks[i].fileUrl">
+                                    <a href="@Model.assignment.uploadedHomeworks[i].fileUrl" download>
                                         <button class="btn btn-primary">
                                             Ödevi İndir
                                         </button>

@@ -24,6 +24,8 @@ namespace IntelliGradeUI.Pages
 
         [BindProperty]
         public User currentUser { get; set; }
+        [BindProperty]
+        public string cuser_id { get; set; }
 
         public void OnGet()
         {
@@ -48,7 +50,7 @@ namespace IntelliGradeUI.Pages
             formContent.Add(new StreamContent(file.OpenReadStream()),"File",ExtensionGetter.GetExtension(file.FileName));
 
             PostRequests.PostOnFormData(formContent, "Assignment", "addhomework/"+assignmentId , Request.Cookies["Token"].ToString());
-
+            GetRequests.Get("AI", "getnote?aid=" + assignmentId + "&uid=" + cuser_id, Request.Cookies["Token"]);
             Response.Redirect("/Assignment?assignmentId=" + assignmentId);
         }
 
