@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Sınıflarım";
 }
 
 
@@ -127,11 +127,11 @@
                                     <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
                                 </a>
                                 <ul class="dropdown-menu p-0 rounded-3 border-0 grade-card-hover">
-                                    <li class="rounded-3 grade-card-hover"><button class="rounded-3 dropdown-item h-100 p-2 border-0" data-bs-toggle="modal" data-bs-target="#deleteClass">Sınıftan Ayrıl</button></li>
+                                    <li class="rounded-3 grade-card-hover"><button class="rounded-3 dropdown-item h-100 p-2 border-0" data-bs-toggle="modal" data-bs-target="#deleteClass@(i)">Sınıftan Ayrıl</button></li>
                                 </ul>
                             </div>
                             <!-- Delete Class -->
-                            <div class="modal fade" id="deleteClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal fade" id="deleteClass@(i)" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <form id="deleteClass" method="post" asp-page-handler="DeleteClass">
@@ -142,6 +142,7 @@
                                             <div class="modal-body">
                                                 <div class="form-outline my-auto">
                                                     <p class="py-1 mb-0"><b>@Model.result[i].className</b> sınıfı silinecek emin misin?</p>
+                                                    <p>Sınıfı silmen durumunda içindeki içerikler silinir.</p>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

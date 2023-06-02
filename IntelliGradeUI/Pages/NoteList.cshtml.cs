@@ -18,6 +18,10 @@ namespace IntelliGradeUI.Pages
         public User teacher { get; set; }
         [BindProperty]
         public List<User> students { get; set; }
+        [BindProperty]
+        public string homeworksUrl { get; set; }
+
+
         public void OnGet()
         {
             if (Request.Cookies["Token"] == null)
@@ -52,6 +56,20 @@ namespace IntelliGradeUI.Pages
                 }
 
             }
+            ToastService.deleteToasts(Response);
+        }
+
+        public void OnPostDownloadAllHomeworks()
+        {
+            Response response = new Response();
+            response = GetRequests.Get("AI", "getnotelistfile/" + classId + "/" + assignmentId, Request.Cookies["Token"]);
+            homeworksUrl = response.message;
+            if(response.status=="OK")
+                ToastService.createSuccessToast("Ödevler indirildi", Response);
+            else
+                ToastService.createErrorToast("Ödevler indirilemedi.", Response);
+
+           Response.Redirect("/NoteList?assignmentId="+assignmentId+"&classId="+classId);
         }
     }
 }

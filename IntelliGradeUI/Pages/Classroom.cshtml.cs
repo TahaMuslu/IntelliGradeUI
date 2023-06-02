@@ -52,7 +52,6 @@ namespace IntelliGradeUI.Pages
             }
             else
             {
-
                 string result = GetRequests.Get("Assignment", "getbyclass/" + classId, Request.Cookies["Token"]).message;
                 this.assignment = JsonConvert.DeserializeObject<List<Assignment>>(result);
 
@@ -62,7 +61,7 @@ namespace IntelliGradeUI.Pages
                 string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
                 this.currentUser = JsonConvert.DeserializeObject<User>(result3);
             }
-
+            ToastService.deleteToasts(Response);
         }
 
         public void OnPostCreateAssignment(IFormFile file)
@@ -110,10 +109,11 @@ namespace IntelliGradeUI.Pages
                 content.Add(new StringContent(""), "File", ".null");
             }
 
+            if (PostRequests.PostOnFormData(content, "Assignment", "create/" + classId, Request.Cookies["Token"].ToString()).status == "Created")
+                ToastService.createSuccessToast("Ödev Oluþturuldu.",Response);
+            else
+                ToastService.createErrorToast("Ödev Oluþturulamadý.",Response);
 
-            PostRequests.PostOnFormData(content, "Assignment", "create/" + classId, Request.Cookies["Token"].ToString());
-
-            OnGet();
             Response.Redirect("/Classroom?classId=" + classId);
 
         }
