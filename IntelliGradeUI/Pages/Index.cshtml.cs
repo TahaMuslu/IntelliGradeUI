@@ -7,6 +7,8 @@ using IntelliGradeUI.Services;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Models;
+using System.Diagnostics;
 
 namespace IntelliGradeUI.Pages
 {
@@ -23,6 +25,9 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public List<Lesson> result { get; set; }
 
+        [BindProperty]
+        public List<Invite> inviteList { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -36,6 +41,7 @@ namespace IntelliGradeUI.Pages
             }
             result = JsonConvert.DeserializeObject<List<Lesson>>(GetRequests.Get("user", "getclasses", Request.Cookies["Token"]).message);
             ToastService.deleteToasts(Response);
+            inviteList= JsonConvert.DeserializeObject<List<Invite>>(GetRequests.Get("Invite", "getinvites", Request.Cookies["Token"]).message);
         }
 
         public void OnPostCreateClass()
@@ -78,9 +84,29 @@ namespace IntelliGradeUI.Pages
         }
 
 
+        public void OnPostInviteAccept(string inviteId)
 
+        {
+            if (GetRequests.Get("Invite", "acceptinvite/" + inviteId, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Davet kabul edildi.", Response);
+            else
+                ToastService.createErrorToast("Davet kabul edilemedi.", Response);
 
+            Console.WriteLine("OnPostInviteAccept");
+            Response.Redirect("/Index");
+        }
 
+        public void OnPostInviteDelete(string inviteId)
+        {
+            if (GetRequests.Get("Invite", "rejectinvite/" + inviteId, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Davet reddedildi.", Response);
+            else
+                ToastService.createErrorToast("Davet reddedilemedi.", Response);
+
+            Console.WriteLine("OnPostInviteDelete");
+            Response.Redirect("/Index");
+
+        }
 
 
     }

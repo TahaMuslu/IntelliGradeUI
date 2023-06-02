@@ -4,16 +4,25 @@
 }
 
 
-<div class="col-8 mx-auto fs-2">
-    Öğretmenler
+<div class="col-8 mx-auto fs-2 mt-2">
+    <div class="row">
+        <div class="col-10">Öğretmenler</div>
+        <div class="col-2">
+            <form class="d-flex justify-content-center mt-1" method="post" asp-page-handler="InviteTeacher" >
+                <button class="btn btn-grade invite" data-bs-toggle="modal" data-bs-target="#inviteTeacher">+ Ekle</button>
+            </form>
+        </div>
+
+    </div>
+
     <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
 </div>
 <div class="col-8 mx-auto justify-content-center d-flex mb-4">
     @for (int i = 0; i < Model.classTeachers.Count; i++)
     {
-        <div class="card w-100 card-class rounded-3" style="width: 18rem;">
-            <ul class="list-group list-group-flush ">
-                <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
+        <div class="card w-100 card-class rounded-3" style="width: 18rem; @(i == Model.classTeachers.Count - 1 ? "border:none;" : "")">
+            <ul class="list-group list-group-flush " >
+                <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center" >
                     <div class="row w-100">
                         <div class="col-12 ">
                             <i class="fa-sharp fa-solid fa-graduation-cap border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark"></i>
@@ -31,17 +40,17 @@
     Öğrenciler
     <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
 </div>
-<div class="col-8 mx-auto justify-content-center d-flex">
+<div class="col-8 mx-auto d-flex flex-column justify-content-center ">
     @{
         if (Model.classStudents != null)
             for (int i = 0; i < Model.classStudents.Count; i++)
             {
-                <div class="card w-100 card-class rounded-3" style="width: 18rem;">
+                <div class="card w-100 card-class rounded-3" style=" @(i == Model.classStudents.Count - 1 ? "border:1px solid #eee;" : "")">
                     <ul class="list-group list-group-flush  ">
                         <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
                             <div class="row w-100">
-                                <div class="col-12 col-md-4 d-flex justify-content-start ">
-                                    <i class="fa-sharp fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark h-min"></i>
+                                <div class="col-12  ">
+                                    <i class="fa-sharp fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark"></i>
                                     @Model.classStudents[i].nameSurname
                                 </div>
 
@@ -50,9 +59,30 @@
                         </li>
                     </ul>
                 </div>
-                <div class="dropdown-divider border-2 d-block" style="background-color: #5161ce"></div>
 
             }
     }
 </div>
 
+
+
+<div class="modal fade" id="inviteTeacher" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form id="inviteTeacher" method="post" enctype="multipart/form-data" asp-page-handler="InviteTeacher">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Davet Et</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-outline mb-4">
+                        <input required type="text" id="teacherMail" asp-for="teacherMail" value="" placeholder="Mail" class="form-control form-control-lg mt-2" />
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button type="submit" class="btn btn-grade">Gönder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

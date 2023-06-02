@@ -18,6 +18,10 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public List<User> classStudents { get; set; }
 
+        [BindProperty]
+        public string teacherMail { get; set; }
+
+
         public void OnGet()
         {
           
@@ -32,6 +36,12 @@ namespace IntelliGradeUI.Pages
             string strStudents = GetRequests.Get("lesson", "getstudents/" + classId, Request.Cookies["Token"]).message;
             classStudents = JsonConvert.DeserializeObject<List<User>>(strStudents);
 
+        }
+
+        public void OnPostInviteTeacher()
+        {
+            Console.WriteLine("Inviting teacher");
+            Response.Redirect("/Students?classId=" + classId);
         }
     }
 }

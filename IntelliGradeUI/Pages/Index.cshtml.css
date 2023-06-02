@@ -9,12 +9,25 @@ body {
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
+.card-invite {
+    border: 1px solid gray;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+.check-icon{
+    color:green;
 
-    .card:hover {
-        cursor: pointer;
-        background-color: rgba(122, 106, 216, 0.2);
-        border: 1px solid #7a6ad8;
-    }
+}
+
+.delete-icon{
+    color:red;
+}
+
+.card:hover {
+    cursor: pointer;
+    background-color: rgba(122, 106, 216, 0.2);
+    border: 1px solid #7a6ad8;
+}
 
 
 .underline-hover {

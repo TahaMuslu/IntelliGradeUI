@@ -10,15 +10,9 @@
 
     <div class="col-md-6 mx-auto mb-4">
         <div class="header-card p-3 mb-2" style="background-color:none;">
-            <h3 class="d-flex justify-content-center">
-                @if (Model.lesson != null)
-                {
-                    @Model.lesson.className
-                }
-            </h3>
-            <div class="d-flex justify-content-between">
+   
+            <div class="d-flex justify-content-center me-5">
                 <div class="d-flex flex-row alignt-items-center">
-                  
                     <div class="ms-2 c-details">
                         @if (Model.lesson != null)
                         @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
@@ -30,9 +24,6 @@
                     </div>
                 </div>
 
-                <div class="badge mt-2">
-                    <p>Class Kodu: <span id="lessonCode">@(Model.lesson != null ? Model.lesson.classCode : "")</span></p>
-                </div>
             </div>
           
         </div>
@@ -102,7 +93,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center ">
-                    <button type="submit" class="btn btn-primary">Ödev Oluştur</button>
+                    <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
                 </div>
             </form>
         </div>

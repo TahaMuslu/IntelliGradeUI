@@ -10,14 +10,13 @@
 .header-card {
     border: none;
     border-radius: 10px;
-    border: 1px solid grey;
 }
 
-    .card:hover {
-        cursor: pointer;
-        background-color: rgba(122, 106, 216, 0.3);
-        border: 1.5px solid #7a6ad8;
-    }
+.card:hover {
+    cursor: pointer;
+    background-color: rgba(122, 106, 216, 0.3);
+    border: 1.5px solid #7a6ad8;
+}
 
 .c-details span {
     font-weight: 300;

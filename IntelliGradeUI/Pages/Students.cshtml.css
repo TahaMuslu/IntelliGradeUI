@@ -1,4 +1,15 @@
 ﻿.card{
-   border:1px solid #5161ce;
+    border:0;
+    border-bottom:1px solid #5161ce;
     border-radius: 25px;
+
+}
+li{
+    background-color:#eee;
+}
+
+.invite {
+    display: block;
+    width: 100%;
+    margin-top:7px;
 }
