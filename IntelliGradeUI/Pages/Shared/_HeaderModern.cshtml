@@ -7,7 +7,7 @@
 
 
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-    <a class="navbar-brand navbar-logo text-bold" style="width: 20vw;min-width: 20vw;max-width:20vw;" asp-area="" asp-page="/Index">
+    <a class="navbar-brand navbar-logo text-bold" style="width: 20vw;min-width: 20vw;max-width:20vw;" asp-page="/Index">
         IntelliGrade
         @{
         try
@@ -43,7 +43,7 @@
                 <a class="nav-link  " href="/Students?classId=@Context.Request.Query["classId"]"><i class="fas fa-chalkboard-teacher"></i>Öğrenciler</a>
             </li>
             <li class="nav-item @(!pageName.StartsWith("/NoteList") ? "d-none" : "")  active">
-                <a class="nav-link  " href="/Students?classId=@Context.Request.Query["classId"]"><i class="fa-solid fa-check-to-slot"></i>Ödevler</a>
+                <a class="nav-link" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><i class="fa-solid fa-check-to-slot"></i>Ödevler</a>
             </li>
 
 
@@ -108,3 +108,4 @@
     }
 
 </nav>
+

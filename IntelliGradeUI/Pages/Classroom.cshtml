@@ -1,7 +1,7 @@
 ﻿@page
 @model ClasroomModel
 @{
-    ViewData["Title"] = "Classroom";
+    ViewData["Title"] = "Akış";
     Layout = "_Layout";
 }
 
@@ -20,7 +20,7 @@
                 <div class="d-flex flex-row alignt-items-center">
                   
                     <div class="ms-2 c-details">
-                        @if (Model.lesson != null)
+                        @if (Model.lesson != null && Model.lesson.teacherIds!=null&& Model.currentUser!=null)
                         @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
                         {
                             <form class="d-flex justify-content-center mt-1" onsubmit="return false;">
@@ -48,7 +48,7 @@
                                 <img src="../assets/images/class.png" alt="" />
                             </div>
                             <div class="ms-2 c-details">
-                                <h6 class="mb-0">Mustafa Turgut</h6>
+                                <h6 class="mb-0">@Model.assignment[i].title</h6>
                                 <span>@Model.assignment[i].date.ToShortDateString()</span>
                             </div>
                         </div>
@@ -109,6 +109,26 @@
     </div>
 </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!--Toast Success-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    <!--Toast Error-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts {

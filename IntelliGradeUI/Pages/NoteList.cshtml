@@ -1,6 +1,7 @@
 ﻿@page
 @model IntelliGradeUI.Pages.NoteListModel
 @{
+    ViewData["Title"] = "Notlar";
 }
 
 
@@ -31,7 +32,7 @@
     <div class="card w-100 border-0" style="width: 18rem;">
         <ul class="list-group list-group-flush">
             @{
-                if (Model.assignment != null)
+                if (Model.assignment != null && Model.assignment.uploadedHomeworks!=null)
                     for (int i = 0; i < Model.assignment.uploadedHomeworks.Count(); i++)
                     {
                         <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
@@ -61,7 +62,41 @@
 </div>
 
 <div class="col-4 offset-8 mt-5 mb-4">
+    <form method="post" asp-page-handler="DownloadAllHomeworks">
     <button class="btn btn-success">
         Tüm Notları İndir
     </button>
+    <input type="hidden" name="assignmentId" value="@Model.assignmentId" />
+    <input type="hidden" name="classId" value="@Model.classId" />
+
+    </form>
 </div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!--Toast Success-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    <!--Toast Error-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]<a id="allHomeworks" href="@Model.homeworksUrl" download></a>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let x=document.getElementById("allHomeworks");
+        x.click();
+        x.classList.add("d-none");
+    </script>
+}

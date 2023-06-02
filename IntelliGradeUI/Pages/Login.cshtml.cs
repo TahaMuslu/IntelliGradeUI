@@ -30,9 +30,12 @@ namespace IntelliGradeUI.Pages
         {
             if (register == null)
                 register = "false";
+
+
             if (Request.Cookies["Token"] != null)
                 Response.Redirect("/Index");
 
+            //ToastService.deleteToasts(Response);
         }
 
         public void OnPostRegister()
@@ -69,6 +72,7 @@ namespace IntelliGradeUI.Pages
                 string username = JsonConvert.DeserializeObject<User>(user).nameSurname;
                 Response.Cookies.Append("UserName", username);
                 Response.Cookies.Append("Token", result);
+                ToastService.createSuccessToast("Giriþ baþarýlý", Response);
                 Response.Redirect("/Index");
             }
         }

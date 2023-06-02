@@ -23,6 +23,7 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public List<Lesson> result { get; set; }
 
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -50,8 +51,12 @@ namespace IntelliGradeUI.Pages
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
 
+            if (PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]).status == "Created")
+                ToastService.createSuccessToast("Sınıf başarıyla oluşturuldu.", Response);
+            else
+                ToastService.createErrorToast("Sınıf oluşturulamadı.", Response);
 
-            PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]);
+
             Response.Redirect("/Index");
         }
 
