@@ -10,7 +10,7 @@
     <a class="navbar-brand navbar-logo text-bold" style="width: 20vw;min-width: 20vw;max-width:20vw;" asp-page="/Index">
         IntelliGrade
         @{
-        try
+            try
             {
                 if (Model.lesson.className.Length > 20)
                 {
@@ -54,10 +54,10 @@
         if (@cookie != null)
         {
             <ul class="navbar-collapse collapse navbar-nav  align-items-end justify-content-end flex-grow-0 me-5" style="width: 20vw;min-width: 20vw;max-width:20vw;">
-             
+
                 @if (Context.Request.Path == "/" || Context.Request.Path == "/Index")
                 {
-                   
+
                     <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
                         <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-plus fa-lg mb-1 pb-2"></i>
@@ -72,21 +72,40 @@
                 @{
                     try
                     {
-                        if(Model.lesson.classCode != null && Model.lesson.classCode != "")
+                        if (Model.lesson.classCode != null && Model.lesson.classCode != "")
                         {
-                        <li id="lessonCode" style="background-color:#eeee;color:#5161ce;font-size:0.8rem;" class="cursor-pointer nav-item fw-bold me-5 text-center my-auto text-nowrap p-2 rounded-3 ms-3">Class Kodu: @Model.lesson.classCode</li>
+                            <li id="lessonCode" style="background-color:#eeee;color:#5161ce;font-size:0.8rem;" class="cursor-pointer nav-item fw-bold me-5 text-center my-auto text-nowrap p-2 rounded-3 ms-3">Class Kodu: @Model.lesson.classCode</li>
                         }
                     }
                     catch (Exception e)
                     {
                     }
                 }
-                <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
-                    <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-white cursor-pointer" data-bs-toggle="modal" data-bs-target="#inviteList">
-                        <i class="fa-solid fa-bell fa-lg mb-1 pb-2"></i>
-                    </a>
-              
-                </li>
+
+                @if (Context.Request.Path == "/Index")
+                {
+                    <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
+                        <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-white cursor-pointer" data-bs-toggle="modal" data-bs-target="#inviteList">
+                            <i class="fa-solid fa-bell fa-lg mb-1 pb-2">
+                                @try
+                                {
+                                if (Model.inviteList.Count > 0)
+                                {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7rem;">
+                                    @Model.inviteList.Count
+                                </span>
+                                }
+                                }
+                                catch (Exception e)
+                                {
+                                }
+                            </i>
+                        </a>
+                    </li>
+                }
+
+
+
                 <li class="nav-item dropdown justify-content-end align-items-end">
                     <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         @userName
