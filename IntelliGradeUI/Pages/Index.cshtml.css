@@ -5,9 +5,10 @@ body {
 }
 
 .card {
-    border: none;
+    border: 1px solid gray;
     border-radius: 10px;
     transition: background-color 0.3s ease;
+    
 }
 
     .card:hover {
@@ -32,10 +33,10 @@ body {
     font-size: 39px
 }
 
-    .icon img {
-        width: 32px;
-        height: 32px;
-    }
+.icon img {
+    width: 32px;
+    height: 32px;
+}
 
 .progress {
     height: 10px;
