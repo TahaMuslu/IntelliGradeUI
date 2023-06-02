@@ -10,12 +10,11 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-8">
-            <div class="card p-3 mb-2">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="icon"> <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i> </div>
-                        <div class="ms-4 c-details">
-                            <h6 class="mb-0">@Model.assignment.title &nbsp; | &nbsp; Deadline: <span> @Model.assignment.deadline </span></h6>
+            <div class="card p-3 mb-2 ps-0">
+                <div class="d-flex justify-content-between w-100">
+                    <div class="d-flex flex-row align-items-center w-100">
+                        <div class="ms-4 c-details w-100">
+                            <h6 class="mb-0 w-100 d-block d-flex justify-content-between"><i class="fa-solid fa-circle-right" style="color: #5161ce"></i><b>@Model.assignment.title</b> <span class="ms-auto fw-bold fs-6"><i class="fa-solid fa-clock text-danger"></i>@Model.assignment.deadline.ToString("dd/MM/yyyy HH:mm")</span></h6>
                             <p>Maksimum Puan: 100 Puan</p>
                             @if (Model.assignment.fileUrl != null)
                             {
@@ -23,12 +22,12 @@
                                 <br />
                                 <br />
                             }
-                            Problem Tanımı:
+                            <b><i class="fa-solid fa-circle-info" style="color: #5161ce"></i>Problem Tanımı:</b>
                             <br />
                             @Model.assignment.definition
                             <br />
                             <br />
-                            Açıklama:
+                            <b><i class="fa-solid fa-circle-question" style="color: #5161ce"></i>Açıklama:</b>
                             <br />
                             @Model.assignment.description
                             <br />

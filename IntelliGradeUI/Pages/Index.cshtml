@@ -78,7 +78,6 @@
                                     <li class="rounded-3 grade-card-hover"><button class="rounded-3 dropdown-item h-100 p-2 border-0" data-bs-toggle="modal" data-bs-target="#deleteClass">Sınıftan Ayrıl</button></li>
                                 </ul>
                             </div>
-
                             <!-- Delete Class -->
                             <div class="modal fade" id="deleteClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -103,8 +102,6 @@
                                 </div>
                             </div>
                             <!-- Delete Class End -->
-
-
                         </div>
 
                         <div class="mt-5">
@@ -124,13 +121,25 @@
     </div>
 }
 
-<div class="toast-container position-fixed top-0 end-0 p-3">
-<div class="toast align-items-center text-bg-primary border-0 @*show*@ bg-success text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
-    <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
-        <div class="toast-body">
-            Sınıf silindi
+@*<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!--Toast Success-->
+    <div class="toast align-items-center text-bg-primary border-0 show bg-success text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i>Sınıf silindi
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <!--Toast Error-->
+    <div class="toast align-items-center text-bg-primary border-0 show bg-danger text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>Sınıf silinemedi
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
     </div>
 </div>
-</div>
+
+*@
