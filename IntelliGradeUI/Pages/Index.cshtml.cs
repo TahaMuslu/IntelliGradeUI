@@ -3,9 +3,12 @@ using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using IntelliGradeUI.Services;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Models;
+using System.Diagnostics;
 
 namespace IntelliGradeUI.Pages
 {
@@ -22,16 +25,23 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public List<Lesson> result { get; set; }
 
+        [BindProperty]
+        public List<Invite> inviteList { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
-        public async Task<IActionResult> OnGet()
+        public void OnGet()
         {
-            Response objectResult = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
-            result = JsonConvert.DeserializeObject<List<Lesson>>(objectResult.message);
-            return Page();
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
+            result = JsonConvert.DeserializeObject<List<Lesson>>(GetRequests.Get("user", "getclasses", Request.Cookies["Token"]).message);
+            ToastService.deleteToasts(Response);
+            inviteList= JsonConvert.DeserializeObject<List<Invite>>(GetRequests.Get("Invite", "getinvites", Request.Cookies["Token"]).message);
         }
 
         public void OnPostCreateClass()
@@ -46,30 +56,61 @@ namespace IntelliGradeUI.Pages
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
 
+            if (PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]).status == "Created")
+                ToastService.createSuccessToast("Sınıf başarıyla oluşturuldu.", Response);
+            else
+                ToastService.createErrorToast("Sınıf oluşturulamadı.", Response);
 
-            PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]);
+
             Response.Redirect("/Index");
         }
 
 
         public void OnPostJoinClass()
         {
-            PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]);
+            if(PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]).status=="OK")
+                ToastService.createSuccessToast("Sınıfa katıldınız.", Response);
+            else
+                ToastService.createErrorToast("Sınıfa katılınamadı.", Response);
+
             Response.Redirect("/Index");
         }
 
 
         public void OnPostDeleteClass(string id)
         {
+            if (DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Sınıf başarıyla silindi.", Response);
+            else
+                ToastService.createErrorToast("Sınıf silinemedi", Response);
 
-            DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
-       
+        public void OnPostInviteAccept(string inviteId)
 
+        {
+            if (GetRequests.Get("Invite", "acceptinvite/" + inviteId, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Davet kabul edildi.", Response);
+            else
+                ToastService.createErrorToast("Davet kabul edilemedi.", Response);
 
+            Console.WriteLine("OnPostInviteAccept");
+            Response.Redirect("/Index");
+        }
+
+        public void OnPostInviteDelete(string inviteId)
+        {
+            if (GetRequests.Get("Invite", "rejectinvite/" + inviteId, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Davet reddedildi.", Response);
+            else
+                ToastService.createErrorToast("Davet reddedilemedi.", Response);
+
+            Console.WriteLine("OnPostInviteDelete");
+            Response.Redirect("/Index");
+
+        }
 
 
     }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using IntelliGradeUI.Models;
 using Newtonsoft.Json;
 using System.Text;
-using Services;
+using IntelliGradeUI.Services;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
@@ -24,12 +24,19 @@ namespace IntelliGradeUI.Pages
 
         [BindProperty]
         public User currentUser { get; set; }
+        [BindProperty]
+        public string cuser_id { get; set; }
 
         public void OnGet()
         {
-            string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).Result.message;
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
+            string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
             assignment = JsonConvert.DeserializeObject<Assignment>(result);
-            currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message);
+            currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message);
+            ToastService.deleteToasts(Response);
         }
 
 
@@ -40,25 +47,39 @@ namespace IntelliGradeUI.Pages
             formContent.Add(new StringContent(""), "Homework.UserId");
             formContent.Add(new StringContent(""), "Homework.FilePath");
             formContent.Add(new StringContent(""), "Homework.FileUrl");
+            formContent.Add(new StringContent(""), "Homework.FileName");
             formContent.Add(new StringContent(Guid.NewGuid().ToString()), "Homework.Id");
             formContent.Add(new StreamContent(file.OpenReadStream()),"File",ExtensionGetter.GetExtension(file.FileName));
+            if(PostRequests.PostOnFormData(formContent, "Assignment", "addhomework/" + assignmentId, Request.Cookies["Token"].ToString()).status== "OK")
+                ToastService.createSuccessToast("Dosya baþarýyla yüklendi.", Response);
+            else
+                ToastService.createErrorToast("Dosya yüklenirken hata oluþtu.", Response);
 
-            PostRequests.PostOnFormData(formContent, "Assignment", "addhomework/"+assignmentId , Request.Cookies["Token"].ToString());
-
+            if(GetRequests.Get("AI", "getnote?aid=" + assignmentId + "&uid=" + cuser_id, Request.Cookies["Token"]).status== "OK")
+                ToastService.createSuccessToast("Dosya notlandýrýldý.", Response);
+            else
+                ToastService.createErrorToast("Dosya notlandýrýlmasýnda hata oluþtu.", Response);
             Response.Redirect("/Assignment?assignmentId=" + assignmentId);
         }
 
         public void OnPostDeleteFile()
         {
-
-            DeleteRequests.Delete("Assignment", "removehomework/" + assignmentId, Request.Cookies["Token"].ToString());
+            if(DeleteRequests.Delete("Assignment", "removehomework/" + assignmentId, Request.Cookies["Token"].ToString()).status== "OK")
+                ToastService.createSuccessToast("Dosya baþarýyla silindi.", Response);
+            else
+                ToastService.createErrorToast("Dosya silinirken hata oluþtu.", Response);
+            
 
             Response.Redirect("/Assignment?assignmentId=" + assignmentId);
         }
 
         public void OnPostDeleteAssignment()
         {
-            DeleteRequests.Delete("Assignment", "delete/" + assignmentId+"/"+classId, Request.Cookies["Token"].ToString());
+            if(DeleteRequests.Delete("Assignment", "delete/" + assignmentId + "/" + classId, Request.Cookies["Token"].ToString()).status=="OK")
+                ToastService.createSuccessToast("Ödev baþarýyla silindi.", Response);
+            else
+                ToastService.createErrorToast("Ödev silinirken hata oluþtu.", Response);
+
             Response.Redirect("/Classroom?classId=" + classId);
         }
 

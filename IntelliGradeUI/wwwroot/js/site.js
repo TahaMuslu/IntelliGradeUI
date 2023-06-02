@@ -3,9 +3,19 @@
 
 // Write your JavaScript code.
 
-
 function logOut() {
     console.log("logOut");
     document.cookie = "Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = "/Index";
+    document.cookie = "Success=show;"
+    document.cookie = "SuccessMessage=Başarıyla çıkış yaptınız.;"
+    window.location.href = "/Base";
 }
+
+toasts = [];
+toasts = document.getElementsByClassName("toast");
+
+setTimeout(function () {
+for (var i = 0; i < toasts.length; i++) {
+        toasts[i].classList.add("d-none");
+    }
+}, 4300);

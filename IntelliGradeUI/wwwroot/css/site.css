@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
+* {
+    font-family: 'Poppins', sans-serif;
+}
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -11,6 +15,7 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
+
 
 html {
   position: relative;
@@ -33,6 +38,9 @@ html {
     display: none;
 }
 
+.marker-d-none ::marker {
+    font-size: 0;
+}
 
 .toast {
     animation: slideInRight 0.5s, slideOutRight 0.5s 4s;
@@ -59,3 +67,35 @@ html {
     }
 }
 
+.cursor-pointer{
+    cursor:pointer;
+}
+
+.header-dropdown:hover {
+    background-color: #6478ff;
+}
+
+
+.btn-grade {
+    color: #fff;
+    background-color: #5161ce;
+    border-color: #6478ff;
+    transition: background-color 0.3s ease;
+    /*transition: border-color 0.3s ease;*/
+}
+
+    .btn-grade:hover {
+        color: #fff;
+        background-color: #6478ff;
+        /*border-color: #6478ff;*/
+    }
+
+.grade-card-hover {
+    border: 1px solid gray;
+    transition: background-color 0.3s ease;
+}
+
+    .grade-card-hover :hover {
+        background-color: #d6d3e9;
+        border-color: #7a6ad8;
+    }

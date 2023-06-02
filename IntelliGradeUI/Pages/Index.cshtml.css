@@ -1,17 +1,44 @@
 ﻿
+body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif;
+}
 
 .card {
-    background-color: lightgreen;
+    border: 1px solid gray;
     border-radius: 10px;
-    border: 1px solid white;
-    padding: 20px;
-    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.1);
-    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.card-invite {
+    border: 1px solid gray;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+.check-icon{
+    color:green;
+
 }
 
-i {
-    color: #4f7abd;
+.delete-icon{
+    color:red;
 }
+
+.card:hover {
+    cursor: pointer;
+    background-color: rgba(122, 106, 216, 0.2);
+    border: 1px solid #7a6ad8;
+}
+
+
+.underline-hover {
+    text-decoration: none;
+    color: #7a6ad8;
+}
+
+    .underline-hover :hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
 
 .c-details span {
     font-weight: 300;
@@ -29,17 +56,10 @@ i {
     font-size: 39px
 }
 
-.badge span {
-    background-color: #fffbec;
-    width: 60px;
-    height: 25px;
-    padding-bottom: 3px;
-    border-radius: 5px;
-    display: flex;
-    color: #fed85d;
-    justify-content: center;
-    align-items: center
-}
+    .icon img {
+        width: 32px;
+        height: 32px;
+    }
 
 .progress {
     height: 10px;
@@ -56,5 +76,7 @@ i {
 }
 
 .text2 {
-    color: #a5aec0
+    color: #a5aec0;
+    font-weight: 600;
+    font-size: 14px;
 }

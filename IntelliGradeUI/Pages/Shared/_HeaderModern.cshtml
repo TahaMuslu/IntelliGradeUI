@@ -1,0 +1,139 @@
+﻿@{
+    string pageName = ViewContext.RouteData.Values["page"].ToString();
+    string cookie = Context.Request.Cookies["Token"];
+    string userName = Context.Request.Cookies["UserName"];
+}
+
+
+
+<nav class="navbar navbar-expand-custom navbar-mainbg">
+    <a class="navbar-brand navbar-logo text-bold" style="width: 20vw;min-width: 20vw;max-width:20vw;" asp-page="/Index">
+        IntelliGrade
+        @{
+            try
+            {
+                if (Model.lesson.className.Length > 20)
+                {
+                    <span class="fs-6"> | @Model.lesson.className.Substring(0,20)...</span>
+                }
+                else
+                {
+                    <span class="fs-6"> | @Model.lesson.className</span>
+                }
+            }
+            catch (Exception e)
+            {
+            }
+        }
+    </a>
+
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+    </button>
+    <div class="collapse navbar-collapse mx-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+            <li class="nav-item @(pageName == "/Index" ? "active" : "")">
+                <a class="nav-link " href="/Index"><i class="fas fa-home"></i> Sınıflarım</a>
+            </li>
+            <li class="nav-item @(pageName == "/Index" ? "d-none" : "") @(pageName.StartsWith("/Classroom")  || pageName.StartsWith("/Assignment")? "active" : "")">
+                <a class="nav-link " href="/Classroom?classId=@Context.Request.Query["classId"]"><i class="fa-sharp fa-solid fa-calendar"></i> Akış</a>
+            </li>
+            <li class="nav-item @(pageName == "/Index" ? "d-none" : "")  @(pageName.StartsWith("/Students") ? "active" : "") ">
+                <a class="nav-link  " href="/Students?classId=@Context.Request.Query["classId"]"><i class="fas fa-chalkboard-teacher"></i>Öğrenciler</a>
+            </li>
+            <li class="nav-item @(!pageName.StartsWith("/NoteList") ? "d-none" : "")  active">
+                <a class="nav-link" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><i class="fa-solid fa-check-to-slot"></i>Ödevler</a>
+            </li>
+
+
+        </ul>
+
+    </div>
+    @{
+        if (@cookie != null)
+        {
+            <ul class="navbar-collapse collapse navbar-nav  align-items-end justify-content-end flex-grow-0 me-5" style="width: 20vw;min-width: 20vw;max-width:20vw;">
+
+                @if (Context.Request.Path == "/" || Context.Request.Path == "/Index")
+                {
+
+                    <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
+                        <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-plus fa-lg mb-1 pb-2"></i>
+                        </a>
+                        <ul class="dropdown-menu position-absolute cursor-pointer p-0 rounded-3 btn-grade" style="transform: translateX(-40px); background-color:#5161ce">
+                            <li class="btn-grade rounded-3"><a class="dropdown-item text-white header-dropdown p-2 rounded-3 btn-grade" data-bs-toggle="modal" data-bs-target="#joinClass">Sınıfa Katıl</a></li>
+                            <li class="btn-grade rounded-3"><a class="dropdown-item text-white header-dropdown p-2 rounded-3 btn-grade" data-bs-toggle="modal" data-bs-target="#createClass">Sınıf Oluştur</a></li>
+                        </ul>
+                    </li>
+
+                }
+                @{
+                    try
+                    {
+                        if (Model.lesson.classCode != null && Model.lesson.classCode != "")
+                        {
+                            <li id="lessonCode" style="background-color:#eeee;color:#5161ce;font-size:0.8rem;" class="cursor-pointer nav-item fw-bold me-5 text-center my-auto text-nowrap p-2 rounded-3 ms-3">Class Kodu: @Model.lesson.classCode</li>
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+
+                @if (Context.Request.Path == "/Index")
+                {
+                    <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
+                        <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-white cursor-pointer" data-bs-toggle="modal" data-bs-target="#inviteList">
+                            <i class="fa-solid fa-bell fa-lg mb-1 pb-2">
+                                @try
+                                {
+                                if (Model.inviteList.Count > 0)
+                                {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7rem;">
+                                    @Model.inviteList.Count
+                                </span>
+                                }
+                                }
+                                catch (Exception e)
+                                {
+                                }
+                            </i>
+                        </a>
+                    </li>
+                }
+
+
+
+                <li class="nav-item dropdown justify-content-end align-items-end">
+                    <a class="d-flex justify-content-end align-items-center nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @userName
+                    </a>
+                    <ul class="dropdown-menu position-absolute cursor-pointer p-0 btn-grade rounded-3" style="background-color:#5161ce;transform:translateX(-100px);">
+                        <li class="btn-grade rounded-3">
+                            <a class="dropdown-item text-white header-dropdown p-2 rounded-3 btn-grade" onclick=logOut()>Log Out</a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        }
+        else
+        {
+            <ul class="navbar-collapse collapse navbar-nav flex-grow-1 align-items-end justify-content-end" style="width: 20vw;min-width: 20vw;max-width:20vw;">
+
+                <li class="nav-item d-flex">
+                    <a class="d-flex nav-link text-white " role="button" asp-page="/Login">
+                        <span class="login-btn d-flex">
+                            <i class="fs-3 ms-1 align-items-center d-flex fa-solid fa-right-to-bracket"></i>
+                            <i class="fs-3 ms-1 align-items-center d-flex fa-sharp fa-solid fa-door-open"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        }
+    }
+
+</nav>
+

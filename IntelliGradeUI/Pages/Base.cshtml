@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/logo-color.png" type="image/png" />
 
     <title>IntelliGrade</title>
 
@@ -53,21 +54,34 @@
                             <h1>IntelliGrade</h1>
                         </a>
                         <!-- ***** Logo End ***** -->
-                        <!-- ***** Serach Start ***** -->
-                        <div class="search-input">
-                            <form id="search" action="#">
-                                <input type="text" placeholder="Birşeyler Arayın" id='searchText' name="searchKeyword" onkeypress="handle" />
-                                <i class="fa fa-search"></i>
-                            </form>
-                        </div>
-                        <!-- ***** Serach Start ***** -->
+
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Ana Sayfa</a></li>
                             <li class="scroll-to-section"><a href="#services">Servisler</a></li>
                             <li class="scroll-to-section"><a href="#team">Takımımız</a></li>
-                            <li class="scroll-to-section"><a href="/Login?register=false">Giriş Yap</a></li>
-                            <li class="scroll-to-section"><a href="/Login?register=true">Hemen Kayıt Ol!</a></li>
+                            @if (Request.Cookies["Token"] != null)
+                            {
+                                <li class="scroll-to-section"><a href="/Index">Sınıflarım</a></li>
+                                <li class="scroll-to-section dropdown d-none d-md-block">
+                                    <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @Request.Cookies["UserName"]
+                                    </a>
+                                    <ul class="dropdown-menu p-0 shadow-lg" style="background-color: #7a6ad8;">
+                                        <li class="text-center p-0">
+                                            <a class="w-100 h-100 rounded-0" style="cursor: pointer;" onclick=logOut()>Log Out</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="scroll-to-section d-md-none" onclick=logOut()>
+                                    <a>Log Out</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="scroll-to-section"><a href="/Login?register=false">Giriş Yap</a></li>
+                                <li class="scroll-to-section"><a href="/Login?register=true">Hemen Kayıt Ol!</a></li>
+                            }
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -216,7 +230,7 @@
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    There are more than one hundred responsive HTML templates to choose from <strong>Template</strong>Mo website. You can browse by different tags or categories.
+                                    IntelliGrade, yapay zeka desteği ile ödevleri hızlı bir şekilde değerlendirebilir. Yapay zeka algoritmaları, öğrencilerin ödevlerini analiz ederek otomatik olarak puanlama yapabilir ve değerlendirme sürecini hızlandırabilir. Bu sayede öğretmenlerin zamanını tasarruf etmelerine olanak sağlar.
                                 </div>
                             </div>
                         </div>
@@ -238,10 +252,14 @@
                     <div class="section-heading">
                         <h6>Hakkımızda</h6>
                         <h2>Bizi En İyi Yapan Şey Ne?</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravid risus commodo.</p>
-                        <div class="main-button">
-                            <a href="#">Daha Fazla Keşfet</a>
-                        </div>
+                        <p>
+                            Bizi en iyi yapan şey, öğretmenlere ve öğrencilere kullanıcı dostu, etkili ve güvenilir bir ödev yönetimi deneyimi sunmaktır. İşte bizi diğer sistemlerden ayıran bazı özellikler:
+                            Kapsamlı Ödev Yönetimi Kapsamında öğretmenler ödevleri kolayca tanımlayabilir, öğrencilere atayabilir ve son teslim tarihlerini belirleyebilir. Öğrenciler ise ödevlerini sisteme yükleyebilir ve gerektiğinde düzenleme yapabilir.
+
+                            Yapay Zeka Destekli Hızlı Değerlendirme Kapsamında Yapay zeka algoritmaları öğrenci ödevlerini otomatik olarak analiz eder ve hızlı bir şekilde değerlendirir. Bu sayede öğretmenler daha az zaman harcar ve öğrenciler hızlı geri bildirim alır.
+
+                        </p>
+                    
                     </div>
                 </div>
             </div>
@@ -616,12 +634,7 @@
                         <h6>İletişime Geç</h6>
                         <h2>Bizimle her daim iletişime geçebilirsiniz</h2>
                         <p>Thank you for choosing our templates. We provide you best CSS templates at absolutely 100% free of charge. You may support us by sharing our website to your friends.</p>
-                        <div class="special-offer">
-                            <span class="offer">off<br><em>50%</em></span>
-                            <h6>Valide: <em>24 April 2036</em></h6>
-                            <h4>Special Offer <em>50%</em> OFF!</h4>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                        </div>
+                    
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -631,17 +644,17 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="name" name="name" id="name" placeholder="Your Name..." autocomplete="on" required>
+                                        <input type="name" name="name" id="name" placeholder="Ad" autocomplete="on" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="text" name="email" id="email" placeholder="Your E-mail..." required="">
+                                        <input type="text" name="email" id="email" placeholder="E-mail" required="">
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <textarea name="message" id="message" placeholder="Your Message"></textarea>
+                                        <textarea name="message" id="message" placeholder="Mesaj"></textarea>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
@@ -668,10 +681,12 @@
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    @*<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>*@
     <script src="/assets/js/isotope.min.js"></script>
     <script src="/assets/js/owl-carousel.js"></script>
     <script src="/assets/js/counter.js"></script>

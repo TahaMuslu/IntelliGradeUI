@@ -6,6 +6,9 @@
         public string userId { get; set; }
         public string filePath { get; set; }
         public string fileUrl { get; set; }
+        public string? fileName { get; set; }
+        public int? grade { get; set; }
+        public string? description { get; set; }
 
     }
 }

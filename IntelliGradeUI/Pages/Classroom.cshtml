@@ -1,49 +1,67 @@
 ﻿@page
 @model ClasroomModel
 @{
-    ViewData["Title"] = "Classroom";
+    ViewData["Title"] = "Akış";
     Layout = "_Layout";
 }
 
 <div class="container mt-5 mb-3">
-    <p class="bg-dark d-inline-block text-white p-2 rounded-3">
-        Class Code:  @Model.lesson.classCode
-    </p>
+  
 
-    @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
-    {
-        <form class="d-flex justify-content-center" onsubmit="return false;">
+    <div class="col-md-6 mx-auto mb-4">
+        <div class="header-card p-3 mb-2" style="background-color:none;">
+   
+            <div class="d-flex justify-content-center me-5">
+                <div class="d-flex flex-row alignt-items-center">
+                    <div class="ms-2 c-details">
+                        @if (Model.lesson != null && Model.lesson.teacherIds!=null&& Model.currentUser!=null)
+                        @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+                        {
+                            <form class="d-flex justify-content-center mt-1" onsubmit="return false;">
+                                <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
+                            </form>
+                        }
+                    </div>
+                </div>
 
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
-        </form>
-    }
-
+            </div>
+          
+        </div>
+    </div>
+    @if (Model.assignment != null)
     @for (int i = 0; i < @Model.assignment.Count(); i++)
     {
-        <div class="row mt-2">
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-10">
-                <div class="card p-3 mb-2" style="background-color:khaki" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id')">
+            <div class="col-md-6 mx-auto mb-4">
+                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id')">
                     <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex flex-row alignt-items-center">
                             <div class="icon">
-                                <i class="fa-sharp fa-solid fa-bookmark fa-xs" style="color:#4f7abd"></i>
+                                <img src="../assets/images/class.png" alt="" />
                             </div>
                             <div class="ms-2 c-details">
-                                <h6 class="mb-0">@Model.assignment[i].title</h6> <span>Created At @Model.assignment[i].date.ToShortDateString()</span>
+                                <h6 class="mb-0">@Model.assignment[i].title</h6>
+                                <span>@Model.assignment[i].date.ToShortDateString()</span>
                             </div>
                         </div>
+
+                        <div class="badge">
+                            <p>@Model.assignment[i].deadline</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <b>Ödev Tanımı:</b>
+                        <p id="def-p">@Model.assignment[i].title</p>
+                    </div>
+                    <div class="mt-2">
+                        <b>Ödev Açıklaması:</b>
+                        <p id="def-p">
+                            @Model.assignment[i].description
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-1">
-            </div>
-        </div>
+
     }
-
-
-
 </div>
 
 
@@ -65,30 +83,65 @@
 
                         <textarea required type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
 
-                        <input required type="datetime-local" id="assignmentDeadline" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" value="" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
+                        <input required type="datetime-local" id="assignmentDeadline" value="" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
 
                         <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
 
                         <input type="hidden" id="classId" asp-for="classId" value="@Model.classId" />
-                        <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@Model.currentUser.id" />
+                        <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@(Model.currentUser!=null ? Model.currentUser.id : "")" />
 
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center ">
-                    <button type="submit" class="btn btn-primary">Ödev Oluştur</button>
+                    <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!--Toast Success-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    <!--Toast Error-->
+    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+        <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body fs-6 d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts {
     <script>
-        function redirectToAssignmentPage(assignmentId,lessonId) {
-            var redirectUrl = '@Url.Page("/Assignment")?classId='+lessonId +'&assignmentId=' + assignmentId;
+        function redirectToAssignmentPage(assignmentId, lessonId) {
+            var redirectUrl = '@Url.Page("/Assignment")?classId=' + lessonId + '&assignmentId=' + assignmentId;
             window.location.href = redirectUrl;
+        }
+
+        document.getElementById("lessonCode").addEventListener("click", function () {
+            var code = document.getElementById("lessonCode").innerText;
+            copyToClipboard(code);
+        });
+
+        function copyToClipboard(text) {
+            var textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            alert("Kod kopyalandı: " + text);
         }
     </script>
 }

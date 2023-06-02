@@ -10,23 +10,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/cool.css" />
+    <link rel="icon" href="/images/logo-color.png" type="image/png" />
 
-    <title>Sign in & Sign up Form</title>
+
+    @if (Model.register == "true")
+    {
+        <title>
+            Kayıt Ol
+        </title>
+    }
+    else
+    {
+        <title>
+            Giriş Yap
+        </title>
+    }
 </head>
 <body>
     <div class="container">
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999;">
+            <!--Toast Success-->
+            <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="50000" role="status" aria-live="polite" aria-atomic="true">
+                <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+                    <div class="toast-body fs-6 d-flex align-items-center">
+                        <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            <!--Toast Error-->
+            <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+                <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
+                    <div class="toast-body fs-6 d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
         <div class="forms-container">
             <div class="signin-signup">
                 <form id="login" method="post" class="sign-in-form" asp-page-handler="Login">
                     <h2 class="title">Giriş Yap</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="email" id="email" asp-for="email" required placeholder="Email" />
+                        <input style="font-weight:500;font-size:1rem;" type="email" id="email" asp-for="email" required placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" asp-for="password" required placeholder="Parola" />
+                        <input style="font-weight:500;font-size:1rem;" type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
                     <input type="submit" value="Giriş Yap" class="btn solid" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla giriş yap</p>
@@ -45,19 +79,19 @@
                         </a>
                     </div>
                 </form>
-                <form  method="post" id="register" asp-page-handler="Register" class="sign-up-form">
+                <form method="post" id="register" asp-page-handler="Register" class="sign-up-form">
                     <h2 class="title">Kayıt Ol</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="namesurname" required asp-for="nameSurname"  placeholder="Ad Soyad" />
+                        <input style="font-weight:500;font-size:1rem;" type="text" id="namesurname" required asp-for="nameSurname" placeholder="Ad Soyad" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
+                        <input style="font-weight:500;font-size:1rem;" type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
+                        <input style="font-weight:500;font-size:1rem;" type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
                     </div>
                     <input type="submit" class="btn" value="Kayıt Ol" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>
@@ -109,6 +143,9 @@
         </div>
     </div>
 
+
+
+
 </body>
 <script>
     const sign_in_btn = document.querySelector("#sign-in-btn");
@@ -123,9 +160,8 @@
         container.classList.remove("sign-up-mode");
     });
 
-    if(@Model.register==true)
-    sign_up_btn.click();
-    
+    if (@Model.register== true)
+        sign_up_btn.click();
 
 </script>
 </html>
