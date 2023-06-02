@@ -9,9 +9,9 @@
     <div class="dropdown-divider border-2 mb-4"></div>
 </div>
 <div class="col-8 mx-auto justify-content-center d-flex mb-4">
-    @for(int i = 0;i<Model.classTeachers.Count; i++)
+    @for (int i = 0; i < Model.classTeachers.Count; i++)
     {
-        <div class="card w-100 card-class" style="width: 18rem;">
+        <div class="card w-100 card-class rounded-3" style="width: 18rem;">
             <ul class="list-group list-group-flush ">
                 <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
                     <div class="row w-100">
@@ -24,7 +24,7 @@
             </ul>
         </div>
     }
-  
+
 </div>
 
 <div class="col-8 mx-auto fs-2">
@@ -32,25 +32,25 @@
     <div class="dropdown-divider border-2 mb-4"></div>
 </div>
 <div class="col-8 mx-auto justify-content-center d-flex">
-    <div class="card w-100 card-class " style="width: 18rem;">
-        <ul class="list-group list-group-flush  ">
-            @{
-                if (Model.classStudents != null)
-                    for (int i = 0; i < Model.classStudents.Count; i++)
-                    {
+    @{
+        if (Model.classStudents != null)
+            for (int i = 0; i < Model.classStudents.Count; i++)
+            {
+                <div class="card w-100 card-class rounded-3" style="width: 18rem;">
+                    <ul class="list-group list-group-flush  ">
                         <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
                             <div class="row w-100">
                                 <div class="col-12 col-md-4 d-flex justify-content-start ">
                                     <i class="fa-sharp fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark h-min"></i>
                                     @Model.classStudents[i].nameSurname
                                 </div>
-                             
-                             
+
+
                             </div>
                         </li>
-                    }
+                    </ul>
+                </div>
             }
-        </ul>
-    </div>
+    }
 </div>
 

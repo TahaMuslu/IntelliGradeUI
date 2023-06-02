@@ -8,13 +8,23 @@ body {
     border: 1px solid gray;
     border-radius: 10px;
     transition: background-color 0.3s ease;
-    
 }
 
     .card:hover {
         cursor: pointer;
         background-color: rgba(122, 106, 216, 0.2);
         border: 1px solid #7a6ad8;
+    }
+
+
+.underline-hover {
+    text-decoration: none;
+    color: #7a6ad8;
+}
+
+    .underline-hover :hover {
+        text-decoration: underline;
+        cursor: pointer;
     }
 
 .c-details span {
@@ -33,10 +43,10 @@ body {
     font-size: 39px
 }
 
-.icon img {
-    width: 32px;
-    height: 32px;
-}
+    .icon img {
+        width: 32px;
+        height: 32px;
+    }
 
 .progress {
     height: 10px;

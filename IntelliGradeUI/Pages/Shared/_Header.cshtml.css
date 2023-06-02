@@ -77,3 +77,16 @@ login-btn:hover {
     color: forestgreen;
 }
 
+.btn-grade {
+    color: #fff;
+    background-color: #5161ce;
+    border-color: #5161ce;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-grade:hover {
+        color: #fff;
+        background-color: #6478ff;
+        border-color: #6478ff;
+        /*transition: background-color 0.3s ease;*/
+    }

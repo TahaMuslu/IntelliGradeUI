@@ -28,6 +28,8 @@ namespace IntelliGradeUI.Pages
 
         public void OnGet()
         {
+            if (register == null)
+                register = "false";
             if (Request.Cookies["Token"] != null)
                 Response.Redirect("/Index");
 

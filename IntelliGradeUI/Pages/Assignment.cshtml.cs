@@ -46,6 +46,7 @@ namespace IntelliGradeUI.Pages
             formContent.Add(new StringContent(""), "Homework.UserId");
             formContent.Add(new StringContent(""), "Homework.FilePath");
             formContent.Add(new StringContent(""), "Homework.FileUrl");
+            formContent.Add(new StringContent(""), "Homework.FileName");
             formContent.Add(new StringContent(Guid.NewGuid().ToString()), "Homework.Id");
             formContent.Add(new StreamContent(file.OpenReadStream()),"File",ExtensionGetter.GetExtension(file.FileName));
 
