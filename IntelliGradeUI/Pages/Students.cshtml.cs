@@ -23,13 +23,13 @@ namespace IntelliGradeUI.Pages
           
             // teacher list
 
-            string strTeachers = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]).Result.message;
+            string strTeachers = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]).message;
             classTeachers = JsonConvert.DeserializeObject<List<User>>(strTeachers);
 
 
             // student list
 
-            string strStudents = GetRequests.Get("lesson", "getstudents/" + classId, Request.Cookies["Token"]).Result.message;
+            string strStudents = GetRequests.Get("lesson", "getstudents/" + classId, Request.Cookies["Token"]).message;
             classStudents = JsonConvert.DeserializeObject<List<User>>(strStudents);
 
         }

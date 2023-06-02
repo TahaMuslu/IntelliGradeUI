@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Xml.Linq;
 using System.Globalization;
-using Services;
+using IntelliGradeUI.Services;
 using IntelliGradeUI.Services;
 
 namespace IntelliGradeUI.Pages
@@ -53,13 +53,13 @@ namespace IntelliGradeUI.Pages
             else
             {
 
-                string result = GetRequests.Get("Assignment", "getbyclass/" + classId, Request.Cookies["Token"]).Result.message;
+                string result = GetRequests.Get("Assignment", "getbyclass/" + classId, Request.Cookies["Token"]).message;
                 this.assignment = JsonConvert.DeserializeObject<List<Assignment>>(result);
 
-                string result2 = GetRequests.Get("lesson", "getbyid/" + classId, Request.Cookies["Token"]).Result.message;
+                string result2 = GetRequests.Get("lesson", "getbyid/" + classId, Request.Cookies["Token"]).message;
                 this.lesson = JsonConvert.DeserializeObject<Lesson>(result2);
 
-                string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message;
+                string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
                 this.currentUser = JsonConvert.DeserializeObject<User>(result3);
             }
 

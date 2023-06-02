@@ -65,7 +65,7 @@ namespace IntelliGradeUI.Pages
             else
             {
                 string user = "";
-                user = GetRequests.Get("user", "getuser", result).Result.message;
+                user = GetRequests.Get("user", "getuser", result).message;
                 string username = JsonConvert.DeserializeObject<User>(user).nameSurname;
                 Response.Cookies.Append("UserName", username);
                 Response.Cookies.Append("Token", result);

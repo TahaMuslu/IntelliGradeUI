@@ -3,6 +3,7 @@ using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using IntelliGradeUI.Services;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -27,15 +28,14 @@ namespace IntelliGradeUI.Pages
             _logger = logger;
         }
 
-        public async Task<IActionResult> OnGet()
+        public void OnGet()
         {
             if (Request.Cookies["Token"] == null)
             {
                 Response.Redirect("/Login");
             }
-            Response objectResult = await GetRequests.Get("user", "getclasses", Request.Cookies["Token"]);
-            result = JsonConvert.DeserializeObject<List<Lesson>>(objectResult.message);
-            return Page();
+            result = JsonConvert.DeserializeObject<List<Lesson>>(GetRequests.Get("user", "getclasses", Request.Cookies["Token"]).message);
+            ToastService.deleteToasts(Response);
         }
 
         public void OnPostCreateClass()
@@ -58,20 +58,27 @@ namespace IntelliGradeUI.Pages
 
         public void OnPostJoinClass()
         {
-            PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]);
+            if(PutRequests.Put("lesson", "joinclass/" + classCode.Trim(), Request.Cookies["Token"]).status=="OK")
+                ToastService.createSuccessToast("Sınıfa katıldınız.", Response);
+            else
+                ToastService.createErrorToast("Sınıfa katılınamadı.", Response);
+
             Response.Redirect("/Index");
         }
 
 
         public void OnPostDeleteClass(string id)
         {
+            if (DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]).status == "OK")
+                ToastService.createSuccessToast("Sınıf başarıyla silindi.", Response);
+            else
+                ToastService.createErrorToast("Sınıf silinemedi", Response);
 
-            DeleteRequests.Delete("lesson", "delete/" + id, Request.Cookies["Token"]);
             Response.Redirect("/Index");
         }
 
 
-       
+
 
 
 

@@ -88,8 +88,8 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="form-outline mb-4">
-                                                    <p><b>@Model.result[i].className</b> sınıfı silinecek</p>
+                                                <div class="form-outline my-auto">
+                                                    <p class="py-1 mb-0"><b>@Model.result[i].className</b> sınıfı silinecek emin misin?</p>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -121,25 +121,23 @@
     </div>
 }
 
-@*<div class="toast-container position-fixed top-0 end-0 p-3">
+<div class="toast-container position-fixed top-0 end-0 p-3">
     <!--Toast Success-->
-    <div class="toast align-items-center text-bg-primary border-0 show bg-success text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
         <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-body fs-6 d-flex align-items-center">
-                <i class="fa-solid fa-check" style="color: #ffffff;"></i>Sınıf silindi
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
             </div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
     <!--Toast Error-->
-    <div class="toast align-items-center text-bg-primary border-0 show bg-danger text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
         <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-body fs-6 d-flex align-items-center">
-                <i class="fa-solid fa-triangle-exclamation"></i>Sınıf silinemedi
+                <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]
             </div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 </div>
-
-*@

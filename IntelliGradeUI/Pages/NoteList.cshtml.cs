@@ -23,19 +23,19 @@ namespace IntelliGradeUI.Pages
             if (Request.Cookies["Token"] == null)
             {
                 Response.Redirect("/Login");
-            }else if(assignmentId == null || classId==null || GetRequests.Get("user","isteacher/"+classId, Request.Cookies["Token"]).Result.message!="true")
+            }else if(assignmentId == null || classId==null || GetRequests.Get("user","isteacher/"+classId, Request.Cookies["Token"]).message!="true")
             {
                 Response.Redirect("/Index");
             }
             else
             {
-                string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).Result.message;
+                string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
                 assignment = JsonConvert.DeserializeObject<Assignment>(result);
 
-                string teacher_str = GetRequests.Get("user", "getbyid/"+assignment.teacherId, Request.Cookies["Token"]).Result.message;
+                string teacher_str = GetRequests.Get("user", "getbyid/"+assignment.teacherId, Request.Cookies["Token"]).message;
                 teacher = JsonConvert.DeserializeObject<User>(teacher_str);
 
-                string tempUsers = GetRequests.Get("user", "getall", Request.Cookies["Token"]).Result.message;
+                string tempUsers = GetRequests.Get("user", "getall", Request.Cookies["Token"]).message;
                 List<User> allStudents = JsonConvert.DeserializeObject<List<User>>(tempUsers);
                 List<string> users_ids = new List<string>();
                 foreach(Homework currentHomework in assignment.uploadedHomeworks)

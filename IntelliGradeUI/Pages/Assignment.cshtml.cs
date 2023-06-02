@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using IntelliGradeUI.Models;
 using Newtonsoft.Json;
 using System.Text;
-using Services;
+using IntelliGradeUI.Services;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
@@ -33,9 +33,9 @@ namespace IntelliGradeUI.Pages
             {
                 Response.Redirect("/Login");
             }
-            string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).Result.message;
+            string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
             assignment = JsonConvert.DeserializeObject<Assignment>(result);
-            currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).Result.message);
+            currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message);
         }
 
 
