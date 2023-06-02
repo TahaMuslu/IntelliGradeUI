@@ -33,7 +33,7 @@
 <div class="modal fade" id="joinClass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <form id="joinClass" method="post" asp-page-handler="JoinClass" >
+            <form id="joinClass" method="post" asp-page-handler="JoinClass">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Sınıfa Katıl</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -60,9 +60,7 @@
             @for (int i = 0; i < Model.result.Count; i++)
             {
                 <div class="col-md-4">
-                    <a href="/Classroom?classId=@Model.result[i].id" style="text-decoration:none; color:black;">
-
-                    <div class="card p-3 mb-2" onclick="window.location.href='../home/home.html'">
+                    <div class="card p-3 mb-2" style="cursor:default;">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-row align-items-center">
                                 <div class="icon">
@@ -73,42 +71,51 @@
                                     <span>@Model.result[i].createdDate.ToString("dd/MM/yyyy")</span>
                                 </div>
                             </div>
-                             @*   <div class="dropdown">
-                                <button type="button" class="btn btn-muted dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-ellipsis-vertical fa-lg"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <form method="post" asp-page-handler="DeleteClass">
-                                                <input type="hidden" name="id" value="@(Model.result[i].id)">
+                            @*   <div class="dropdown">
+                    <button type="button" class="btn btn-muted dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-vertical fa-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li>
+                    <form method="post" asp-page-handler="DeleteClass">
+                    <input type="hidden" name="id" value="@(Model.result[i].id)">
 
-                                                <button type="submit" class="dropdown-item">Sınıftan Ayrıl</button>
-                                        </form>
-                                    </li>
-                                    <li><a class="dropdown-item" >Sınıf Kodunu Kopyala</a></li>
-                                </ul>
-                            </div>*@
-                                <form method="post" asp-page-handler="DeleteClass">
-                                    <input type="hidden" name="id" value="@(Model.result[i].id)">
+                    <button type="submit" class="dropdown-item">Sınıftan Ayrıl</button>
+                    </form>
+                    </li>
+                    <li><a class="dropdown-item" >Sınıf Kodunu Kopyala</a></li>
+                    </ul>
+                    </div>*@
+                            <form method="post" asp-page-handler="DeleteClass">
 
-                                    <button type="submit" class="btn btn-grade">Sınıftan Ayrıl</button>
-                                </form>
+                                <li class="after-d-none nav-item dropdown justify-content-center align-items-center me-4">
+                                    <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle text-black" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-plus fa-lg mb-1 pb-2"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" style="transform: translateX(-40px)">
+                                        <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#joinClass">Sınıfa Katıl</a></li>
+                                        <li><a class="dropdown-item text-black" data-bs-toggle="modal" data-bs-target="#createClass">Sınıf Oluştur</a></li>
+                                    </ul>
+                                </li>
+
+                                <input type="hidden" name="id" value="@(Model.result[i].id)">
+                                <button type="submit" class="btn btn-grade">Sınıftan Ayrıl</button>
+                            </form>
 
                         </div>
-                        
+
                         <div class="mt-5">
-                                <h3 class="heading">@Model.result[i].className</h3>
+                            <a href="/Classroom?classId=@Model.result[i].id" style="color:black;" class="d-inline">
+                                <h3 class="heading d-inline">@Model.result[i].className</h3>
+                            </a>
                             <div class="mt-5">
                                 <div class="mt-3">
-                                        <span class="text2">@Model.result[i].studentIds.Count  Öğrenci</span>
+                                    <span class="text2">@Model.result[i].studentIds.Count  Öğrenci</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </a>
                 </div>
-
-        
             }
         </div>
     </div>

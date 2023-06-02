@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/cool.css" />
-
+    <link rel="stylesheet" href="./css/site.css" />
     @if (Model.register == "true")
     {
         <title>
@@ -32,11 +32,11 @@
                     <h2 class="title">Giriş Yap</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="email" id="email" asp-for="email" required placeholder="Email" />
+                        <input style="font-weight:500;font-size:1rem;" type="email" id="email" asp-for="email" required placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" asp-for="password" required placeholder="Parola" />
+                        <input style="font-weight:500;font-size:1rem;" type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
                     <input type="submit" value="Giriş Yap" class="btn solid" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla giriş yap</p>
@@ -59,15 +59,15 @@
                     <h2 class="title">Kayıt Ol</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="namesurname" required asp-for="nameSurname"  placeholder="Ad Soyad" />
+                        <input style="font-weight:500;font-size:1rem;" type="text" id="namesurname" required asp-for="nameSurname" placeholder="Ad Soyad" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
+                        <input style="font-weight:500;font-size:1rem;" type="email" id="email" required asp-for="emailRegister" placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
+                        <input style="font-weight:500;font-size:1rem;" type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
                     </div>
                     <input type="submit" class="btn" value="Kayıt Ol" />
                     <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>

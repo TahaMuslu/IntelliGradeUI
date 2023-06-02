@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 * {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 @media (min-width: 768px) {
   html {
@@ -36,7 +37,6 @@ html {
 .after-d-none ::after{
     display: none;
 }
-
 
 .toast {
     animation: slideInRight 0.5s, slideOutRight 0.5s 4s;
