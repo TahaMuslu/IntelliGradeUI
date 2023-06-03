@@ -1,16 +1,12 @@
-using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IntelliGradeUI.Pages
 {
-    public class BaseModel : PageModel
+    public class QuizCreateModel : PageModel
     {
         public void OnGet()
         {
-            ToastService.deleteToasts(Response);
         }
-
-
     }
 }
