@@ -1,14 +1,15 @@
 ﻿using IntelliGradeUI.Models;
+using Services;
 using System.Text;
 
 namespace IntelliGradeUI.Services
 {
-    public class DeleteRequests
+    public class DeleteRequests : Requests
     {
 
         public static Response Delete(string controllerName, string path, string token)
         {
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);

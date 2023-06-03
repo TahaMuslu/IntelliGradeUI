@@ -55,50 +55,51 @@
 <div class="modal fade" id="inviteList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Davetiye Listesi</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-outline mb-4">
-                        @for(int i = 0; i < Model.inviteList.Count; i++)
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Davetiye Listesi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-outline mb-4">
+                    @if (Model.inviteList != null)
+                    {
+                        @for (int i = 0; i < Model.inviteList.Count; i++)
                         {
-                              <div class="card-invite mt-2">
+                            <div class="card-invite mt-2">
                                 <div class="row mt-2 ms-2">
                                     <div class="col-md-8">
                                         <p>@Model.inviteList[i].className</p>
                                     </div>
-                                    <div class="col-md-2 " >
+                                    <div class="col-md-2 ">
                                         <form id="inviteAccept" method="post" asp-page-handler="InviteAccept">
-                                            <input type="hidden" value="@Model.inviteList[i].id" name="inviteId"/>
-                                            <button  class="check-icon cursor-pointer"type="submit" style="background-color:#ffffff;border:none;">
+                                            <input type="hidden" value="@Model.inviteList[i].id" name="inviteId" />
+                                            <button class="check-icon cursor-pointer" type="submit" style="background-color:#ffffff;border:none;">
                                                 <i class="fa-solid fa-check fa-xl"></i>
                                             </button>
                                         </form>
-                                       
+
                                     </div>
-                                    <div class="col-md-2" >
+                                    <div class="col-md-2">
                                         <form method="post" asp-page-handler="InviteDelete">
                                             <input type="hidden" value="@Model.inviteList[i].id" name="inviteId" />
-                                            <button type="submit"  style="background-color:#ffffff;border:none;">
+                                            <button type="submit" style="background-color:#ffffff;border:none;">
                                                 <a class="delete-icon cursor-pointer">
                                                     <i class="fa-solid fa-times fa-xl "></i>
                                                 </a>
                                             </button>
 
                                         </form>
-                                       
+
                                     </div>
 
                                 </div>
 
                             </div>
-                            
                         }
-                      
-                    </div>
+                    }
                 </div>
-          
+            </div>
+
         </div>
     </div>
 </div>

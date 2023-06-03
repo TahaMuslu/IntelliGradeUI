@@ -1,15 +1,16 @@
 ﻿using IntelliGradeUI.Models;
 using Newtonsoft.Json;
+using Services;
 using System.Net.Http.Json;
 using System.Text;
 
 namespace IntelliGradeUI.Services
 {
-    public class GetRequests
+    public class GetRequests : Requests
     {
         public static Response Get(string controllerName, string path)
         {
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
             var response = client.GetAsync(url);
             string result = response.Result.Content.ReadAsStringAsync().Result;
@@ -22,7 +23,7 @@ namespace IntelliGradeUI.Services
 
         public static Response Get(string controllerName, string path, string token)
         {
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
