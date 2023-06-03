@@ -5,22 +5,37 @@
     Layout = "_Layout";
 }
 
-<div class="container mt-5 mb-3">
+<div class="container  mb-3">
   
 
     <div class="col-md-6 mx-auto mb-4">
         <div class="header-card p-3 mb-2" style="background-color:none;">
-   
-            <div class="d-flex justify-content-center me-5">
-                <div class="d-flex flex-row alignt-items-center">
-                    <div class="ms-2 c-details">
+            <div class="d-flex  flex-row justify-content-center " style="width:100%;">
+                <div class="d-flex flex-row alignt-items-center mt-3">
+                    <div class=" c-details me-3">
                         @if (Model.lesson != null && Model.lesson.teacherIds!=null&& Model.currentUser!=null)
                         @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
                         {
-                            <form class="d-flex justify-content-center mt-1" onsubmit="return false;">
-                                <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">+Ödev Oluştur</button>
+                            <form class="d-flex justify-content-center " onsubmit="return false;">
+                                <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
+                                        <i class="fa-solid fa-bookmark"></i>Ödev Oluştur
+                                    </button>
                             </form>
+                         
                         }
+                    </div>
+
+                    <div class=" c-details me-3">
+                        @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
+                            @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+                            {
+                                <form class="d-flex justify-content-center " onsubmit="return false;">
+                                    <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
+                                        <i class="fa-solid fa-clock"></i>Quiz Oluştur
+                                    </button>
+                                </form>
+
+                            }
                     </div>
                 </div>
 
@@ -28,6 +43,8 @@
           
         </div>
     </div>
+
+    
     @if (Model.assignment != null)
     @for (int i = 0; i < @Model.assignment.Count(); i++)
     {
@@ -60,8 +77,31 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 mx-auto mb-4">
+                <div class="quiz-card p-3 mb-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row alignt-items-center">
+                            <div class="icon">
+                                <img src="../assets/images/class.png" alt="" />
+                            </div>
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0">Java Quiz 1</h6>
+                                <span>10/12/2023</span>
+                                <span>13:00-14:00</span>
+
+                            </div>
+                        </div>
+
+                        <div class="badge">
+                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
     }
+  
 </div>
 
 

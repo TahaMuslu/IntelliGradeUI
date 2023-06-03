@@ -7,6 +7,17 @@
     border: 1px solid grey;
 }
 
+.quiz-card {
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    background-image:url("../images/purple (3).jpg");
+    background-size:cover;
+    color:#fff;
+
+    border: 1px solid grey;
+}
+
 .header-card {
     border: none;
     border-radius: 10px;
@@ -19,6 +30,7 @@
 }
 
 .c-details span {
+ 
     font-weight: 300;
     font-size: 13px
 }
@@ -34,19 +46,19 @@
     font-size: 39px
 }
 
-    .icon img {
-        width: 32px;
-        height: 32px;
-    }
+.icon img {
+    width: 32px;
+    height: 32px;
+}
 
 .progress {
     height: 10px;
     border-radius: 10px
 }
 
-    .progress div {
-        background-color: red
-    }
+.progress div {
+    background-color: red
+}
 
 .text1 {
     font-size: 14px;
@@ -67,4 +79,19 @@
     padding: 10px;
     background-color: #7a6ad8;
     border-radius: 4px;
+}
+
+.badge:hover {
+    cursor: pointer;
+}
+
+.quiz-badge p {
+    padding: 5px;
+    background-color: #3c9d90;
+    border-radius: 4px;
+}
+
+.quiz-badge:hover{
+    cursor:pointer;
+
 }
