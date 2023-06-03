@@ -1,10 +1,11 @@
 ﻿using IntelliGradeUI.Models;
+using Services;
 using System.Net.Http.Json;
 using System.Text;
 
 namespace IntelliGradeUI.Services
 {
-    public class PostRequests
+    public class PostRequests : Requests
     {
         public static Response Post(object model, string controllerName, string path)
         {
@@ -12,7 +13,7 @@ namespace IntelliGradeUI.Services
 
             var json = content.ReadAsStringAsync().Result;
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
             var response = client.PostAsync(url, data);
             string result = response.Result.Content.ReadAsStringAsync().Result;
@@ -29,7 +30,7 @@ namespace IntelliGradeUI.Services
 
             var json = content.ReadAsStringAsync().Result;
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
@@ -45,7 +46,7 @@ namespace IntelliGradeUI.Services
 
         public static Response PostOnFormData(MultipartFormDataContent form, string controllerName, string path, string token)
         {
-            var url = "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
+            var url = Requests.UrlCreate(controllerName, path);
             using var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);

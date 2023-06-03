@@ -118,5 +118,9 @@ namespace IntelliGradeUI.Pages
 
         }
 
+        public void OnPostCreateQuiz()
+        {
+            Console.WriteLine("OnPostCreateQuiz");
+        }
     }
 }

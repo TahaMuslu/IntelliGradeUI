@@ -35,7 +35,7 @@ namespace IntelliGradeUI.Pages
             if (Request.Cookies["Token"] != null)
                 Response.Redirect("/Index");
 
-            //ToastService.deleteToasts(Response);
+            ToastService.deleteToasts(Response);
         }
 
         public void OnPostRegister()
@@ -49,7 +49,15 @@ namespace IntelliGradeUI.Pages
             user.teacherLessons = new List<string>();
             user.studentLessons = new List<string>();
 
-            PostRequests.Post(user, "user", "register");
+            if(PostRequests.Post(user, "user", "register").status == "Created")
+            {
+                ToastService.createSuccessToast("Kayýt oldunuz.", Response);
+            }
+            else
+            {
+                ToastService.createErrorToast("Kayýt olunamadý.", Response);
+            }
+            
 
             Response.Redirect("/Login");
 
@@ -64,7 +72,11 @@ namespace IntelliGradeUI.Pages
             string result = PostRequests.Post(loginUser, "user", "login").message;
 
             if (result.Equals("{\"statusCode\":404,\"message\":\"Kullanýcý bulunamadý\"}"))
+            {
                 password = "d-block";
+                ToastService.createErrorToast("Kullanýcý bilgileri bulunamadý.", Response);
+                Response.Redirect("/Login");
+            }
             else
             {
                 string user = "";

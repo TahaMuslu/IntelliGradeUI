@@ -9,10 +9,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="/images/logo-color.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/cool.css" />
-    <link rel="icon" href="/images/logo-color.png" type="image/png" />
 
 
     @if (Model.register == "true")
@@ -35,18 +35,18 @@
             <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="50000" role="status" aria-live="polite" aria-atomic="true">
                 <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
                     <div class="toast-body fs-6 d-flex align-items-center">
-                        <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+                        <i class="fa-solid fa-check me-1" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white m-auto" style="cursor:pointer;" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
             <!--Toast Error-->
             <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
                 <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
                     <div class="toast-body fs-6 d-flex align-items-center">
-                        <i class="fa-solid fa-triangle-exclamation"></i>@Request.Cookies["ErrorMessage"]
+                        <i class="fa-solid fa-triangle-exclamation me-1"></i>@Request.Cookies["ErrorMessage"]
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white m-auto" style="cursor:pointer;" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         </div>
@@ -63,21 +63,7 @@
                         <input style="font-weight:500;font-size:1rem;" type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
                     <input type="submit" value="Giriş Yap" class="btn solid" />
-                    <p class="social-text">Ya da sosyal medya hesaplarınla giriş yap</p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
+
                 </form>
                 <form method="post" id="register" asp-page-handler="Register" class="sign-up-form">
                     <h2 class="title">Kayıt Ol</h2>
@@ -94,21 +80,7 @@
                         <input style="font-weight:500;font-size:1rem;" type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
                     </div>
                     <input type="submit" class="btn" value="Kayıt Ol" />
-                    <p class="social-text">Ya da sosyal medya hesaplarınla kayıt ol</p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
+
                 </form>
             </div>
         </div>
@@ -118,8 +90,7 @@
                 <div class="content">
                     <h3>Buralarda Yeni Misin?</h3>
                     <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-                        ex ratione. Aliquid!
+                        Seni aramızda görmekten mutluluk duyarız. Hemen kayıt ol ve bizimle birlikte ol.
                     </p>
                     <button class="btn transparent" id="sign-up-btn">
                         Kayıt Ol
@@ -131,8 +102,7 @@
                 <div class="content">
                     <h3>Zaten Hesabın Var Mı?</h3>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                        laboriosam ad deleniti.
+                        Hemen giriş yap ve IntelliGrade'in benzersiz özelliklerinin keyfini çıkar.
                     </p>
                     <button class="btn transparent" id="sign-in-btn">
                         Giriş Yap
@@ -147,6 +117,11 @@
 
 
 </body>
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+@*<script src="~/js/site.js" asp-append-version="true"></script>*@
+
 <script>
     const sign_in_btn = document.querySelector("#sign-in-btn");
     const sign_up_btn = document.querySelector("#sign-up-btn");
@@ -164,6 +139,8 @@
         sign_up_btn.click();
 
 </script>
+
+
 </html>
 
 

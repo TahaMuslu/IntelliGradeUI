@@ -7,7 +7,7 @@ function logOut() {
     console.log("logOut");
     document.cookie = "Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "Success=show;"
-    document.cookie = "SuccessMessage=Başarıyla çıkış yaptınız.;"
+    document.cookie = "SuccessMessage=Ba%C5%9Far%C4%B1yla%20%C3%A7%C4%B1k%C4%B1%C5%9F%20yapt%C4%B1n%C4%B1z.;"
     window.location.href = "/Base";
 }
 

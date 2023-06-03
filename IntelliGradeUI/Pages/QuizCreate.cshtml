@@ -1,0 +1,83 @@
+﻿@page
+@model IntelliGradeUI.Pages.QuizCreateModel
+@{
+    ViewData["Title"] = "Quiz Oluştur";
+    int i= 0;
+}
+
+@for (i = 0; i < 2; i++)
+{
+    <div class="col-8 mx-auto fs-2 mt-4">
+        <div class="row">
+            <div class="col-10">Soru @(i + 1)</div>
+        </div>
+        <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
+    </div>
+
+    <div class="col-8 mx-auto">
+        <div class="row">
+            <div class="form-floating">
+                <!-- Soru -->
+                <textarea class="form-control" placeholder="Leave a comment here" id="Question" style="height: 100px"></textarea>
+                <label for="Question" class="ms-2">Soru</label>
+                <!-- Cevap 1 -->
+                <div class="row mx-1">
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <span class="text-white">A</span>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control mt-2" placeholder="Cevap 1">
+                    </div>
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <input type="radio" class="form-check-input mt-0" name="answer@(i)" value="A">
+                    </div>
+                </div>
+                <!-- Cevap 2 -->
+                <div class="row mx-1">
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <span class="text-white">B</span>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control mt-2" placeholder="Cevap 2">
+                    </div>
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <input type="radio" class="form-check-input mt-0" name="answer@(i)" value="A">
+                    </div>
+                </div>
+                <!-- Cevap 3 -->
+                <div class="row mx-1">
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <span class="text-white">C</span>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control mt-2" placeholder="Cevap 3">
+                    </div>
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <input type="radio" class="form-check-input mt-0" name="answer@(i)" value="A">
+                    </div>
+                </div>
+                <!-- Cevap 4 -->
+                <div class="row mx-1">
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <span class="text-white">D</span>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control mt-2" placeholder="Cevap 4">
+                    </div>
+                    <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                        <input type="radio" class="form-check-input mt-0" name="answer@(i)" value="A">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+
+    <script>
+
+    </script>
+
+}
