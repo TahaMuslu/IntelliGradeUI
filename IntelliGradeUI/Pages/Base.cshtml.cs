@@ -15,9 +15,10 @@ namespace IntelliGradeUI.Pages
         {
       
             baseInfos = JsonConvert.DeserializeObject<BaseInfo>(GetRequests.Get("Info", "getinfos").message);
+            ToastService.deleteToasts(Response);
 
         }
 
-     
+
     }
 }
