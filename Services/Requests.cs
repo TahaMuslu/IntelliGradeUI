@@ -10,7 +10,7 @@ namespace Services
     {
         public static string UrlCreate(string controllerName, string path)
         {
-            return "http://localhost:5260/api/" + controllerName + "/" + path;
+            return "https://intelligradebackend.azurewebsites.net/api/" + controllerName + "/" + path;
         }
 
     }
