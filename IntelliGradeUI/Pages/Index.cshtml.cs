@@ -55,6 +55,7 @@ namespace IntelliGradeUI.Pages
             model.teacherIds = new List<string>();
             model.studentIds = new List<string>();
             model.assignmentIds = new List<string>();
+            model.quizIds = new List<string>();
 
             if (PostRequests.Post(model, "lesson", "create", Request.Cookies["Token"]).status == "Created")
                 ToastService.createSuccessToast("Sınıf başarıyla oluşturuldu.", Response);

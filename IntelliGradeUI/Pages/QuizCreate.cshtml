@@ -4,82 +4,89 @@
     ViewData["Title"] = "Quiz Oluştur";
     int i = 0;
 }
-<div id="questions_container">
-    @for (i = 0; i < 1; i++)
-    {
-        <div class="question-container" id="question@(i)">
-            <div class="col-8 mx-auto fs-2 mt-4">
-                <div class="row">
-                    <div class="col-9">Soru @(i + 1)</div>
-                    <div class="col-3 d-flex justify-content-end"><button class="btn btn-danger" onclick="deleteQuestion('@i')">Soruyu Sil</button></div>
+@if(Model.questions!=null && Model.answers!=null && Model.correctAnswers!=null){
+<form method="post" asp-page-handler="UpdateQuiz">
+    <div id="questions_container">
+        @for (i = 0; i < 1; i++)
+        {
+            <div class="question-container" id="question@(i)">
+                <div class="col-8 mx-auto fs-2 mt-4">
+                    <div class="row">
+                        <div class="col-9">Soru @(i + 1)</div>
+                        <div class="col-3 d-flex justify-content-end"><button class="btn btn-danger" onclick="deleteQuestion('@i')">Soruyu Sil</button></div>
+                    </div>
+                    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
                 </div>
-                <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
-            </div>
 
-            <div class="col-8 mx-auto">
-                <div class="row">
-                    <div class="form-floating">
-                        <!-- Soru -->
-                        <textarea class="form-control" placeholder="Leave a comment here" id="Question" style="height: 100px"></textarea>
-                        <label for="Question" class="ms-2">Soru</label>
-                        <!-- Cevap 1 -->
-                        <div class="row mx-1">
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                <span class="text-white">A</span>
+                <div class="col-8 mx-auto">
+                    <div class="row">
+                        <div class="form-floating">
+                            <!-- Soru -->
+                            <textarea required class="form-control" placeholder="Soruyu Yazınız" id="Question" style="height: 100px" asp-for="questions[i]"></textarea>
+                            <label for="Question" class="ms-2">Soru</label>
+                            <!-- Cevap 1 -->
+                            <div class="row mx-1">
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                    <span class="text-white">A</span>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" required class="form-control mt-2" placeholder="Cevap 1" asp-for="answers[i][0]">
+                                </div>
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                    <input type="radio" class="form-check-input mt-0 p-3"  required value="0" asp-for="correctAnswers[i]">
+                                </div>
                             </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control mt-2" placeholder="Cevap 1">
+                            <!-- Cevap 2 -->
+                            <div class="row mx-1">
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                    <span class="text-white">B</span>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" required class="form-control mt-2" placeholder="Cevap 2" asp-for="answers[i][1]">
+                                </div>
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                    <input type="radio" class="form-check-input mt-0 p-3"  required value="1" asp-for="correctAnswers[i]">
+                                </div>
                             </div>
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                <input type="radio" class="form-check-input mt-0 p-3" name="answer@(i)" value="A">
+                            <!-- Cevap 3 -->
+                            <div class="row mx-1">
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                    <span class="text-white">C</span>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" required class="form-control mt-2" placeholder="Cevap 3" asp-for="answers[i][2]">
+                                </div>
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                    <input type="radio" class="form-check-input mt-0 p-3"  required value="2" asp-for="correctAnswers[i]">
+                                </div>
                             </div>
-                        </div>
-                        <!-- Cevap 2 -->
-                        <div class="row mx-1">
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                <span class="text-white">B</span>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control mt-2" placeholder="Cevap 2">
-                            </div>
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                <input type="radio" class="form-check-input mt-0 p-3" name="answer@(i)" value="B">
-                            </div>
-                        </div>
-                        <!-- Cevap 3 -->
-                        <div class="row mx-1">
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                <span class="text-white">C</span>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control mt-2" placeholder="Cevap 3">
-                            </div>
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                <input type="radio" class="form-check-input mt-0 p-3" name="answer@(i)" value="C">
-                            </div>
-                        </div>
-                        <!-- Cevap 4 -->
-                        <div class="row mx-1">
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                <span class="text-white">D</span>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control mt-2" placeholder="Cevap 4">
-                            </div>
-                            <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                <input type="radio" class="form-check-input mt-0 p-3" name="answer@(i)" value="D">
+                            <!-- Cevap 4 -->
+                            <div class="row mx-1">
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                    <span class="text-white">D</span>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" required class="form-control mt-2" placeholder="Cevap 4" asp-for="answers[i][3]">
+                                </div>
+                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                    <input type="radio" class="form-check-input mt-0 p-3"  required value="3" asp-for="correctAnswers[i]">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+    <div class="w-100 d-flex justify-content-center">
+        <button class="btn btn-primary mt-5 w-25 mx-auto" type="button" onclick="addQuestion()">Soru Ekle<i class="fa-solid fa-plus fa-lg ms-2"></i></button>
+    </div>
 
-<div class="w-100 d-flex justify-content-center">
-    <button class="btn btn-primary mt-5 w-25 mx-auto" type="button" onclick="addQuestion()">Soru Ekle<i class="fa-solid fa-plus fa-lg ms-2"></i></button>
-</div>
+    <div class="w-100 d-flex justify-content-end">
+        <button class="btn btn-success mt-5 w-25" type="submit">Quiz Oluştur<i class="fa-solid fa-plus fa-lg ms-2"></i></button>
+    </div>
+</form>
+}
 
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <!--Toast Success-->
@@ -108,6 +115,7 @@
         let success_toast = toast_container.querySelector(".bg-success");
         let error_toast = toast_container.querySelector(".bg-danger");
         let i = @i;
+        console.log(i);
         var succes_timeout;
         var error_timeout;
         let questions_container = document.getElementById("questions_container");
@@ -115,74 +123,73 @@
             let new_element = document.createElement("div");
             new_element.id = "question" + i;
             new_element.className = "question-container";
-            new_element.innerHTML = `
+new_element.innerHTML = `
+                                        <div class="col-8 mx-auto fs-2 mt-4">
+                                    <div class="row">
+                                        <div class="col-9">Soru ${i + 1}</div>
+                                                <div class="col-3 d-flex justify-content-end"><button class="btn btn-danger" onclick="deleteQuestion('${i}')">Soruyu Sil</button></div>
+                                    </div>
+                                    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
+                                </div>
 
-                                                            <div class="col-8 mx-auto fs-2 mt-4">
-                                                                                        <div class="row">
-                                                                        <div class="col-9">Soru ${i + 1}</div>
-                                                                                        <div class="col-3 d-flex justify-content-end"><button class="btn btn-danger"l onclick="deleteQuestion(${i})">Soruyu Sil</button></div>
-                                                                    </div>
-                                                                    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
-                                                                </div>
-
-                                                                <div class="col-8 mx-auto">
-                                                                    <div class="row">
-                                                                        <div class="form-floating">
-                                                                            <!-- Soru -->
-                                                                            <textarea class="form-control" placeholder="Leave a comment here" id="Question" style="height: 100px"></textarea>
-                                                                            <label for="Question" class="ms-2">Soru</label>
-                                                                            <!-- Cevap 1 -->
-                                                                            <div class="row mx-1">
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                                                                    <span class="text-white">A</span>
-                                                                                </div>
-                                                                                <div class="col-10">
-                                                                                    <input type="text" class="form-control mt-2" placeholder="Cevap 1">
-                                                                                </div>
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                                                                            <input type="radio" class="form-check-input mt-0 p-3" name="answer${i}" value="A">
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- Cevap 2 -->
-                                                                            <div class="row mx-1">
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                                                                    <span class="text-white">B</span>
-                                                                                </div>
-                                                                                <div class="col-10">
-                                                                                    <input type="text" class="form-control mt-2" placeholder="Cevap 2">
-                                                                                </div>
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                                                                            <input type="radio" class="form-check-input mt-0 p-3" name="answer${i}" value="B">
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- Cevap 3 -->
-                                                                            <div class="row mx-1">
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                                                                    <span class="text-white">C</span>
-                                                                                </div>
-                                                                                <div class="col-10">
-                                                                                    <input type="text" class="form-control mt-2" placeholder="Cevap 3">
-                                                                                </div>
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                                                                            <input type="radio" class="form-check-input mt-0 p-3" name="answer${i}" value="C">
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- Cevap 4 -->
-                                                                            <div class="row mx-1">
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
-                                                                                    <span class="text-white">D</span>
-                                                                                </div>
-                                                                                <div class="col-10">
-                                                                                    <input type="text" class="form-control mt-2" placeholder="Cevap 4">
-                                                                                </div>
-                                                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
-                                                                                            <input type="radio" class="form-check-input mt-0 p-3" name="answer${i}" value="D">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                                                    `;
+                                <div class="col-8 mx-auto">
+                                    <div class="row">
+                                        <div class="form-floating">
+                                            <!-- Soru -->
+                                                    <textarea required class="form-control" placeholder="Soruyu Yazınız" id="Question" style="height: 100px" asp-for="questions[${i}]" name="questions[${i}]"></textarea>
+                                            <label for="Question" class="ms-2">Soru</label>
+                                            <!-- Cevap 1 -->
+                                            <div class="row mx-1">
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                                    <span class="text-white">A</span>
+                                                </div>
+                                                <div class="col-10">
+                                                                    <input type="text" required class="form-control mt-2" placeholder="Cevap 1" asp-for="answers[${i}][0]" name="answers[${i}][0]">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                                <input type="radio" class="form-check-input mt-0 p-3" name="correctAnswers[${i}]" id="correctAnswers_${i}_" required value="0" asp-for="correctAnswers[${i}]" name="correctAnswers[${i}]">
+                                                </div>
+                                            </div>
+                                            <!-- Cevap 2 -->
+                                            <div class="row mx-1">
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                                    <span class="text-white">B</span>
+                                                </div>
+                                                <div class="col-10">
+                                                                        <input type="text" required class="form-control mt-2" placeholder="Cevap 2" asp-for="answers[${i}][1]" name="answers[${i}][1]">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                                <input type="radio" class="form-check-input mt-0 p-3" name="correctAnswers[${i}]" id="correctAnswers_${i}_" required value="1" asp-for="correctAnswers[${i}]" name="correctAnswers[${i}]">
+                                                </div>
+                                            </div>
+                                            <!-- Cevap 3 -->
+                                            <div class="row mx-1">
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                                    <span class="text-white">C</span>
+                                                </div>
+                                                <div class="col-10">
+                                                                        <input type="text" required class="form-control mt-2" placeholder="Cevap 3" asp-for="answers[${i}][2]" name="answers[${i}][2]">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                                <input type="radio" class="form-check-input mt-0 p-3" name="correctAnswers[${i}]" id="correctAnswers_${i}_" required value="2" asp-for="correctAnswers[${i}]" name="correctAnswers[${i}]">
+                                                </div>
+                                            </div>
+                                            <!-- Cevap 4 -->
+                                            <div class="row mx-1">
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 border rounded-3" style="background-color:#5161ce;">
+                                                    <span class="text-white">D</span>
+                                                </div>
+                                                <div class="col-10">
+                                                                        <input type="text" required class="form-control mt-2" placeholder="Cevap 4" asp-for="answers[${i}][3]" name="answers[${i}][3]">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-center justify-content-center mt-2 rounded-3">
+                                                <input type="radio" class="form-check-input mt-0 p-3" name="correctAnswers[${i}]" id="correctAnswers_${i}_" required value="3" asp-for="correctAnswers[${i}]" name="correctAnswers[${i}]">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                                                                                 `;
             questions_container.appendChild(new_element);
             i++;
             success_toast.classList.remove("show");
@@ -201,6 +208,7 @@
             question.remove();
             i--;
 
+
             // Kalan soruların id ve soru numaralarını güncelle
             let remainingQuestions = document.getElementsByClassName('question-container');
             console.log(remainingQuestions.length);
@@ -215,11 +223,25 @@
                 questionContainer.setAttribute('id', `question${j}`);
                 let buttonElement = questionContainer.querySelector('button');
                 buttonElement.setAttribute('onclick', `deleteQuestion(${j})`);
+
+                // Cevapları güncelle
+                let answers = questionContainer.querySelectorAll('input[type="text"]');
+                let questions = questionContainer.querySelectorAll('textarea');
+                questions[0].setAttribute('asp-for', `questions[${j}]`);
+                questions[0].setAttribute('name', `questions[${j}]`);
+                let radios = questionContainer.querySelectorAll('input[type="radio"]');
+                for (let k = 0; k < answers.length; k++) {
+                    answers[k].setAttribute('asp-for', `answers[${j}][${k}]`);
+                    answers[k].setAttribute('name', `answers[${j}][${k}]`);
+
+                    radios[k].setAttribute('asp-for', `correctAnswers[${j}]`);
+                    radios[k].setAttribute('name', `correctAnswers[${j}]`);
+                }
             }
             error_toast.classList.remove("show");
             error_toast.classList.remove("d-none");
             let body = error_toast.querySelector(".toast-body");
-            body.innerText = (id + 1) + ". soru başarıyla silindi.";
+            body.innerText = (parseInt(id) + 1) + ". soru başarıyla silindi.";
             error_toast.classList.add("show");
             clearTimeout(error_timeout);
             error_timeout = setTimeout(function () {
