@@ -77,7 +77,7 @@
                     {
                         if (Model.lesson.classCode != null && Model.lesson.classCode != "")
                         {
-                            <li id="lessonCode" style="background-color:#eeee;color:#5161ce;font-size:0.8rem;" class="cursor-pointer nav-item fw-bold me-5 text-center my-auto text-nowrap p-2 rounded-3 ms-3">Class Kodu: @Model.lesson.classCode</li>
+                            <li id="lessonCode" style="background-color:#eeee;color:#5161ce;font-size:0.8rem;" class="cursor-pointer nav-item fw-bold me-5 text-center my-auto text-nowrap p-2 rounded-3 ms-3">Class Kodu: <span>@Model.lesson.classCode</span></li>
                         }
                     }
                     catch (Exception e)

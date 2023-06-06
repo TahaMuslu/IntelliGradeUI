@@ -10,7 +10,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Globalization;
 using IntelliGradeUI.Services;
-using IntelliGradeUI.Services;
+using Models;
 
 namespace IntelliGradeUI.Pages
 {
@@ -37,6 +37,8 @@ namespace IntelliGradeUI.Pages
         public string assignmentFile { get; set; }
         [BindProperty]
         public User currentUser { get; set; }
+        [BindProperty]
+        public List<Quiz> quizzes { get; set; }
 
         MultipartFormDataContent content = new MultipartFormDataContent();
 
@@ -48,6 +50,7 @@ namespace IntelliGradeUI.Pages
             }
             else if (classId == null)
             {
+                ToastService.createErrorToast("Sýnýf bulunamadý", Response);
                 Response.Redirect("/Index");
             }
             else
@@ -60,6 +63,9 @@ namespace IntelliGradeUI.Pages
 
                 string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
                 this.currentUser = JsonConvert.DeserializeObject<User>(result3);
+
+                string result4 = GetRequests.Get("Quiz", "getquizesbylesson/"+classId, Request.Cookies["Token"]).message;
+                this.quizzes = JsonConvert.DeserializeObject<List<Quiz>>(result4);
             }
             ToastService.deleteToasts(Response);
         }

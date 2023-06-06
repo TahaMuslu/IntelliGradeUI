@@ -22,7 +22,7 @@ namespace IntelliGradeUI.Pages
         public string classId { get; set; }
         [BindProperty(SupportsGet = true)]
         public string quizId { get; set; }
-
+        [BindProperty]
         public Quiz currentQuiz { get; set; }
 
 
@@ -34,20 +34,21 @@ namespace IntelliGradeUI.Pages
             }
             ToastService.deleteToasts(Response);
 
-            if (/*quizId != null && classId!=null*/true)
+            if (quizId != null && classId != null)
             {
-                //Response response = GetRequests.Get("Quiz", "getquizbyid" + "/" + quizId, Request.Cookies["Token"]);
-                //if(response.status == "200")
-                //{
-                //currentQuiz = JsonConvert.DeserializeObject<Quiz>(response.message);
-                //}
-                //else
-                //{
-                //Response.Redirect("/Index");
-                //}
+                Response response = GetRequests.Get("Quiz", "getbyid" + "/" + quizId, Request.Cookies["Token"]);
+                if (response.status == "OK")
+                {
+                    currentQuiz = JsonConvert.DeserializeObject<Quiz>(response.message);
+                }
+                else
+                {
+                    Response.Redirect("/Index");
+                }
             }
             else
             {
+                ToastService.createErrorToast("Sýnýf bulunamadý", Response);
                 Response.Redirect("/Index");
             }
 
@@ -63,6 +64,7 @@ namespace IntelliGradeUI.Pages
             }
             else
             {
+                List<Question> questionData = new List<Question>();
                 for (int i = 0; i < questions.Count; i++)
                 {
                     Console.WriteLine("-------------------------------------------------------------------------------");
@@ -73,7 +75,7 @@ namespace IntelliGradeUI.Pages
                     }
                     try
                     {
-                        Console.WriteLine("\n" + correctAnswers[i]);
+                        Console.WriteLine("\n" + answers[i][int.Parse(correctAnswers[i])]);
                     }
                     catch (Exception e)
                     {
@@ -81,28 +83,24 @@ namespace IntelliGradeUI.Pages
                     }
                     Console.WriteLine("-------------------------------------------------------------------------------");
 
-                    //currentQuiz.Questions.Add(new Question()
-                    //{
-                    //    questionText = questions[i],
-                    //    answers = answers[i],
-                    //    correctAnswer = answers[i][int.Parse(correctAnswers[i])]
-                    //});
-
-                    //if(PutRequests.Put(currentQuiz,"Quiz", "updatequiz/"+quizId, Request.Cookies["Token"]).status == "OK")
-                    //{
-                    //    ToastService.createSuccessToast("Quiz oluþturuldu",Response);
-                    //}
-                    //else
-                    //{
-                    //    ToastService.createErrorToast("Quiz oluþturulamadý", Response);
-                    //}
-
+                    questionData.Add(new Question()
+                    {
+                        id = Guid.NewGuid().ToString(),
+                        questionText = questions[i],
+                        answers = answers[i],
+                        correctAnswer = answers[i][int.Parse(correctAnswers[i])]
+                    });
                 }
-                Response.Redirect("/Classroom");
+                if (PutRequests.Put(questionData, "Quiz", "updatequiz/" + quizId, Request.Cookies["Token"]).status == "OK")
+                {
+                    ToastService.createSuccessToast("Quiz oluþturuldu", Response);
+                }
+                else
+                {
+                    ToastService.createErrorToast("Quiz oluþturulamadý", Response);
+                }
+                Response.Redirect("/Classroom?classId=" + classId);
             }
-
-
         }
-
     }
 }

@@ -8,7 +8,7 @@ namespace Models
 {
     public class Quiz
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string teacherId { get; set; }
         public string classId { get; set; }
         public DateTime startTime { get; set; }
