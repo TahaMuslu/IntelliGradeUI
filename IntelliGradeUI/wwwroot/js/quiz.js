@@ -14,23 +14,22 @@ let availableQuesions = [];
 let questions = [];
 
 fetch(
-    'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple'
-)
+    'https://intelligradebackend.azurewebsites.net/api/Quiz/getbyid/' + '@Model.quizId'
     .then((res) => {
         return res.json();
     })
     .then((loadedQuestions) => {
-        questions = loadedQuestions.results.map((loadedQuestion) => {
+        questions = loadedQuestions.questions.map((loadedQuestion) => {
             const formattedQuestion = {
-                question: loadedQuestion.question,
+                question: loadedQuestion.questionText,
             };
 
-            const answerChoices = [...loadedQuestion.incorrect_answers];
+            const answerChoices = [...loadedQuestion.answers].splice(findIndex(loadedQuestion.correctAnswer),1);
             formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
             answerChoices.splice(
                 formattedQuestion.answer - 1,
                 0,
-                loadedQuestion.correct_answer
+                loadedQuestion.correctAnswer
             );
 
             answerChoices.forEach((choice, index) => {
@@ -48,7 +47,7 @@ fetch(
 
 //CONSTANTS
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+const MAX_QUESTIONS = parseInt('@Model.currentQuiz.questionCount');
 
 startGame = () => {
     questionCounter = 0;
