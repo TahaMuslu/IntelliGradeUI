@@ -2,6 +2,7 @@ using IntelliGradeUI.Models;
 using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Models;
 using Newtonsoft.Json;
 
 namespace IntelliGradeUI.Pages
@@ -24,7 +25,7 @@ namespace IntelliGradeUI.Pages
 
         public void OnGet()
         {
-          
+            ToastService.deleteToasts(Response);
             // teacher list
 
             string strTeachers = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]).message;
@@ -40,7 +41,19 @@ namespace IntelliGradeUI.Pages
 
         public void OnPostInviteTeacher()
         {
-            Console.WriteLine("Inviting teacher");
+            SendInvite sendInvite = new SendInvite();
+            sendInvite.receiverEmail = teacherMail;
+            sendInvite.classId = classId;
+            if (PostRequests.Post(sendInvite, "Invite", "sendinvite", Request.Cookies["Token"]).status == "Created")
+            {
+                ToastService.createSuccessToast("Öðretmen baþarýyla davet edildi.",Response);
+
+            }
+            else
+            {
+                ToastService.createErrorToast("Öðretmen davet edilirken bir hata oluþtu.",Response);
+
+            }
             Response.Redirect("/Students?classId=" + classId);
         }
     }
