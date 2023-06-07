@@ -43,10 +43,25 @@
             <li class="nav-item @(pageName == "/Index" ? "d-none" : "")  @(pageName.StartsWith("/Students") ? "active" : "") ">
                 <a class="nav-link  " href="/Students?classId=@Context.Request.Query["classId"]"><i class="fas fa-chalkboard-teacher"></i>Öğrenciler</a>
             </li>
-            <li class="nav-item @(!pageName.StartsWith("/NoteList") ? "d-none" : "")  active">
-                <a class="nav-link" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><i class="fa-solid fa-check-to-slot"></i>Ödevler</a>
-            </li>
+            @if (pageName.StartsWith("/NoteListQuiz"))
+            {
+                <li class="nav-item @(!pageName.StartsWith("/NoteListQuiz") ? "d-none" : "")  active">
+                    <a class="nav-link" href="/NoteListQuiz?classId=@Context.Request.Query["classId"]&quizId=@Context.Request.Query["quizId"]"><i class="fa-solid fa-check-to-slot"></i>Quiz Sonuçları</a>
+                </li>
 
+            }
+            else
+            {
+                @if (pageName.StartsWith("/NoteList"))
+                {
+                    <li class="nav-item @(!pageName.StartsWith("/NoteList") ? "d-none" : "")  active">
+                        <a class="nav-link" href="/NoteList?classId=@Context.Request.Query["classId"]&assignmentId=@Context.Request.Query["assignmentId"]"><i class="fa-solid fa-check-to-slot"></i>Ödevler</a>
+                    </li>
+                }
+                
+            }
+           
+           
 
         </ul>
 

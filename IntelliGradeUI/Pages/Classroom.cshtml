@@ -64,8 +64,8 @@
                         @if (Model.isTeacher())
                         {
                             <!--Öğretmen ise-->
-                            <div class="quiz-badge">
-                                <a href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                            <div class="quiz-badge ">
+                                <a href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)" class="text-white  text-decoration-none cursor-pointer">
                                     <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
                                 </a>
                             </div>
