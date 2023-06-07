@@ -10,7 +10,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Globalization;
 using IntelliGradeUI.Services;
-using IntelliGradeUI.Services;
+using Models;
 
 namespace IntelliGradeUI.Pages
 {
@@ -30,14 +30,19 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public string assignmentDescription { get; set; }
         [BindProperty]
-        public string assignmentRequirements { get; set; }
+        public List<string> assignmentRequirements { get; set; }
         [BindProperty]
         public DateTime assignmentDeadline { get; set; }
         [BindProperty]
         public string assignmentFile { get; set; }
         [BindProperty]
         public User currentUser { get; set; }
-
+        [BindProperty]
+        public List<Quiz> quizzes { get; set; }
+        [BindProperty]
+        public List<User> classTeachers { get; set; }
+        [BindProperty]
+        public string userId { get; set; }
         MultipartFormDataContent content = new MultipartFormDataContent();
 
         public void OnGet()
@@ -48,6 +53,7 @@ namespace IntelliGradeUI.Pages
             }
             else if (classId == null)
             {
+                ToastService.createErrorToast("Sýnýf bulunamadý", Response);
                 Response.Redirect("/Index");
             }
             else
@@ -60,26 +66,79 @@ namespace IntelliGradeUI.Pages
 
                 string result3 = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
                 this.currentUser = JsonConvert.DeserializeObject<User>(result3);
+
+                string result4 = GetRequests.Get("Quiz", "getquizesbylesson/"+classId, Request.Cookies["Token"]).message;
+                this.quizzes = JsonConvert.DeserializeObject<List<Quiz>>(result4);
+
+                string result5 = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]).message;
+                this.classTeachers = JsonConvert.DeserializeObject<List<User>>(result5);
             }
             ToastService.deleteToasts(Response);
         }
 
-        public void OnPostCreateAssignment(IFormFile file)
+        public bool isTeacher()
         {
-            List<string> dataList = assignmentRequirements.Split("-").ToList();
+            string result = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
+            User currentUser = JsonConvert.DeserializeObject<User>(result);
+            bool isTeacher = false;
+            classTeachers.ForEach(teacher =>
+            {
+                if (currentUser.id == teacher.id)
+                {
+                    isTeacher = true;
+                }
+            });
+            return isTeacher;
+        }
+
+        public bool isEnterQuiz(string quizid)
+        {
+            string result = GetRequests.Get("Quiz", "entrancecontrol/"+quizid, Request.Cookies["Token"]).message;
+            if(result == "true")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string getQuizNote(string quizid)
+        {
+            string result = GetRequests.Get("Quiz", "getquiznotes/"+quizid, Request.Cookies["Token"]).message;
+            List<QuizResult> quizResults = JsonConvert.DeserializeObject<List<QuizResult>>(result);
+            string note = "";
+            quizResults.ForEach(quizResult =>
+            {
+                if (quizResult.studentName == Request.Cookies["UserName"])
+                {
+                    note = quizResult.note.ToString();
+                }
+            });
+            return note;
+        }
+    
+
+    public void OnPostCreateAssignment(IFormFile file)
+        {
+
+            for(int i=0;i<assignmentRequirements.Count();i++)
+            {
+                Console.WriteLine(i+" -> "+assignmentRequirements[i]);
+            }
 
             string jsonData = "{\"id\":\"string\",\"userId\":\"string\",\"filePath\":\"string\",\"fileUrl\":\"string\"}";
 
             var content = new MultipartFormDataContent();
 
-            Console.WriteLine("OnPostCreateAssignment");
-            content.Add(new StringContent(currentUser.id), "Assignment.TeacherId");
+            content.Add(new StringContent(userId), "Assignment.TeacherId");
             content.Add(new StringContent(""), "Assignment.FilePath");
             content.Add(new StringContent(""), "Assignment.FileUrl");
             content.Add(new StringContent(assignmentTitle), "Assignment.Title");
             content.Add(new StringContent(assignmentDefinition), "Assignment.Definition");
             content.Add(new StringContent(assignmentDescription), "Assignment.Description");
-            foreach (var data in dataList)
+            foreach (var data in assignmentRequirements)
             {
                 var stringContent = new StringContent(data);
                 content.Add(stringContent, "Assignment.Requriments");
@@ -110,17 +169,13 @@ namespace IntelliGradeUI.Pages
             }
 
             if (PostRequests.PostOnFormData(content, "Assignment", "create/" + classId, Request.Cookies["Token"].ToString()).status == "Created")
-                ToastService.createSuccessToast("Ödev Oluþturuldu.",Response);
+                ToastService.createSuccessToast("Ödev Oluþturuldu.", Response);
             else
-                ToastService.createErrorToast("Ödev Oluþturulamadý.",Response);
+                ToastService.createErrorToast("Ödev Oluþturulamadý.", Response);
 
             Response.Redirect("/Classroom?classId=" + classId);
 
         }
 
-        public void OnPostCreateQuiz()
-        {
-            Console.WriteLine("OnPostCreateQuiz");
-        }
     }
 }

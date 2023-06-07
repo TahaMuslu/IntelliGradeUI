@@ -4,25 +4,22 @@
     ViewData["Title"] = "Akış";
     Layout = "_Layout";
 }
-
 <div class="container  mb-3">
-  
-
     <div class="col-md-6 mx-auto mb-4">
         <div class="header-card p-3 mb-2" style="background-color:none;">
             <div class="d-flex  flex-row justify-content-center " style="width:100%;">
                 <div class="d-flex flex-row alignt-items-center mt-3">
                     <div class=" c-details me-3">
-                        @if (Model.lesson != null && Model.lesson.teacherIds!=null&& Model.currentUser!=null)
-                        @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
-                        {
-                            <form class="d-flex justify-content-center " onsubmit="return false;">
-                                <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
+                        @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
+                            @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+                            {
+                                <form class="d-flex justify-content-center " onsubmit="return false;">
+                                    <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
                                         <i class="fa-solid fa-bookmark"></i>Ödev Oluştur
                                     </button>
-                            </form>
-                         
-                        }
+                                </form>
+
+                            }
                     </div>
 
                     <div class=" c-details me-3">
@@ -40,16 +37,90 @@
                 </div>
 
             </div>
-          
+
         </div>
     </div>
 
-    
-    @if (Model.assignment != null)
-        @for (int i = @Model.assignment.Count()-1; i >= 0; i--)
+
+    @if (Model.quizzes != null)
     {
+        for (int i = 0; i < Model.quizzes.Count; i++)
+        {
             <div class="col-md-6 mx-auto mb-4">
-                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id')">
+                <div class="quiz-card p-3 mb-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row alignt-items-center">
+                            <div class="icon">
+                                <img src="../assets/images/class.png" alt="" />
+                            </div>
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0">@Model.quizzes[i].topics</h6>
+                                <span>@Model.quizzes[i].startTime</span>
+                                <span>  -  </span>
+                                <span>@Model.quizzes[i].endTime</span>
+                            </div>
+                        </div>
+                        @if (Model.isTeacher())
+                        {
+                            <!--Öğretmen ise-->
+                            <div class="quiz-badge">
+                                <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                                    <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <!--Öğrenci ise-->
+                            @if (DateTime.Compare(Model.quizzes[i].endTime, DateTime.Now) > 0)
+                            {
+                                <!--Süre geçmediyse-->
+                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                {
+                                    <!--Quize girdiyse-->
+                                    <span class="fw-bold d-flex justify-content-center align-items-center">
+                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <!--Quize girmediyse-->
+                                    <div class="quiz-badge">
+                                        <a onclick="showLoader('Quize giriliyor...')" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
+                                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <!--Süre geçtiyse-->
+                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                {
+                                    <!--Quize girdiyse-->
+                                    <span class="fw-bold d-flex justify-content-center align-items-center">
+                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <!--Quize girmediyse-->
+                                    <span class="fw-bold text-danger d-flex justify-content-center align-items-center">Quiz süresi doldu.</span>
+                                }
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.assignment != null)
+        @for (int i = @Model.assignment.Count() - 1; i >= 0; i--)
+        {
+            <div class="col-md-6 mx-auto mb-4">
+                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id');showLoader()">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-row alignt-items-center">
                             <div class="icon">
@@ -77,113 +148,112 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mx-auto mb-4">
-                <div class="quiz-card p-3 mb-2">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row alignt-items-center">
-                            <div class="icon">
-                                <img src="../assets/images/class.png" alt="" />
-                            </div>
-                            <div class="ms-2 c-details">
-                                <h6 class="mb-0">Java Quiz 1</h6>
-                                <span>10/12/2023</span>
-                                <span>13:00-14:00</span>
+        }
 
-                            </div>
-                        </div>
-
-                        <div class="quiz-badge">
-                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-    }
-  
 </div>
 
+<form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
 
-<div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
+    <div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Ödev Oluştur</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-dialog-scrollable" style="max-height:500px; overflow-y: auto;">
+                    <div class="modal-dialog-scrollable" style="overflow-y: auto;">
                         <!-- scrollable içeriği buraya taşıyın -->
-                        <div class="form-outline mb-4">
-                            <input required type="text" id="assignmentTitle" asp-for="assignmentTitle" value="" placeholder="Başlık" class="form-control form-control-lg mt-2" />
-                            <input required type="text" id="asignmentDefinition" asp-for="assignmentDefinition" value="" placeholder="Tanım" class="form-control form-control-lg mt-2" />
-                            <textarea required class="form-control mt-2" id="assignmentDescription" asp-for="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
-                            <textarea required type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
-                            <input required type="datetime-local" id="assignmentDeadline" value="" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
-                            <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
-                            <input type="hidden" id="classId" asp-for="classId" value="@Model.classId" />
-                            <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@(Model.currentUser!=null ? Model.currentUser.id : "")" />
-                        </div>
-                 
+                        <div id="assignmentForm">
+                            <div class="form-outline mb-4">
+                                <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" asp-for="assignmentTitle" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" asp-for="assignmentDefinition" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama" asp-for="assignmentDescription"></textarea>
+                            </div>
+                            <div id="requirementsDiv">
+                                <div class="form-outline mb-4 d-flex">
+                                    <input type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
+                                    <button type="button" class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
 
+                                </div>
+
+                                <div class="form-outline mb-4 d-flex" id="requirementsContainer">
+                                </div>
+                            </div>
+
+
+                            <div class="form-outline mb-4">
+                                <input required type="datetime-local" id="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <input type="hidden" id="classId" name="classId" value="@Model.classId" />
+                                <input type="hidden" id="userId" name="userId" value="@Model.currentUser.id" />
+                                <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
-                </div>
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 <div class="modal fade" id="createQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <form id="createQuiz" method="post" enctype="multipart/form-data" asp-page-handler="CreateQuiz">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Quiz Oluştur</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-dialog-scrollable" style="max-height:500px; overflow-y: auto;" id="quiz-questions">
-                        <!-- scrollable içeriği buraya taşıyın -->
-                        <div class="form-outline mb-4 d-flex ">
-                            <input type="number" id="questionCountInput" class="form-control form-control-lg h-100 " min="1" max="15" placeholder="Soru Sayısı" />
-                        </div>
-
-                        <div class="form-outline mb-4 d-flex ">
-                            <input  type="text" value="" placeholder="Konu Giriniz" class="form-control form-control-lg h-100" id="quizContentInput" />
-
-                            <button class="btn btn-grade ms-2" id="addQuizContent"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
-                        </div>
-
-                        <div class="form-outline mb-4 d-flex quiz-questions " >
-                       
-                        </div>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Quiz Oluştur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-dialog-scrollable" style="overflow-y: auto;" id="quiz-questions">
+                    <!-- scrollable içeriği buraya taşıyın -->
+                    <div class="form-outline mb-4 d-flex ">
+                        <input required type="datetime-local" id="startTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
+                        <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center" style="cursor:default;">Başlangıç </span>
+                    </div>
+                    <div class="form-outline mb-4 d-flex ">
+                        <input required type="datetime-local" id="endTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
+                        <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center " style="min-width:104px;cursor:default;">Bitiş </span>
+                    </div>
+                    <div class="form-outline mb-4 d-flex ">
+                        <input required type="number" id="questionCountInput" class="form-control form-control-lg h-100 " min="1" max="10" placeholder="Soru Sayısı" />
+                    </div>
+                    <div class="form-outline mb-4 d-flex ">
+                        <input type="text" value="" placeholder="Konu Giriniz" class="form-control form-control-lg h-100" id="quizContentInput" />
+                        <button class="btn btn-grade ms-2" id="addQuizContent"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
+                    </div>
+                    <div class="form-outline mb-2 d-flex quiz-questions ">
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-grade">Quiz Oluştur</button>
-                </div>
-            </form>
+            </div>
+            <div class="w-100 text-center m-2"><i class="fa-sharp fa-solid fa-circle-info"></i> Quiz Oluşturma işlemi 20-60 saniye sürmektedir.</div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button id="submitQuizBtn" class="btn btn-grade" onclick="showLoader('Quiz Oluşturuluyor...');submitQuiz();">Quiz Oluştur</button>
+            </div>
         </div>
     </div>
 </div>
-
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999;">
     <!--Toast Success-->
-    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" id="content_success" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
         <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-body fs-6 d-flex align-items-center">
-                <i class="fa-solid fa-check" style="color: #ffffff;"></i>@Request.Cookies["SuccessMessage"]
+                <i class="fa-solid fa-check" style="color: #ffffff;"></i><span id="toast_success_message"></span>@Request.Cookies["SuccessMessage"]
             </div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
     <!--Toast Error-->
-    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white " id="content_error" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true" >
+    <div class="toast align-items-center text-bg-primary border-0 bg-danger @Request.Cookies["Error"] text-white " id="content_error" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
         <div class="d-flex" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-body fs-6 d-flex align-items-center">
                 <i class="fa-solid fa-triangle-exclamation"></i><span id="toast_error_message"></span>@Request.Cookies["ErrorMessage"]
@@ -196,14 +266,82 @@
 
 @section Scripts {
     <script>
+        // Gereklilikleri tutacak dizi
+        var requirementsArray = [];
+        var requirementInputField = document.getElementById("requirementInput");
+        // Gereklilik ekleme butonu
+        var addRequirementButton = document.getElementById("addRequirementButton");
+        var index = 0;
+        addRequirementButton.addEventListener("click", function () {
+            var requirementText = requirementInputField.value.trim();
+            if (requirementText !== "") {
+                requirementsArray.push(requirementText);
+                console.log(requirementsArray);
+                var requirementInput = document.createElement("input");
+                requirementInput.type = "text";
+                requirementInput.className = "form-control form-control-lg h-100 requirement-input";
+                requirementInput.name = `assignmentRequirements[${index}]`;
+                requirementInput.id = `assignmentRequirements_${index}_`;
+                requirementInput.setAttribute("asp-for", `assignmentRequirements[${index}]`);
+                requirementInput.setAttribute("value", requirementText);
+                requirementInput.setAttribute('placeholder', requirementText);
+                document.getElementById("requirementsContainer").appendChild(requirementInput);
+
+
+                var assignmentDiv = document.getElementById("requirementsDiv");
+                var newRequirement = document.createElement('div');
+                newRequirement.setAttribute('class', 'form-outline mb-4 d-flex');
+                newRequirement.setAttribute('id', 'requirementInput');
+                newRequirement.appendChild(requirementInput);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.setAttribute('class', 'btn btn-grade ms-2');
+                deleteButton.innerHTML = '<i class="fa-solid fa-trash fa-lg mx-auto"></i>';
+                deleteButton.onclick = function () {
+                    requirementsArray.splice(requirementsArray.indexOf(requirementText), 1);
+                    console.log(requirementsArray);
+                    assignmentDiv.removeChild(newRequirement);
+
+                    let requirementsDiv = document.getElementById("requirementsDiv");
+                    let requirements = requirementsDiv.querySelectorAll(".form-control");
+                    let k = 0;
+                    requirements.forEach((requirement) => {
+                        if (k != 0) {
+                            requirement.name = `assignmentRequirements[${k-1}]`;
+                            requirement.id = `assignmentRequirements_${k-1}_`;
+                            requirement.setAttribute("asp-for", `assignmentRequirements[${k-1}]`);
+                        }
+                        k++;
+                    });
+
+                };
+                newRequirement.appendChild(deleteButton);
+                assignmentDiv.appendChild(newRequirement);
+
+                requirementInputField.value = "";
+                index++;
+            }
+
+
+        });
+
+
+
+
+
+
+
+
         function redirectToAssignmentPage(assignmentId, lessonId) {
             var redirectUrl = '@Url.Page("/Assignment")?classId=' + lessonId + '&assignmentId=' + assignmentId;
             window.location.href = redirectUrl;
         }
 
         document.getElementById("lessonCode").addEventListener("click", function () {
-            var code = document.getElementById("lessonCode").innerText;
-            copyToClipboard(code);
+            var code = document.getElementById("lessonCode");
+            var inner_span = code.querySelector("span");
+            var inner_span_text = inner_span.innerHTML;
+            copyToClipboard(inner_span_text);
         });
 
         function copyToClipboard(text) {
@@ -213,16 +351,27 @@
             textarea.select();
             document.execCommand("copy");
             document.body.removeChild(textarea);
-            alert("Kod kopyalandı: " + text);
+            var toast = document.getElementById('content_success');
+            var toast_error_message = document.getElementById('toast_success_message');
+            toast_error_message.innerHTML = 'Sınıf Kodu Kopyalandı  &nbsp&nbsp<i class="fa-solid fa-right-long"></i> ' + text;
+            toast.classList.add('show');
+            setTimeout(function () {
+                toast.classList.remove('show');
+                toast.classList.remove('d-none');
+            }, 5000);
         }
 
         var quizContentInput = document.getElementById('quizContentInput');
         var quiz_content = document.getElementById('quiz-questions');
         var add_content = document.getElementById('addQuizContent');
+        var topicArray = [];
 
         add_content.onclick = function () {
             var inputText = quizContentInput.value.trim(); // Girdiğin metni alır ve baştaki ve sondaki boşlukları kaldırır
             if (inputText !== "") { // Metin boş değilse
+                topicArray.push(inputText);
+                console.log(topicArray);
+
                 var newQuizContent = document.createElement('input');
                 newQuizContent.setAttribute('type', 'text');
                 newQuizContent.setAttribute('class', 'form-control form-control-lg h-100');
@@ -238,6 +387,8 @@
                 deleteButton.setAttribute('class', 'btn btn-grade ms-2');
                 deleteButton.innerHTML = '<i class="fa-solid fa-trash fa-lg mx-auto"></i>';
                 deleteButton.onclick = function () {
+                    topicArray.splice(topicArray.indexOf(inputText), 1);
+                    console.log(topicArray);
                     quizQuestionsDiv.removeChild(newQuizDiv);
                 };
                 newQuizDiv.appendChild(deleteButton);
@@ -247,7 +398,7 @@
                 quizContentInput.value = ""; // Giriş alanını temizle
 
             }
-            else{
+            else {
                 var toast = document.getElementById('content_error');
                 var toast_error_message = document.getElementById('toast_error_message');
                 toast_error_message.innerHTML = "Quiz içeriği boş olamaz!";
@@ -261,11 +412,136 @@
         }
 
 
-        remove_fields.onclick = function () {
-            var input_tags = survey_options.getElementsByTagName('input');
-            if (input_tags.length > 2) {
-                survey_options.removeChild(input_tags[(input_tags.length) - 1]);
+
+
+        function submitQuiz() {
+            var startTimeInput = document.getElementById('startTimeInput').value;
+            var endTimeInput = document.getElementById('endTimeInput').value;
+            if (Date.now() > new Date(endTimeInput) || new Date(startTimeInput) > new Date(endTimeInput) || Date.now() > new Date(startTimeInput)) {
+                hideLoader();
+                var toast = document.getElementById('content_error');
+                var toast_error_message = document.getElementById('toast_error_message');
+                toast_error_message.innerHTML = "Tarihleri doğru giriniz";
+                toast.classList.add('show');
+                setTimeout(function () {
+                    toast.classList.remove('show');
+                    toast.classList.remove('d-none');
+                }, 5000);
+                return false;
             }
+
+            if (topicArray.length == 0) {
+                hideLoader();
+                var toast = document.getElementById('content_error');
+                var toast_error_message = document.getElementById('toast_error_message');
+                toast_error_message.innerHTML = "Konu içeriği boş olamaz!";
+                toast.classList.add('show');
+                setTimeout(function () {
+                    toast.classList.remove('show');
+                    toast.classList.remove('d-none');
+                }, 5000);
+                return false;
+            }
+            else {
+                var topicStr = "";
+                topicArray.forEach(function (topic, index) {
+                    topicStr += topic;
+                    if (index !== topicArray.length - 1) {
+                        topicStr += ",";
+                    }
+                });
+                console.log(topicStr);
+                var questionCountInput = document.getElementById('questionCountInput').value;
+                if (questionCountInput == "" || questionCountInput == null) {
+                    hideLoader();
+                    var toast = document.getElementById('content_error');
+                    var toast_error_message = document.getElementById('toast_error_message');
+                    toast_error_message.innerHTML = "Soru sayısı giriniz";
+                    toast.classList.add('show');
+                    setTimeout(function () {
+                        toast.classList.remove('show');
+                        toast.classList.remove('d-none');
+                    }, 5000);
+                    return false;
+                }
+                var questionCount = parseInt(questionCountInput, 10);
+
+
+                var startTimeInput = document.getElementById('startTimeInput').value;
+                var endTimeInput = document.getElementById('endTimeInput').value;
+
+                if (startTimeInput == "" || startTimeInput == null || endTimeInput == "" || endTimeInput == null) {
+                    hideLoader();
+                    var toast = document.getElementById('content_error');
+                    var toast_error_message = document.getElementById('toast_error_message');
+                    toast_error_message.innerHTML = "Tarihleri giriniz";
+                    toast.classList.add('show');
+                    setTimeout(function () {
+                        toast.classList.remove('show');
+                        toast.classList.remove('d-none');
+                    }, 5000);
+                    return false;
+                }
+
+                var startTime = new Date(startTimeInput).toISOString();
+                var endTime = new Date(endTimeInput).toISOString();
+
+                var quizData = {
+                    "classId": "@(Model.classId != null ? @Model.classId : "")",
+                    "startTime": startTime,
+                    "endTime": endTime,
+                    "topics": topicStr,
+                    "questionCount": questionCount
+
+                };
+                console.log(quizData);
+
+                // api URL
+                var apiUrl = "https://intelligradebackend.azurewebsites.net/api/Quiz/createquiz";
+                var classId = "@Model.classId";
+                let submitQuizBtn = document.getElementById("submitQuizBtn");
+                let btn_close = document.querySelectorAll(".btn-close");
+                btn_close[1].classList.add("disabled");
+                submitQuizBtn.classList.add("disabled");
+                fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+
+                        "Authorization": "Bearer " + '@Request.Cookies["Token"]'
+                    },
+                    body: JSON.stringify(quizData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        submitQuizBtn.classList.remove("disabled");
+                        btn_close[1].classList.remove("disabled");
+                        // Handle the response from the API
+                        console.log(data);
+                        // Perform any additional actions based on the response
+                        var redirectUrl = '@Url.Page("/QuizCreate")?classId=' + classId + '&quizId=' + data.id;
+                        window.location.href = redirectUrl;
+                    })
+                    .catch(error => {
+                        hideLoader();
+                        var toast = document.getElementById('content_error');
+                        var toast_error_message = document.getElementById('toast_error_message');
+                        toast_error_message.innerHTML = "Quiz Oluşturulamadı!";
+                        toast.classList.add('show');
+                        setTimeout(function () {
+                            toast.classList.remove('show');
+                            toast.classList.remove('d-none');
+                        }, 5000);
+                        // Handle any errors that occurred during the request
+                        console.error(error);
+                    });
+
+                return false;
+
+
+            }
+
+
         }
     </script>
 }

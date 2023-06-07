@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IntelliGradeUI.Pages
 {
-    public class ForgotPasswordModel : PageModel
+    public class NotFoundModel : PageModel
     {
         public void OnGet()
         {

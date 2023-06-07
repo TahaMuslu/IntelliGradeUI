@@ -40,7 +40,12 @@ namespace IntelliGradeUI.Pages
 
         public void OnPostRegister()
         {
-            Console.WriteLine("Register");
+            if (passwordRegister.Length < 6)
+            {
+                ToastService.createErrorToast("Þifre en az 6 karakter olmalýdýr.", Response);
+                Response.Redirect("/Login?register=true");
+            }
+            else { 
             var user = new User();
             user.id = Guid.NewGuid().ToString();
             user.nameSurname = nameSurname;
@@ -60,7 +65,7 @@ namespace IntelliGradeUI.Pages
             
 
             Response.Redirect("/Login");
-
+            }
         }
 
         public void OnPostLogin()

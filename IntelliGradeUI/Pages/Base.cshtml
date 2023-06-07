@@ -81,18 +81,18 @@
                             <li class="scroll-to-section"><a href="#team">Takımımız</a></li>
                             @if (Request.Cookies["Token"] != null)
                             {
-                                <li class="scroll-to-section"><a href="/Index">Sınıflarım</a></li>
+                                <li class="scroll-to-section"><a href="/Index" onclick="showLoader()">Sınıflarım</a></li>
                                 <li class="scroll-to-section dropdown d-none d-md-block">
                                     <a class="d-flex justify-content-center align-items-center nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         @Request.Cookies["UserName"]
                                     </a>
                                     <ul class="dropdown-menu p-0 shadow-lg" style="background-color: #7a6ad8;">
                                         <li class="text-center p-0">
-                                            <a class="w-100 h-100 rounded-0" style="cursor: pointer;" onclick=logOut()>Log Out</a>
+                                            <a class="w-100 h-100 rounded-0" style="cursor: pointer;" onclick="logOut();showLoader()">Log Out</a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="scroll-to-section d-md-none" onclick=logOut()>
+                                <li class="scroll-to-section d-md-none" onclick="logOut();showLoader()">
                                     <a>Log Out</a>
                                 </li>
                             }
@@ -396,12 +396,7 @@
                 <div class="col-lg-12">
                     <div class="wrapper">
                         <div class="row">
-                            <div class="col-lg-3 col-md-6">
-                                <div class="counter">
-                                    <h2 class="timer count-title count-number" data-to="@Model.baseInfos.studentCount" data-speed="1000"></h2>
-                                    <p class="count-text "> Kayıtlı Öğrenci</p>
-                                </div>
-                            </div>
+                         
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
                                     <h2 class="timer count-title count-number" data-to="@Model.baseInfos.assignmentCount" data-speed="1000"></h2>
@@ -410,10 +405,23 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
+                                    <h2 class="timer count-title count-number" data-to="@Model.baseInfos.quizCount" data-speed="1000"></h2>
+                                    <p class="count-text "> Adet Quiz</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="counter">
+                                    <h2 class="timer count-title count-number" data-to="@Model.baseInfos.studentCount" data-speed="1000"></h2>
+                                    <p class="count-text "> Kayıtlı Öğrenci</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="counter">
                                     <h2 class="timer count-title count-number" data-to="@Model.baseInfos.teacherCount" data-speed="1000"></h2>
                                     <p class="count-text "> Kayıtlı Öğretmen</p>
                                 </div>
                             </div>
+                           
                         
                         </div>
                     </div>
@@ -426,29 +434,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="team-member">
-                        <div class="main-content">
+                    <div class="team-member h-100">
+                        <div class="main-content h-100">
                             <img src="/images/mustafa-2-min-kelle.jpg" alt="" style="max-height:216px;object-fit:cover; object-position:top;">
                             <span class="category">.NET Devoloper</span>
                             <h4>Mustafa Emirhan Yıldız</h4>
                             <ul class="social-icons">
-                                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="https://github.com/mustafaemirhanyildiz"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/mustafa-emirhan-yildiz-b1265a21b/"><i class="fab fa-linkedin"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <div class="team-member">
-                        <div class="main-content">
+                    <div class="team-member h-100">
+                        <div class="main-content h-100">
                             <img src="/images/efsanevi.jpeg" alt="">
                             <span class="category">.NET Devoloper</span>
                             <h4>Mustafa Turgut</h4>
+                            <br/>
                             <ul class="social-icons">
-                                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="https://github.com/MustafaTurgut3460"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/mustafa-turgut-3a3726222/"><i class="fab fa-linkedin"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -456,30 +463,31 @@
 
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="team-member">
-                        <div class="main-content">
+                    <div class="team-member h-100">
+                        <div class="main-content h-100">
                             <img src="/images/pp.png" alt="">
                             <span class="category">.NET Devoloper</span>
                             <h4>Taha Yasin Muslu</h4>
+                            <br />
+
                             <ul class="social-icons">
-                                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                        
+                                <li><a href="https://github.com/TahaMuslu"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/taha-yasin-muslu-6348b1135/"><i class="fab fa-linkedin"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="team-member">
-                        <div class="main-content">
+                    <div class="team-member h-100">
+                        <div class="main-content h-100">
                             <img src="/images/emir (1).png" alt="">
                             <span class="category">Yapay Zeka Sorumlusu</span>
                             <h4>Muhammed Emir Keleş</h4>
                             <ul class="social-icons">
-                                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="https://github.com/emirkeles"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/emirkeles/"><i class="fab fa-linkedin"></i></a></li>
                             </ul>
                         </div>
                     </div>

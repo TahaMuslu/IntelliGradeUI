@@ -97,6 +97,12 @@ namespace IntelliGradeUI.Pages
             return file;
         }
 
+        public bool isTeacher()
+        {
+            string result = GetRequests.Get("user", "isteacher/" + classId, Request.Cookies["Token"]).message;
+            return result == "true";
+        }
+
 
     }
 }

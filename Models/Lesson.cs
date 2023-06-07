@@ -10,5 +10,7 @@
         public List<string> teacherIds { get; set; }
         public List<string> studentIds { get; set; }
         public List<string> assignmentIds { get; set; }
+        public List<string> quizIds { get; set; }
+  
     }
 }

@@ -13,5 +13,7 @@ namespace Models
         public int teacherCount { get; set; }
         public int assignmentCount { get; set; }
 
+        public int quizCount { get; set; }
+
     }
 }

@@ -21,7 +21,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="submit" class="btn btn-grade">Sınıf Oluştur</button>
+                    <button onclick="showLoader()" type="submit" class="btn btn-grade">Sınıf Oluştur</button>
                 </div>
             </form>
         </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="submit" class="btn btn-grade">Sınıfa Katıl</button>
+                    <button onclick="showLoader()" type="submit" class="btn btn-grade">Sınıfa Katıl</button>
                 </div>
             </form>
         </div>
@@ -73,7 +73,7 @@
                                     <div class="col-md-2 ">
                                         <form id="inviteAccept" method="post" asp-page-handler="InviteAccept">
                                             <input type="hidden" value="@Model.inviteList[i].id" name="inviteId" />
-                                            <button class="check-icon cursor-pointer" type="submit" style="background-color:#ffffff;border:none;">
+                                            <button onclick="showLoader()" class="check-icon cursor-pointer" type="submit" style="background-color:#ffffff;border:none;">
                                                 <i class="fa-solid fa-check fa-xl"></i>
                                             </button>
                                         </form>
@@ -82,7 +82,7 @@
                                     <div class="col-md-2">
                                         <form method="post" asp-page-handler="InviteDelete">
                                             <input type="hidden" value="@Model.inviteList[i].id" name="inviteId" />
-                                            <button type="submit" style="background-color:#ffffff;border:none;">
+                                            <button onclick="showLoader()" type="submit" style="background-color:#ffffff;border:none;">
                                                 <a class="delete-icon cursor-pointer">
                                                     <i class="fa-solid fa-times fa-xl "></i>
                                                 </a>
@@ -150,7 +150,7 @@
                                             <div class="modal-footer">
                                                 <input type="hidden" name="id" value="@(Model.result[i].id)">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                <button type="submit" class="btn btn-danger">Sınıfı Sil</button>
+                                                <button onclick="showLoader()" type="submit" class="btn btn-danger">Sınıfı Sil</button>
                                             </div>
                                         </form>
                                     </div>
@@ -158,10 +158,19 @@
                             </div>
                             <!-- Delete Class End -->
                         </div>
-
                         <div class="mt-5">
-                            <a href="/Classroom?classId=@Model.result[i].id" style="color:black;" class="d-inline underline-hover">
-                                <h3 class="heading d-inline">@Model.result[i].className</h3>
+                            <a onclick="showLoader()" href="/Classroom?classId=@Model.result[i].id" style="color:black;" class="d-inline underline-hover">
+                                <h3 class="heading d-inline">
+                                    @if (@Model.result[i].className.Length > 25)
+                                    {
+                                        @Model.result[i].className.Substring(0, 22)
+                                        @Html.Raw("...")    
+                                     }
+                                    else
+                                    {
+                                        @Model.result[i].className
+                                    }
+                                </h3>
                             </a>
                             <div class="mt-5">
                                 <div class="mt-3">
@@ -169,6 +178,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             }
