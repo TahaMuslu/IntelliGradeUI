@@ -39,6 +39,23 @@ namespace IntelliGradeUI.Pages
 
         }
 
+        public bool isTeacher()
+        {
+            string result = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
+            User currentUser = JsonConvert.DeserializeObject<User>(result);
+            bool isTeacher = false;
+            classTeachers.ForEach(teacher =>
+            {
+                if (currentUser.id == teacher.id)
+                {
+                    isTeacher = true;
+                }
+            });
+
+
+            return isTeacher;
+        }
+
         public void OnPostInviteTeacher()
         {
             SendInvite sendInvite = new SendInvite();

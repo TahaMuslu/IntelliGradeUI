@@ -8,10 +8,12 @@
 <div class="col-8 mx-auto fs-2 mt-2">
     <div class="row">
         <div class="col-10">Öğretmenler</div>
+        @if (Model.isTeacher())
+        {
         <div class="col-2">
                 <button class="btn btn-grade invite" data-bs-toggle="modal" data-bs-target="#inviteTeacher">+ Ekle</button>
         </div>
-
+        }
     </div>
 
     <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>

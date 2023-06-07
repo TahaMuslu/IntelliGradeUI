@@ -2,7 +2,6 @@
 @model IntelliGradeUI.Pages.QuizModel
 @{
     Layout = null;
-
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -10,51 +9,137 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Quick Quiz - Play</title>
+    <title>Quiz</title>
     <link rel="stylesheet" href="~/css/quiz-app.css" />
     <link rel="stylesheet" href="~/css/quiz.css" />
 </head>
 <body>
     <div class="container">
-        <div id="loader"></div>
-        <div id="game" class="justify-center flex-column hidden">
+        @*<div id="loader"></div>*@
+        <div id="game" class="justify-center flex-column @*hidden*@">
             <div id="hud" style="margin-bottom:1cm;">
                 <div id="hud-item" style="width:100%;text-align:center;">
-                    <p id="progressText" class="hud-prefix">
-                        Question
-                    </p>
+                    <p id="progressText" class="hud-prefix">Soru 1</p>
                     <div id="progressBar">
-                        <div id="progressBarFull" style="width:100%;"></div>
+                        <div id="progressBarFull" style="width:@(100/Model.currentQuiz.questionCount)%;"></div>
                     </div>
                 </div>
-                <div id="hud-item" style="display:none;">
-                    <p class="hud-prefix">
-                        Score
-                    </p>
-                    <h1 class="hud-main-text" id="score">
-                        0
-                    </h1>
-                </div>
+                @*<div id="hud-item">
+                <p class="hud-prefix">
+                Score
+                </p>
+                <h1 class="hud-main-text" id="score">
+                0
+                </h1>
+                </div>*@
             </div>
-            <h2 id="question"></h2>
-            <div class="choice-container" style="border-radius:10px;">
-                <p class="choice-prefix" style="border-radius:10px;">A</p>
-                <p class="choice-text" data-number="1"></p>
-            </div>
-            <div class="choice-container" style="border-radius:10px;">
-                <p class="choice-prefix" style="border-radius:10px;">B</p>
-                <p class="choice-text" data-number="2"></p>
-            </div>
-            <div class="choice-container" style="border-radius:10px;">
-                <p class="choice-prefix" style="border-radius:10px;">C</p>
-                <p class="choice-text" data-number="3"></p>
-            </div>
-            <div class="choice-container" style="border-radius:10px;">
-                <p class="choice-prefix" style="border-radius:10px;">D</p>
-                <p class="choice-text" data-number="4"></p>
+            <h2 id="question">@Model.currentQuiz.questions[0].questionText</h2>
+            <div id="choices-container">
+                @for (int i = 0; i < Model.currentQuiz.questions[0].answers.Count; i++)
+                {
+                    <div class="choice-container" onclick="choice_click(@i)" style="border-radius:10px;">
+                        <p class="choice-prefix" style="border-radius:10px;">
+                            @switch (i)
+                            {
+                                case 0:
+                                    <text>A</text>
+                                    break;
+                                case 1:
+                                    <text>B</text>
+                                    break;
+                                case 2:
+                                    <text>C</text>
+                                    break;
+                                case 3:
+                                    <text>D</text>
+                                    break;
+                            }
+                        </p>
+                        <p class="choice-text" data-number="@(i)">@Model.currentQuiz.questions[0].answers[i]</p>
+                    </div>
+
+                }
             </div>
         </div>
     </div>
-    <script src="~/js/quiz.js"></script>
+
+    <script>
+        var Quiz = @Html.Raw(Json.Serialize(Model.currentQuiz));
+        console.log(Quiz);
+        var progressBarFull = document.getElementById("progressBarFull");
+        var question = document.getElementById("question");
+        var choices_container = document.getElementById("choices-container");
+        var choice_container = document.querySelectorAll(".choice-container");
+        var progressText = document.getElementById("progressText");
+        var answers = [];
+        var index = 0;
+        var choice_click = function (i) {
+            console.log(index);
+            console.log(answers)
+            if (index > Quiz.questions.length - 1) {
+                console.log(answers);
+                return;
+            }
+            if (index == Quiz.questions.length - 1) {
+                index++;
+                var choice_container = document.querySelectorAll(".choice-container");
+                answers.push(choice_container[i].querySelector(".choice-text").innerHTML);
+                console.log(answers);
+                let apiUrl = "https://intelligradebackend.azurewebsites.net/api/Quiz/quizresult/" + Quiz.id;
+                fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+
+                        "Authorization": "Bearer " + '@Request.Cookies["Token"]'
+                    },
+                    body: `{"answers":${JSON.stringify(answers)}}`
+                }).then(response {
+                    var redirectUrl = '@Url.Page("/Index")';
+                    window.location.href = redirectUrl;
+                }).catch(error => {
+                        console.error(error);
+                    });
+                return;
+            }
+            index++;
+            var choice_container = document.querySelectorAll(".choice-container");
+            answers.push(choice_container[i].querySelector(".choice-text").innerHTML);
+            progressText.innerHTML = `Soru ${index + 1}`;
+            progressBarFull.style.width = `${(100 / Quiz.questions.length) * (index + 1)}%`;
+            choices_container.innerHTML = "";
+            for (var j = 0; j < Quiz.questions[index].answers.length; j++) {
+                switch (j) {
+                    case 0:
+                        choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
+                                                                                        <p class="choice-prefix" style="border-radius:10px;">A</p>
+                                                                            <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                        </div>`;
+                        break;
+                    case 1:
+                        choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
+                                                                                                <p class="choice-prefix" style="border-radius:10px;">B</p>
+                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                </div>`;
+                        break;
+                    case 2:
+                        choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
+                                                                                                <p class="choice-prefix" style="border-radius:10px;">C</p>
+                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                </div>`;
+                        break;
+                    case 3:
+                        choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
+                                                                                                <p class="choice-prefix" style="border-radius:10px;">D</p>
+                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                </div>`;
+                        break;
+                }
+
+            }
+            question.innerText = `${Quiz.questions[index].questionText}`;
+        };
+
+    </script>
 </body>
 </html>
