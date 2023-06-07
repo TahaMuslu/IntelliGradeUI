@@ -7,47 +7,53 @@
 
 <div class="col-8 mx-auto fs-2">
     Ödevi veren öğretmen
-    <div class="dropdown-divider border-2 mb-4"></div>
+    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
 </div>
-<div class="col-8 mx-auto justify-content-center d-flex mb-4">
-    <div class="card w-100 border-0" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
-                <div class="row w-100">
-                    <div class="col-12">
-                        <i class="fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark"></i>
-                        @(Model.teacher != null ? Model.teacher.nameSurname : "")
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div class="col-8 mx-auto d-flex flex-column justify-content-center ">
+    @if (Model.teachers != null)
+    {
+        @for (int i = 0; i < Model.teachers.Count; i++)
+        {
+            <div class="card w-100 card-class rounded-3" style=" @(i == Model.teachers.Count - 1 ? "border:1px solid #eee;" : "")">
+                <ul class="list-group list-group-flush  ">
+                    <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
+                        <div class="row w-100">
+                            <div class="col-12  ">
+                                <i class="fa-sharp fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark"></i>
+                                @Model.teachers[i].nameSurname
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        }
+    }
 </div>
 
 <div class="col-8 mx-auto fs-2">
     Öğrenciler
-    <div class="dropdown-divider border-2 mb-4"></div>
+    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
 </div>
 <div class="col-8 mx-auto justify-content-center d-flex">
     <div class="card w-100 border-0" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-            @{
-                if (Model.assignment != null && Model.assignment.uploadedHomeworks!=null)
-                    for (int i = 0; i < Model.assignment.uploadedHomeworks.Count(); i++)
-                    {
+        @if (Model.grades != null)
+            for (int i = 0; i < Model.grades.Count(); i++)
+            {
+                <div class="card w-100 card-class rounded-3" style=" @(i == Model.grades.Count - 1 ? "border:1px solid #eee;" : "")">
+                    <ul class="list-group list-group-flush  ">
                         <li class="list-group-item pb-3 pt-3 fs-5 d-flex align-items-center">
                             <div class="row w-100">
                                 <div class="col-12 col-md-4 d-flex justify-content-start">
-                                    <i class="fa-solid fa-user border border-2 rounded-circle p-2 border-dark me-3 text-white bg-dark h-min"></i>
-                                    @Model.students[i].nameSurname
+                                    <i class="fa-solid fa-user border border-2 rounded-circle p-2 me-3 text-white bg-dark h-min"></i>
+                                    @Model.grades[i].nameSurname
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center mt-3 mt-md-0 h-min">
                                     <span class=" border border-1 rounded-2 p-1 fs-6 bg-success text-light">
-                                        Notu: @Model.assignment.uploadedHomeworks[i].grade
+                                        Notu: @Model.grades[i].grade
                                     </span>
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0 h-min">
-                                    <a href="@Model.assignment.uploadedHomeworks[i].fileUrl" download>
+                                    <a href="@Model.grades[i].fileUrl" download>
                                         <button class="btn btn-primary">
                                             Ödevi İndir
                                         </button>
@@ -55,19 +61,19 @@
                                 </div>
                             </div>
                         </li>
-                    }
+                    </ul>
+                </div>
             }
-        </ul>
     </div>
 </div>
 
 <div class="col-4 offset-8 mt-5 mb-4">
     <form method="post" asp-page-handler="DownloadAllHomeworks">
-    <button class="btn btn-success">
-        Tüm Notları İndir
-    </button>
-    <input type="hidden" name="assignmentId" value="@Model.assignmentId" />
-    <input type="hidden" name="classId" value="@Model.classId" />
+        <button class="btn btn-success">
+            Tüm Notları İndir
+        </button>
+        <input type="hidden" name="assignmentId" value="@Model.assignmentId" />
+        <input type="hidden" name="classId" value="@Model.classId" />
 
     </form>
 </div>
@@ -96,7 +102,7 @@
 
 @section Scripts {
     <script>
-        let x=document.getElementById("allHomeworks");
+        let x = document.getElementById("allHomeworks");
         x.click();
         x.classList.add("d-none");
     </script>

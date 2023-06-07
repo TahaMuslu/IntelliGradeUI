@@ -12,6 +12,8 @@ namespace IntelliGradeUI.Pages
 
         [BindProperty(SupportsGet = true)]
         public string quizId { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string classId { get; set; }
         [BindProperty]
         public Quiz currentQuiz { get; set; }
 
@@ -21,7 +23,7 @@ namespace IntelliGradeUI.Pages
             {
                 Response.Redirect("/Base");
             }
-            else if (quizId == null || quizId == "" || isTeacher())
+            else if (quizId == null || quizId == "" || classId==null || classId=="" || isTeacher())
             {
                 Response.Redirect("/Index");
             }
@@ -36,22 +38,18 @@ namespace IntelliGradeUI.Pages
                 else
                 {
                     currentQuiz = JsonConvert.DeserializeObject<Quiz>(response.message);
-
-
                     if (PutRequests.Put("Quiz", "enterquiz/" + quizId, Request.Cookies["Token"]).status != "OK")
                     {
                         ToastService.createErrorToast("Quize zaten giriþ yapmýþsýnýz.", Response);
                         Response.Redirect("/Index");
                     }
-
                 }
             }
-
         }
         public bool isTeacher()
         {
-            string result = GetRequests.Get("user", "isteacher", Request.Cookies["Token"]).message;
-            return result== "true";
+            string result = GetRequests.Get("user", "isteacher/"+ classId, Request.Cookies["Token"]).message;
+            return result == "true";
         }
     }
 }

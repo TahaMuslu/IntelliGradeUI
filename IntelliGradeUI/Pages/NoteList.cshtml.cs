@@ -2,6 +2,7 @@ using IntelliGradeUI.Models;
 using IntelliGradeUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Models;
 using Newtonsoft.Json;
 
 namespace IntelliGradeUI.Pages
@@ -13,17 +14,16 @@ namespace IntelliGradeUI.Pages
         [BindProperty(SupportsGet = true)]
         public string classId { get; set; }
         [BindProperty]
-        public Assignment assignment { get; set; }
-        [BindProperty]
-        public User teacher { get; set; }
-        [BindProperty]
-        public List<User> students { get; set; }
-        [BindProperty]
         public string homeworksUrl { get; set; }
+        [BindProperty]
+        public List<AssignmentResult> grades { get; set; }
+        [BindProperty]
+        public List<User> teachers { get; set; }
 
 
         public void OnGet()
         {
+            ToastService.deleteToasts(Response);
             if (Request.Cookies["Token"] == null)
             {
                 Response.Redirect("/Login");
@@ -38,32 +38,24 @@ namespace IntelliGradeUI.Pages
                 homeworksUrl = Request.Cookies["homeworksUrl"].ToString();
                 }catch(Exception e)
                 {
+                    Console.WriteLine(e.Message);
                 }
                 Response.Cookies.Delete("homeworksUrl");
-                string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
-                assignment = JsonConvert.DeserializeObject<Assignment>(result);
 
-                string teacher_str = GetRequests.Get("user", "getbyid/"+assignment.teacherId, Request.Cookies["Token"]).message;
-                teacher = JsonConvert.DeserializeObject<User>(teacher_str);
-
-                string tempUsers = GetRequests.Get("user", "getall", Request.Cookies["Token"]).message;
-                List<User> allStudents = JsonConvert.DeserializeObject<List<User>>(tempUsers);
-                List<string> users_ids = new List<string>();
-                foreach(Homework currentHomework in assignment.uploadedHomeworks)
+                Response response1 = GetRequests.Get("Assignment", "getnotelist/" + classId+"/"+assignmentId, Request.Cookies["Token"]);
+                Response response3 = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]);
+                if (response1.status != "OK" || response3.status!="OK")
                 {
-                    users_ids.Add(currentHomework.userId);
+                    ToastService.createErrorToast("Ödevler getirilemedi.", Response);
+                    Response.Redirect("/Classroom?classId"+classId);
                 }
-                students = new List<User>();
-                foreach (User student in allStudents)
+                else
                 {
-                    if (users_ids.Contains(student.id))
-                    {
-                        students.Add(student);
-                    }
+                    grades = JsonConvert.DeserializeObject<List<AssignmentResult>>(response1.message);
+                    teachers = JsonConvert.DeserializeObject<List<User>>(response3.message);
                 }
 
             }
-            ToastService.deleteToasts(Response);
         }
 
         public void OnPostDownloadAllHomeworks()
@@ -79,5 +71,7 @@ namespace IntelliGradeUI.Pages
            Response.Cookies.Append("homeworksUrl", homeworksUrl);
            Response.Redirect("/NoteList?assignmentId="+assignmentId+"&classId="+classId);
         }
+
+
     }
 }
