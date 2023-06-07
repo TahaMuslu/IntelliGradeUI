@@ -36,9 +36,7 @@
             <li class="nav-item @(pageName == "/Index" ? "active" : "")">
                 <a class="nav-link " href="/Index"><i class="fas fa-home"></i> Sınıflarım</a>
             </li>
-            <li class="nav-item @(pageName == "/Index" ? "active" : "")">
-                <a class="nav-link " href="/QuizCreate"><i class="fas fa-home"></i> Quiz</a>
-            </li>
+       
             <li class="nav-item @(pageName == "/Index" ? "d-none" : "") @(pageName.StartsWith("/Classroom")  || pageName.StartsWith("/Assignment")? "active" : "")">
                 <a class="nav-link " href="/Classroom?classId=@Context.Request.Query["classId"]"><i class="fa-sharp fa-solid fa-calendar"></i> Akış</a>
             </li>

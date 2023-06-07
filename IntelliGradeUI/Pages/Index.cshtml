@@ -158,10 +158,19 @@
                             </div>
                             <!-- Delete Class End -->
                         </div>
-
                         <div class="mt-5">
                             <a href="/Classroom?classId=@Model.result[i].id" style="color:black;" class="d-inline underline-hover">
-                                <h3 class="heading d-inline">@Model.result[i].className</h3>
+                                <h3 class="heading d-inline">
+                                    @if (@Model.result[i].className.Length > 25)
+                                    {
+                                        @Model.result[i].className.Substring(0, 22)
+                                        @Html.Raw("...")    
+                                     }
+                                    else
+                                    {
+                                        @Model.result[i].className
+                                    }
+                                </h3>
                             </a>
                             <div class="mt-5">
                                 <div class="mt-3">
@@ -169,6 +178,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             }
