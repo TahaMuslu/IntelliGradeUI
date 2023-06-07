@@ -195,7 +195,7 @@
                             <div class="modal-footer d-flex justify-content-center">
                                 <input type="hidden" id="classId" name="classId" value="@Model.classId" />
                                 <input type="hidden" id="userId" name="userId" value="@Model.currentUser.id" />
-                                <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
+                                <button onclick="showLoader()" type="submit" class="btn btn-grade">Ödev Oluştur</button>
                             </div>
                         </div>
                     </div>
@@ -417,7 +417,7 @@
         function submitQuiz() {
             var startTimeInput = document.getElementById('startTimeInput').value;
             var endTimeInput = document.getElementById('endTimeInput').value;
-            if (Date.now() > new Date(endTimeInput) || new Date(startTimeInput) > new Date(endTimeInput) || Date.now() > new Date(startTimeInput)) {
+            if (Date.now() > new Date(endTimeInput) || new Date(startTimeInput) > new Date(endTimeInput)) {
                 hideLoader();
                 var toast = document.getElementById('content_error');
                 var toast_error_message = document.getElementById('toast_error_message');
