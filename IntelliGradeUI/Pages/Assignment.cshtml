@@ -66,7 +66,7 @@
                                             <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.txt,.c,.cpp,.cs,.py,.java" class="form-control" />
                                             <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
                                             <input type="hidden" name="cuser_id" asp-for="cuser_id" value="@Model.currentUser.id" />
-                                            <button onclick="showLoader()" type="submit" class="btn btn-primary mt-2">Teslim Et</button>
+                                            <button onclick="showLoader()" type="submit" class="btn btn-grade mt-2">Teslim Et</button>
                                         }
                                         else
                                         {
@@ -86,7 +86,7 @@
                                             <p class="col-6 h-100 justify-content-center m-0 p-0 d-flex">
                                                 Çalışmanız
                                             </p>
-                                            <a href="@Model.findStudentFile()" download class="btn btn-primary rounded-0 rounded-end col-6">Dosyayı İndir</a>
+                                            <a href="@Model.findStudentFile()" download class="btn btn-grade rounded-0 rounded-end col-6">Dosyayı İndir</a>
                                         </div>
                                         @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
                                         {
@@ -150,7 +150,7 @@
                             </h6>
                         </div>
                         <div class="loadButton mt-2 w-100">
-                            <a onclick="showLoader()" type="submit" href="/NoteList?classId=@Model.Request.Query["classId"]&assignmentId=@Model.Request.Query["assignmentId"]" class="btn btn-primary mt-2 w-100">Ödevlere Git</a>
+                            <a onclick="showLoader()" type="submit" href="/NoteList?classId=@Model.Request.Query["classId"]&assignmentId=@Model.Request.Query["assignmentId"]" class="btn btn-grade mt-2 w-100">Ödevlere Git</a>
 
                         </div>
                     </div>
