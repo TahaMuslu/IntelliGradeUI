@@ -9,7 +9,7 @@
     <input type="hidden" name="quizId" value="@Model.quizId" />
     <input type="hidden" name="class" value="@Model.classId" />
     <div class="w-100 d-flex justify-content-center">
-        <button class="btn btn-danger mt-5 w-25" type="submit">Quizi Sil<i class="fa-solid fa-trash fa-lg ms-2"></i></button>
+        <button onclick="showLoader('Quiz Siliniyor...')" class="btn btn-danger mt-5 w-25" type="submit">Quizi Sil<i class="fa-solid fa-trash fa-lg ms-2"></i></button>
     </div>
 </form>
 
@@ -88,7 +88,7 @@
         </div>
 
         <div class="w-100 d-flex justify-content-center">
-            <button class="btn btn-success mt-5 w-25" type="submit">Quiz Oluştur<i class="fa-solid fa-plus fa-lg ms-2"></i></button>
+            <button onclick="showLoader('Quiz Oluşturuluyor...')" class="btn btn-success mt-5 w-25" type="submit">Quiz Oluştur<i class="fa-solid fa-plus fa-lg ms-2"></i></button>
         </div>
         <input type="hidden" name="quizId" value="@Model.quizId" />
         <input type="hidden" name="class" value="@Model.classId" />

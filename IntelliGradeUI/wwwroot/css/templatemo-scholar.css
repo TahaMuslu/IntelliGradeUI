@@ -156,7 +156,7 @@ Pre-loader Style
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.99);
+  background-color: rgba(0,0,0,0.55);
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;

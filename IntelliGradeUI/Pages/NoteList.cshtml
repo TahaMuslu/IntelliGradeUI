@@ -53,8 +53,8 @@
                                     </span>
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0 h-min">
-                                    <a href="@Model.grades[i].fileUrl" download>
-                                        <button class="btn btn-primary">
+                                    <a href="@Model.grades[i].fileUrl" target="_blank" download>
+                                        <button class="btn btn-grade">
                                             Ödevi İndir
                                         </button>
                                     </a>
@@ -69,11 +69,11 @@
 
 <div class="col-4 offset-8 mt-5 mb-4">
     <form method="post" asp-page-handler="DownloadAllHomeworks">
-        <button class="btn btn-success">
-            Tüm Notları İndir
-        </button>
         <input type="hidden" name="assignmentId" value="@Model.assignmentId" />
         <input type="hidden" name="classId" value="@Model.classId" />
+        <button onclick="showLoader('Ödev dosyası hazırlanıyor...')" type="submit" class="btn btn-success">
+            Tüm Notları İndir
+        </button>
 
     </form>
 </div>

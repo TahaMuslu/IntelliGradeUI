@@ -64,7 +64,7 @@
                         {
                             <!--Öğretmen ise-->
                             <div class="quiz-badge">
-                                <a class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                                <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
                                     <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
                                 </a>
                             </div>
@@ -78,7 +78,7 @@
                                 @if (Model.isEnterQuiz(Model.quizzes[i].id))
                                 {
                                     <!--Quize girdiyse-->
-                                    <span class="fw-bold">
+                                    <span class="fw-bold d-flex justify-content-center align-items-center">
                                         Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
                                     </span>
                                 }
@@ -86,7 +86,7 @@
                                 {
                                     <!--Quize girmediyse-->
                                     <div class="quiz-badge">
-                                        <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
+                                        <a onclick="showLoader('Quize giriliyor...')" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
                                             <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
                                         </a>
                                     </div>
@@ -98,14 +98,14 @@
                                 @if (Model.isEnterQuiz(Model.quizzes[i].id))
                                 {
                                     <!--Quize girdiyse-->
-                                    <span class="fw-bold">
+                                    <span class="fw-bold d-flex justify-content-center align-items-center">
                                         Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
                                     </span>
                                 }
                                 else
                                 {
                                     <!--Quize girmediyse-->
-                                    <span class="fw-bold">Quiz süresi doldu.</span>
+                                    <span class="fw-bold text-danger d-flex justify-content-center align-items-center">Quiz süresi doldu.</span>
                                 }
                             }
                         }
@@ -120,7 +120,7 @@
         @for (int i = @Model.assignment.Count() - 1; i >= 0; i--)
         {
             <div class="col-md-6 mx-auto mb-4">
-                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id')">
+                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id');showLoader()">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-row alignt-items-center">
                             <div class="icon">
@@ -166,39 +166,41 @@
                         <!-- scrollable içeriği buraya taşıyın -->
                         <div id="assignmentForm">
                             <div class="form-outline mb-4">
-                                <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" />
+                                <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" asp-for="assignmentTitle" />
                             </div>
                             <div class="form-outline mb-4">
-                                <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" />
+                                <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" asp-for="assignmentDefinition" />
                             </div>
                             <div class="form-outline mb-4">
-                                <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
+                                <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama" asp-for="assignmentDescription"></textarea>
                             </div>
                             <div id="requirementsDiv">
                                 <div class="form-outline mb-4 d-flex">
-                                    <input required type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
-                                    <button class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
+                                    <input type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
+                                    <button type="button" class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
 
                                 </div>
 
                                 <div class="form-outline mb-4 d-flex" id="requirementsContainer">
                                 </div>
                             </div>
-                          
+
 
                             <div class="form-outline mb-4">
-                                <input required type="datetime-local" id="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
+                                <input required type="datetime-local" id="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
                             </div>
                             <div class="form-outline mb-4">
                                 <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
+                                <input type="hidden" id="classId" name="classId" value="@Model.classId" />
+                                <input type="hidden" id="userId" name="userId" value="@Model.currentUser.id" />
                                 <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
                             </div>
                         </div>
                     </div>
                 </div>
-             
+
             </div>
         </div>
     </div>
@@ -235,10 +237,7 @@
             </div>
             <div class="w-100 text-center m-2"><i class="fa-sharp fa-solid fa-circle-info"></i> Quiz Oluşturma işlemi 20-60 saniye sürmektedir.</div>
             <div class="modal-footer d-flex justify-content-center">
-                <button id="submitQuizBtn" class="btn btn-grade" onclick="submitQuiz()">Quiz Oluştur</button>
-                <div class="spinner-border d-none" role="status" id="spinner" style="z-index:9999;">
-                    <span class="sr-only">Quiz Oluşturuluyor Lütfen Bekleyiniz</span>
-                </div>
+                <button id="submitQuizBtn" class="btn btn-grade" onclick="showLoader('Quiz Oluşturuluyor...');submitQuiz();">Quiz Oluştur</button>
             </div>
         </div>
     </div>
@@ -267,14 +266,12 @@
 
 @section Scripts {
     <script>
-
-
-
         // Gereklilikleri tutacak dizi
         var requirementsArray = [];
         var requirementInputField = document.getElementById("requirementInput");
         // Gereklilik ekleme butonu
         var addRequirementButton = document.getElementById("addRequirementButton");
+        var index = 0;
         addRequirementButton.addEventListener("click", function () {
             var requirementText = requirementInputField.value.trim();
             if (requirementText !== "") {
@@ -283,7 +280,10 @@
                 var requirementInput = document.createElement("input");
                 requirementInput.type = "text";
                 requirementInput.className = "form-control form-control-lg h-100 requirement-input";
-                requirementInput.name=
+                requirementInput.name = `assignmentRequirements[${index}]`;
+                requirementInput.id = `assignmentRequirements_${index}_`;
+                requirementInput.setAttribute("asp-for", `assignmentRequirements[${index}]`);
+                requirementInput.setAttribute("value", requirementText);
                 requirementInput.setAttribute('placeholder', requirementText);
                 document.getElementById("requirementsContainer").appendChild(requirementInput);
 
@@ -301,17 +301,31 @@
                     requirementsArray.splice(requirementsArray.indexOf(requirementText), 1);
                     console.log(requirementsArray);
                     assignmentDiv.removeChild(newRequirement);
+
+                    let requirementsDiv = document.getElementById("requirementsDiv");
+                    let requirements = requirementsDiv.querySelectorAll(".form-control");
+                    let k = 0;
+                    requirements.forEach((requirement) => {
+                        if (k != 0) {
+                            requirement.name = `assignmentRequirements[${k-1}]`;
+                            requirement.id = `assignmentRequirements_${k-1}_`;
+                            requirement.setAttribute("asp-for", `assignmentRequirements[${k-1}]`);
+                        }
+                        k++;
+                    });
+
                 };
                 newRequirement.appendChild(deleteButton);
                 assignmentDiv.appendChild(newRequirement);
 
                 requirementInputField.value = "";
+                index++;
             }
 
 
         });
 
-    
+
 
 
 
@@ -404,6 +418,7 @@
             var startTimeInput = document.getElementById('startTimeInput').value;
             var endTimeInput = document.getElementById('endTimeInput').value;
             if (Date.now() > new Date(endTimeInput) || new Date(startTimeInput) > new Date(endTimeInput) || Date.now() > new Date(startTimeInput)) {
+                hideLoader();
                 var toast = document.getElementById('content_error');
                 var toast_error_message = document.getElementById('toast_error_message');
                 toast_error_message.innerHTML = "Tarihleri doğru giriniz";
@@ -416,6 +431,7 @@
             }
 
             if (topicArray.length == 0) {
+                hideLoader();
                 var toast = document.getElementById('content_error');
                 var toast_error_message = document.getElementById('toast_error_message');
                 toast_error_message.innerHTML = "Konu içeriği boş olamaz!";
@@ -437,6 +453,7 @@
                 console.log(topicStr);
                 var questionCountInput = document.getElementById('questionCountInput').value;
                 if (questionCountInput == "" || questionCountInput == null) {
+                    hideLoader();
                     var toast = document.getElementById('content_error');
                     var toast_error_message = document.getElementById('toast_error_message');
                     toast_error_message.innerHTML = "Soru sayısı giriniz";
@@ -454,6 +471,7 @@
                 var endTimeInput = document.getElementById('endTimeInput').value;
 
                 if (startTimeInput == "" || startTimeInput == null || endTimeInput == "" || endTimeInput == null) {
+                    hideLoader();
                     var toast = document.getElementById('content_error');
                     var toast_error_message = document.getElementById('toast_error_message');
                     toast_error_message.innerHTML = "Tarihleri giriniz";
@@ -481,12 +499,10 @@
                 // api URL
                 var apiUrl = "https://intelligradebackend.azurewebsites.net/api/Quiz/createquiz";
                 var classId = "@Model.classId";
-                let spinner = document.getElementById("spinner");
                 let submitQuizBtn = document.getElementById("submitQuizBtn");
                 let btn_close = document.querySelectorAll(".btn-close");
                 btn_close[1].classList.add("disabled");
                 submitQuizBtn.classList.add("disabled");
-                spinner.classList.remove("d-none");
                 fetch(apiUrl, {
                     method: "POST",
                     headers: {
@@ -498,7 +514,6 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        spinner.classList.add("d-none");
                         submitQuizBtn.classList.remove("disabled");
                         btn_close[1].classList.remove("disabled");
                         // Handle the response from the API
@@ -508,7 +523,7 @@
                         window.location.href = redirectUrl;
                     })
                     .catch(error => {
-                        spinner.classList.add("d-none");
+                        hideLoader();
                         var toast = document.getElementById('content_error');
                         var toast_error_message = document.getElementById('toast_error_message');
                         toast_error_message.innerHTML = "Quiz Oluşturulamadı!";

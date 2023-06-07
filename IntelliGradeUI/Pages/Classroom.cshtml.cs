@@ -30,7 +30,7 @@ namespace IntelliGradeUI.Pages
         [BindProperty]
         public string assignmentDescription { get; set; }
         [BindProperty]
-        public string assignmentRequirements { get; set; }
+        public List<string> assignmentRequirements { get; set; }
         [BindProperty]
         public DateTime assignmentDeadline { get; set; }
         [BindProperty]
@@ -41,7 +41,8 @@ namespace IntelliGradeUI.Pages
         public List<Quiz> quizzes { get; set; }
         [BindProperty]
         public List<User> classTeachers { get; set; }
-
+        [BindProperty]
+        public string userId { get; set; }
         MultipartFormDataContent content = new MultipartFormDataContent();
 
         public void OnGet()
@@ -121,20 +122,23 @@ namespace IntelliGradeUI.Pages
 
     public void OnPostCreateAssignment(IFormFile file)
         {
-            List<string> dataList = assignmentRequirements.Split("-").ToList();
+
+            for(int i=0;i<assignmentRequirements.Count();i++)
+            {
+                Console.WriteLine(i+" -> "+assignmentRequirements[i]);
+            }
 
             string jsonData = "{\"id\":\"string\",\"userId\":\"string\",\"filePath\":\"string\",\"fileUrl\":\"string\"}";
 
             var content = new MultipartFormDataContent();
 
-            Console.WriteLine("OnPostCreateAssignment");
-            content.Add(new StringContent(currentUser.id), "Assignment.TeacherId");
+            content.Add(new StringContent(userId), "Assignment.TeacherId");
             content.Add(new StringContent(""), "Assignment.FilePath");
             content.Add(new StringContent(""), "Assignment.FileUrl");
             content.Add(new StringContent(assignmentTitle), "Assignment.Title");
             content.Add(new StringContent(assignmentDefinition), "Assignment.Definition");
             content.Add(new StringContent(assignmentDescription), "Assignment.Description");
-            foreach (var data in dataList)
+            foreach (var data in assignmentRequirements)
             {
                 var stringContent = new StringContent(data);
                 content.Add(stringContent, "Assignment.Requriments");
@@ -165,9 +169,9 @@ namespace IntelliGradeUI.Pages
             }
 
             if (PostRequests.PostOnFormData(content, "Assignment", "create/" + classId, Request.Cookies["Token"].ToString()).status == "Created")
-                ToastService.createSuccessToast("Ödev Oluþturuldu.",Response);
+                ToastService.createSuccessToast("Ödev Oluþturuldu.", Response);
             else
-                ToastService.createErrorToast("Ödev Oluþturulamadý.",Response);
+                ToastService.createErrorToast("Ödev Oluþturulamadý.", Response);
 
             Response.Redirect("/Classroom?classId=" + classId);
 
