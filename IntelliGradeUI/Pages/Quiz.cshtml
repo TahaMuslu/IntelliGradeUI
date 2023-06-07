@@ -12,10 +12,32 @@
     <title>Quiz</title>
     <link rel="stylesheet" href="~/css/quiz-app.css" />
     <link rel="stylesheet" href="~/css/quiz.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <style>
+        :root {
+        --bs-white-rgb: 255, 255, 255;
+        }
+        .text-white {
+            --bs-text-opacity: 1;
+            color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+        }
+    </style>
 </head>
 <body>
+    <div id="js-preloader" class="js-preloader loaded d-flex flex-column">
+        <span id="loader_text" class="text-white" style="font-size:2rem"></span>
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
-        @*<div id="loader"></div>*@
         <div id="game" class="justify-center flex-column @*hidden*@">
             <div id="hud" style="margin-bottom:1cm;">
                 <div id="hud-item" style="width:100%;text-align:center;">
@@ -23,7 +45,7 @@
                     <div id="progressBar">
                         @if (Model.currentQuiz != null)
                         {
-                        <div id="progressBarFull" style="width:@(100/Model.currentQuiz.questionCount)%;"></div>
+                            <div id="progressBarFull" style="width:@(100/Model.currentQuiz.questionCount)%;"></div>
                         }
                     </div>
                 </div>
@@ -36,42 +58,43 @@
                 </h1>
                 </div>*@
             </div>
-            @if (Model.currentQuiz != null && @Model.currentQuiz.questions!=null)
+            @if (Model.currentQuiz != null && @Model.currentQuiz.questions != null)
             {
-            <h2 id="question">@Model.currentQuiz.questions[0].questionText</h2>
-            <div id="choices-container">
-                @for (int i = 0; i < Model.currentQuiz.questions[0].answers.Count; i++)
-                {
-                    <div class="choice-container" onclick="choice_click(@i)" style="border-radius:10px;">
-                        <p class="choice-prefix" style="border-radius:10px;">
-                            @switch (i)
-                            {
-                                case 0:
-                                    <text>A</text>
-                                    break;
-                                case 1:
-                                    <text>B</text>
-                                    break;
-                                case 2:
-                                    <text>C</text>
-                                    break;
-                                case 3:
-                                    <text>D</text>
-                                    break;
-                            }
-                        </p>
-                        <p class="choice-text" data-number="@(i)">@Model.currentQuiz.questions[0].answers[i]</p>
-                    </div>
+                <h2 id="question">@Model.currentQuiz.questions[0].questionText</h2>
+                <div id="choices-container">
+                    @for (int i = 0; i < Model.currentQuiz.questions[0].answers.Count; i++)
+                    {
+                        <div class="choice-container" onclick="choice_click(@i)" style="border-radius:10px;">
+                            <p class="choice-prefix" style="border-radius:10px;">
+                                @switch (i)
+                                {
+                                    case 0:
+                                        <text>A</text>
+                                        break;
+                                    case 1:
+                                        <text>B</text>
+                                        break;
+                                    case 2:
+                                        <text>C</text>
+                                        break;
+                                    case 3:
+                                        <text>D</text>
+                                        break;
+                                }
+                            </p>
+                            <p class="choice-text" data-number="@(i)">@Model.currentQuiz.questions[0].answers[i]</p>
+                        </div>
 
-                }
-            </div>
+                    }
+                </div>
             }
         </div>
     </div>
 
+    <script src="/js/site.js"></script>
+
     <script>
         var Quiz = @Html.Raw(Json.Serialize(Model.currentQuiz));
-        console.log(Quiz);
         var progressBarFull = document.getElementById("progressBarFull");
         var question = document.getElementById("question");
         var choices_container = document.getElementById("choices-container");
@@ -88,9 +111,9 @@
             }
             if (index == Quiz.questions.length - 1) {
                 index++;
+                showLoader('Quiz bitiriliyor...');
                 var choice_container = document.querySelectorAll(".choice-container");
                 answers.push(choice_container[i].querySelector(".choice-text").innerHTML);
-                console.log(answers);
                 let apiUrl = "https://intelligradebackend.azurewebsites.net/api/Quiz/quizresult/" + Quiz.id;
                 fetch(apiUrl, {
                     method: "POST",
@@ -101,7 +124,9 @@
                     },
                     body: `{"answers":${JSON.stringify(answers)}}`
                 }).then(response =>{
-                    var redirectUrl = @Url.Page("/Classroom")+`?classId=${Quiz.classId}`;
+                    document.cookie = "Success=show;"
+                    document.cookie = "SuccessMessage=Quiz%20bitirildi.;"
+                    var redirectUrl = '@Url.Page("/Classroom")'+`?classId=${Quiz.classId}`;
                     window.location.href = redirectUrl;
                 }).catch(error => {
                         console.error(error);
@@ -118,27 +143,27 @@
                 switch (j) {
                     case 0:
                         choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
-                                                                                        <p class="choice-prefix" style="border-radius:10px;">A</p>
-                                                                            <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
-                                                                        </div>`;
+                                                                                                <p class="choice-prefix" style="border-radius:10px;">A</p>
+                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                </div>`;
                         break;
                     case 1:
                         choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
-                                                                                                <p class="choice-prefix" style="border-radius:10px;">B</p>
-                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
-                                                                                </div>`;
+                                                                                                        <p class="choice-prefix" style="border-radius:10px;">B</p>
+                                                                                            <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                        </div>`;
                         break;
                     case 2:
                         choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
-                                                                                                <p class="choice-prefix" style="border-radius:10px;">C</p>
-                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
-                                                                                </div>`;
+                                                                                                        <p class="choice-prefix" style="border-radius:10px;">C</p>
+                                                                                            <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                        </div>`;
                         break;
                     case 3:
                         choices_container.innerHTML += `<div class="choice-container" onclick="choice_click(${j})" style="border-radius:10px;">
-                                                                                                <p class="choice-prefix" style="border-radius:10px;">D</p>
-                                                                                    <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
-                                                                                </div>`;
+                                                                                                        <p class="choice-prefix" style="border-radius:10px;">D</p>
+                                                                                            <p class="choice-text" data-number="${j}">${Quiz.questions[index].answers[j]}</p>
+                                                                                        </div>`;
                         break;
                 }
 

@@ -75,7 +75,7 @@
                         <i class="fas fa-lock"></i>
                         <input style="font-weight:500;font-size:1rem;" type="password" id="password" asp-for="password" required placeholder="Parola" />
                     </div>
-                    <input type="submit" value="Giriş Yap" class="btn solid" />
+                    <input onclick="showLoader()" type="submit" value="Giriş Yap" class="btn solid" />
 
                 </form>
                 <form method="post" id="register" asp-page-handler="Register" class="sign-up-form">
@@ -92,7 +92,7 @@
                         <i class="fas fa-lock"></i>
                         <input style="font-weight:500;font-size:1rem;" type="password" id="password" required asp-for="passwordRegister" placeholder="Parola" />
                     </div>
-                    <input type="submit" class="btn" value="Kayıt Ol" />
+                    <input onclick="showLoader()" type="submit" class="btn" value="Kayıt Ol" />
 
                 </form>
             </div>
