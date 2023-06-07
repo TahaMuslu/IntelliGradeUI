@@ -12,39 +12,46 @@ let questionCounter = 0;
 let availableQuesions = [];
 
 let questions = [];
-
+var quizId = "@Model.quizId"
 fetch(
-    'https://intelligradebackend.azurewebsites.net/api/Quiz/getbyid/' + '@Model.quizId'
-    .then((res) => {
-        return res.json();
-    })
-    .then((loadedQuestions) => {
-        questions = loadedQuestions.questions.map((loadedQuestion) => {
-            const formattedQuestion = {
-                question: loadedQuestion.questionText,
-            };
+    `https://intelligradebackend.azurewebsites.net/api/Quiz/getbyid/${quizId}`, {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
 
-            const answerChoices = [...loadedQuestion.answers].splice(findIndex(loadedQuestion.correctAnswer),1);
-            formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
-            answerChoices.splice(
-                formattedQuestion.answer - 1,
-                0,
-                loadedQuestion.correctAnswer
-            );
+        "Authorization": "Bearer " + '@Request.Cookies["Token"]'
+    }
+}
+).then((res) => {
+            return res.json();
+        })
+        .then((loadedQuestions) => {
+            questions = loadedQuestions.questions.map((loadedQuestion) => {
+                const formattedQuestion = {
+                    question: loadedQuestion.questionText,
+                };
 
-            answerChoices.forEach((choice, index) => {
-                formattedQuestion['choice' + (index + 1)] = choice;
+                const answerChoices = [...loadedQuestion.answers].splice(findIndex(loadedQuestion.correctAnswer), 1);
+                formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
+                answerChoices.splice(
+                    formattedQuestion.answer - 1,
+                    0,
+                    loadedQuestion.correctAnswer
+                );
+
+                answerChoices.forEach((choice, index) => {
+                    formattedQuestion['choice' + (index + 1)] = choice;
+                });
+
+                return formattedQuestion;
             });
 
-            return formattedQuestion;
-        });
-
-        startGame();
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-
+            startGame();
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        
 //CONSTANTS
 const CORRECT_BONUS = 10;
 const MAX_QUESTIONS = parseInt('@Model.currentQuiz.questionCount');

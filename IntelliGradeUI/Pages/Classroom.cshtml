@@ -45,7 +45,7 @@
 
     @if (Model.quizzes != null)
     {
-        for(int i = 0; i < Model.quizzes.Count; i++)
+        for (int i = 0; i < Model.quizzes.Count; i++)
         {
             <div class="col-md-6 mx-auto mb-4">
                 <div class="quiz-card p-3 mb-2">
@@ -61,12 +61,55 @@
                                 <span>@Model.quizzes[i].endTime</span>
                             </div>
                         </div>
-
-                        <div class="quiz-badge">
-                            <a href="/Quiz?quizId=@Model.quizzes[i].id">
-                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
-                            </a>
-                        </div>
+                        @if (Model.isTeacher())
+                        {
+                            <!--Öğretmen ise-->
+                            <div class="quiz-badge">
+                                <a href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                                    <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <!--Öğrenci ise-->
+                            @if (DateTime.Compare(Model.quizzes[i].endTime, DateTime.Now) > 0)
+                            {
+                                <!--Süre geçmediyse-->
+                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                {
+                                    <!--Quize girdiyse-->
+                                    <span class="fw-bold">
+                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <!--Quize girmediyse-->
+                                    <div class="quiz-badge">
+                                        <a href="/Quiz?quizId=@Model.quizzes[i].id">
+                                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <!--Süre geçtiyse-->
+                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                {
+                                    <!--Quize girdiyse-->
+                                    <span class="fw-bold">
+                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <!--Quize girmediyse-->
+                                    <span class="fw-bold">Quiz süresi doldu.</span>
+                                }
+                            }
+                        }
                     </div>
 
                 </div>
@@ -184,7 +227,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-grade" onclick="submitQuiz()">Quiz Oluştur</button>
+                <button id="submitQuizBtn" class="btn btn-grade" onclick="submitQuiz()">Quiz Oluştur</button>
                 <div class="spinner-border d-none" role="status" id="spinner" style="z-index:9999;">
                     <span class="sr-only">Quiz Oluşturuluyor Lütfen Bekleyiniz</span>
                 </div>
@@ -367,6 +410,10 @@
                 var apiUrl = "https://intelligradebackend.azurewebsites.net/api/Quiz/createquiz";
                 var classId = "@Model.classId";
                 let spinner = document.getElementById("spinner");
+                let submitQuizBtn = document.getElementById("submitQuizBtn");
+                let btn_close = document.querySelectorAll(".btn-close");
+                btn_close[1].classList.add("disabled");
+                submitQuizBtn.classList.add("disabled");
                 spinner.classList.remove("d-none");
                 fetch(apiUrl, {
                     method: "POST",
@@ -380,6 +427,8 @@
                     .then(response => response.json())
                     .then(data => {
                         spinner.classList.add("d-none");
+                        submitQuizBtn.classList.remove("disabled");
+                        btn_close[1].classList.remove("disabled");
                         // Handle the response from the API
                         console.log(data);
                         // Perform any additional actions based on the response

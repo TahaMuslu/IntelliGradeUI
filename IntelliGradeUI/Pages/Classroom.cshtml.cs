@@ -39,6 +39,8 @@ namespace IntelliGradeUI.Pages
         public User currentUser { get; set; }
         [BindProperty]
         public List<Quiz> quizzes { get; set; }
+        [BindProperty]
+        public List<User> classTeachers { get; set; }
 
         MultipartFormDataContent content = new MultipartFormDataContent();
 
@@ -66,11 +68,58 @@ namespace IntelliGradeUI.Pages
 
                 string result4 = GetRequests.Get("Quiz", "getquizesbylesson/"+classId, Request.Cookies["Token"]).message;
                 this.quizzes = JsonConvert.DeserializeObject<List<Quiz>>(result4);
+
+                string result5 = GetRequests.Get("lesson", "getteachers/" + classId, Request.Cookies["Token"]).message;
+                this.classTeachers = JsonConvert.DeserializeObject<List<User>>(result5);
             }
             ToastService.deleteToasts(Response);
         }
 
-        public void OnPostCreateAssignment(IFormFile file)
+        public bool isTeacher()
+        {
+            string result = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
+            User currentUser = JsonConvert.DeserializeObject<User>(result);
+            bool isTeacher = false;
+            classTeachers.ForEach(teacher =>
+            {
+                if (currentUser.id == teacher.id)
+                {
+                    isTeacher = true;
+                }
+            });
+            return isTeacher;
+        }
+
+        public bool isEnterQuiz(string quizid)
+        {
+            string result = GetRequests.Get("Quiz", "entrancecontrol/"+quizid, Request.Cookies["Token"]).message;
+            if(result == "true")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string getQuizNote(string quizid)
+        {
+            string result = GetRequests.Get("Quiz", "getquiznotes/"+quizid, Request.Cookies["Token"]).message;
+            List<QuizResult> quizResults = JsonConvert.DeserializeObject<List<QuizResult>>(result);
+            string note = "";
+            quizResults.ForEach(quizResult =>
+            {
+                if (quizResult.studentName == Request.Cookies["UserName"])
+                {
+                    note = quizResult.note.ToString();
+                }
+            });
+            return note;
+        }
+    
+
+    public void OnPostCreateAssignment(IFormFile file)
         {
             List<string> dataList = assignmentRequirements.Split("-").ToList();
 
@@ -124,9 +173,5 @@ namespace IntelliGradeUI.Pages
 
         }
 
-        public void OnPostCreateQuiz()
-        {
-            Console.WriteLine("OnPostCreateQuiz");
-        }
     }
 }
