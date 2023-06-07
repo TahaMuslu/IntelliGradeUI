@@ -94,7 +94,7 @@
                         "Authorization": "Bearer " + '@Request.Cookies["Token"]'
                     },
                     body: `{"answers":${JSON.stringify(answers)}}`
-                }).then(response {
+                }).then(response =>{
                     var redirectUrl = '@Url.Page("/Index")';
                     window.location.href = redirectUrl;
                 }).catch(error => {

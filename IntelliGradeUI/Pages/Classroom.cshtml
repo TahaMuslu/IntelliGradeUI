@@ -65,7 +65,7 @@
                         {
                             <!--Öğretmen ise-->
                             <div class="quiz-badge">
-                                <a href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                                <a class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
                                     <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
                                 </a>
                             </div>
@@ -87,7 +87,7 @@
                                 {
                                     <!--Quize girmediyse-->
                                     <div class="quiz-badge">
-                                        <a href="/Quiz?quizId=@Model.quizzes[i].id">
+                                        <a class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id">
                                             <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
                                         </a>
                                     </div>
@@ -343,6 +343,19 @@
 
 
         function submitQuiz() {
+            var startTimeInput = document.getElementById('startTimeInput').value;
+            var endTimeInput = document.getElementById('endTimeInput').value;
+            if (Date.now() > new Date(endTimeInput) || new Date(startTimeInput) > new Date(endTimeInput) || Date.now() > new Date(startTimeInput)) {
+                var toast = document.getElementById('content_error');
+                var toast_error_message = document.getElementById('toast_error_message');
+                toast_error_message.innerHTML = "Tarihleri doğru giriniz";
+                toast.classList.add('show');
+                setTimeout(function () {
+                    toast.classList.remove('show');
+                    toast.classList.remove('d-none');
+                }, 5000);
+                return false;
+            }
 
             if (topicArray.length == 0) {
                 var toast = document.getElementById('content_error');

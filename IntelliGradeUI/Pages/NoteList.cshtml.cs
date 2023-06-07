@@ -33,6 +33,13 @@ namespace IntelliGradeUI.Pages
             }
             else
             {
+                try
+                {
+                homeworksUrl = Request.Cookies["homeworksUrl"].ToString();
+                }catch(Exception e)
+                {
+                }
+                Response.Cookies.Delete("homeworksUrl");
                 string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
                 assignment = JsonConvert.DeserializeObject<Assignment>(result);
 
@@ -68,7 +75,8 @@ namespace IntelliGradeUI.Pages
                 ToastService.createSuccessToast("Ödevler indirildi", Response);
             else
                 ToastService.createErrorToast("Ödevler indirilemedi.", Response);
-
+           
+           Response.Cookies.Append("homeworksUrl", homeworksUrl);
            Response.Redirect("/NoteList?assignmentId="+assignmentId+"&classId="+classId);
         }
     }

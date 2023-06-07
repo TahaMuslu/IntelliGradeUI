@@ -102,5 +102,12 @@ namespace IntelliGradeUI.Pages
                 Response.Redirect("/Classroom?classId=" + classId);
             }
         }
+
+        public void OnPostDeleteQuiz()
+        {
+            DeleteRequests.Delete("Quiz", "deletequiz/" + quizId, Request.Cookies["Token"]);
+            ToastService.createSuccessToast("Quiz silindi", Response);
+            Response.Redirect("/Classroom?classId=" + classId);
+        }
     }
 }
