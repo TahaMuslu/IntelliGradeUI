@@ -187,7 +187,7 @@
 
 
                             <div class="form-outline mb-4">
-                                <input required type="datetime-local" id="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
+                                <input required type="datetime-local" id="assignmentDeadline" value="@DateTime.Now" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
                             </div>
                             <div class="form-outline mb-4">
                                 <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
