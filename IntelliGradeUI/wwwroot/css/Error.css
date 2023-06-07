@@ -1,0 +1,48 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+.page_404 {
+    padding: 40px 0;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+
+.four_zero_four_bg {
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/intelligradedb.appspot.com/o/animations%2Fanimation500.gif?alt=media&token=0253cc57-cba1-462b-8dc9-4131656ab012&_gl=1*yp7t48*_ga*NDg1NzQ0MDUyLjE2ODA3MDM3NTk.*_ga_CW55HF8NVT*MTY4NjE0ODE2NS40Mi4xLjE2ODYxNTgxNTMuMC4wLjA.);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    height: 400px;
+}
+
+    .four_zero_four_bg h1 {
+        font-size: 80px;
+    }
+
+.contant_box_404 {
+    margin-top: 20px;
+}
+
+    .contant_box_404 h3 {
+        font-size: 30px;
+    }
+
+    .contant_box_404 p {
+        font-size: 18px;
+    }
+
+.link_404 {
+    color: #fff !important;
+    padding: 10px 20px;
+    background: #5161ce;
+    margin: 20px 0;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 4px;
+}
+
+    .link_404:hover {
+        background: #3142a8;
+    }
