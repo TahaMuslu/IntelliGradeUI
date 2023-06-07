@@ -152,8 +152,8 @@
 
 </div>
 
-
 <form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
+
     <div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -164,35 +164,41 @@
                 <div class="modal-body">
                     <div class="modal-dialog-scrollable" style="overflow-y: auto;">
                         <!-- scrollable içeriği buraya taşıyın -->
-                        <div class="form-outline mb-4">
-                            <input required type="text" id="assignmentTitle" asp-for="assignmentTitle" value="" placeholder="Başlık" class="form-control form-control-lg mt-2" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <input required type="text" id="asignmentDefinition" asp-for="assignmentDefinition" value="" placeholder="Tanım" class="form-control form-control-lg mt-2" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <textarea required class="form-control mt-2" id="assignmentDescription" asp-for="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
-                        </div>
-                        <div class="form-outline mb-4">
-                            <textarea required type="text" id="assignmentRequirements" asp-for="assignmentRequirements" value="" placeholder="Gereksinimler (maddeleri - ile ayırın)" class="form-control form-control-lg mt-2"></textarea>
-                        </div>
-                        <div class="form-outline mb-4">
-                            <input required type="datetime-local" id="assignmentDeadline" value="" data-format="dd/MM/yyyy hh:mm:ss" asp-for="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <input type="file" name="file" accept=".pdf,.zip,.rar" class="form-control mt-2" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <input type="hidden" id="classId" asp-for="classId" value="@Model.classId" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <input type="hidden" id="currentUser" asp-for="currentUser.id" value="@(Model.currentUser!=null ? Model.currentUser.id : "")" />
+                        <div id="assignmentForm">
+                            <div class="form-outline mb-4">
+                                <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama"></textarea>
+                            </div>
+                            <div id="requirementsDiv">
+                                <div class="form-outline mb-4 d-flex">
+                                    <input required type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
+                                    <button class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
+
+                                </div>
+
+                                <div class="form-outline mb-4 d-flex" id="requirementsContainer">
+                                </div>
+                            </div>
+                          
+
+                            <div class="form-outline mb-4">
+                                <input required type="datetime-local" id="assignmentDeadline" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-grade">Ödev Oluştur</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button onclick="showLoader()" type="submit" class="btn btn-grade">Ödev Oluştur</button>
-                </div>
+             
             </div>
         </div>
     </div>
@@ -258,6 +264,57 @@
 
 @section Scripts {
     <script>
+
+
+
+        // Gereklilikleri tutacak dizi
+        var requirementsArray = [];
+        var requirementInputField = document.getElementById("requirementInput");
+        // Gereklilik ekleme butonu
+        var addRequirementButton = document.getElementById("addRequirementButton");
+        addRequirementButton.addEventListener("click", function () {
+            var requirementText = requirementInputField.value.trim();
+            if (requirementText !== "") {
+                requirementsArray.push(requirementText);
+                console.log(requirementsArray);
+                var requirementInput = document.createElement("input");
+                requirementInput.type = "text";
+                requirementInput.className = "form-control form-control-lg h-100 requirement-input";
+                requirementInput.name=
+                requirementInput.setAttribute('placeholder', requirementText);
+                document.getElementById("requirementsContainer").appendChild(requirementInput);
+
+
+                var assignmentDiv = document.getElementById("requirementsDiv");
+                var newRequirement = document.createElement('div');
+                newRequirement.setAttribute('class', 'form-outline mb-4 d-flex');
+                newRequirement.setAttribute('id', 'requirementInput');
+                newRequirement.appendChild(requirementInput);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.setAttribute('class', 'btn btn-grade ms-2');
+                deleteButton.innerHTML = '<i class="fa-solid fa-trash fa-lg mx-auto"></i>';
+                deleteButton.onclick = function () {
+                    requirementsArray.splice(requirementsArray.indexOf(requirementText), 1);
+                    console.log(requirementsArray);
+                    assignmentDiv.removeChild(newRequirement);
+                };
+                newRequirement.appendChild(deleteButton);
+                assignmentDiv.appendChild(newRequirement);
+
+                requirementInputField.value = "";
+            }
+
+
+        });
+
+    
+
+
+
+
+
+
         function redirectToAssignmentPage(assignmentId, lessonId) {
             var redirectUrl = '@Url.Page("/Assignment")?classId=' + lessonId + '&assignmentId=' + assignmentId;
             window.location.href = redirectUrl;
