@@ -23,8 +23,8 @@ app.Use(async (context, next) =>
     await next();
     if (context.Response.StatusCode == 404)
     {
-        context.Request.Path="/";
-        context.Response.Redirect("/");
+        context.Request.Path="/NotFound";
+        context.Response.Redirect("/NotFound");
         await next();
     }
 });
