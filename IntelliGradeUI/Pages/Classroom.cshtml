@@ -4,7 +4,6 @@
     ViewData["Title"] = "Akış";
     Layout = "_Layout";
 }
-
 <div class="container  mb-3">
     <div class="col-md-6 mx-auto mb-4">
         <div class="header-card p-3 mb-2" style="background-color:none;">
@@ -87,7 +86,7 @@
                                 {
                                     <!--Quize girmediyse-->
                                     <div class="quiz-badge">
-                                        <a class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
+                                        <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
                                             <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
                                         </a>
                                     </div>

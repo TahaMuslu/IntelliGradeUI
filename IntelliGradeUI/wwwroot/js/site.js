@@ -3,6 +3,13 @@
 
 // Write your JavaScript code.
 
+
+function showLoader(text) {
+    document.getElementById("js-preloader").classList.remove("loaded");
+    if (text != undefined && text != null && text != "")
+    document.getElementById("loader_text").innerText = text;
+}
+
 function logOut() {
     console.log("logOut");
     document.cookie = "Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
