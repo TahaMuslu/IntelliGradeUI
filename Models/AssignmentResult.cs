@@ -10,7 +10,7 @@ namespace Models
     {
         public string studentNumber { get; set; }
         public string nameSurname { get; set; }
-        public int grade { get; set; }
+        public int? grade { get; set; }
         public string fileUrl { get; set; }
 
     }

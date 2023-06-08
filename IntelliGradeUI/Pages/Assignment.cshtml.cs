@@ -59,7 +59,7 @@ namespace IntelliGradeUI.Pages
                 ToastService.createSuccessToast("Dosya notlandýrýldý.", Response);
             else
                 ToastService.createErrorToast("Dosya notlandýrýlmasýnda hata oluþtu.", Response);
-            Response.Redirect("/Assignment?assignmentId=" + assignmentId);
+            Response.Redirect("/Assignment?assignmentId=" + assignmentId+"&classId="+classId);
         }
 
         public void OnPostDeleteFile()
@@ -87,6 +87,8 @@ namespace IntelliGradeUI.Pages
         public string findStudentFile()
         {
             string file = "";
+            try
+            {
             assignment.uploadedHomeworks.ForEach(homework =>
             {
                 if (homework.userId == currentUser.id)
@@ -94,6 +96,10 @@ namespace IntelliGradeUI.Pages
                     file = homework.fileUrl;
                 }
             });
+            }catch(System.Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
             return file;
         }
 

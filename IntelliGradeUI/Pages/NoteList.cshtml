@@ -49,7 +49,12 @@
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center mt-3 mt-md-0 h-min">
                                     <span class=" border border-1 rounded-2 p-1 fs-6 bg-success text-light">
-                                        Notu: @Model.grades[i].grade
+                                        Notu: @if (@Model.grades[i].grade != null)
+                                        {
+                                            <text>@Model.grades[i].grade</text>
+                                        }else{
+                                            <text>verilmedi</text>
+                                        }
                                     </span>
                                 </div>
                                 <div class="col-6 col-md-4 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0 h-min">
