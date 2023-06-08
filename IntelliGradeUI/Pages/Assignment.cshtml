@@ -11,26 +11,25 @@
     }
     Layout = "_Layout";
 }
-@if (Model.assignment!=null)
+@if (Model.assignment != null)
 {
-    
-
-<div class="container mt-5 mb-3">
-    <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-8">
-            <div class="card p-3 mb-2 ps-0">
-                <div class="d-flex justify-content-between w-100">
-                    <div class="d-flex flex-row align-items-center w-100">
-                        <div class="ms-4 c-details w-100">
-                            @if (Model.assignment.fileUrl != null)
-                            {
+    <div class="container mt-5 mb-3">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-8">
+                <div class="card p-3 mb-2 ps-0">
+                    <div class="d-flex justify-content-between w-100">
+                        <div class="d-flex flex-row align-items-center w-100">
+                            <div class="ms-4 c-details w-100">
                                 <h6 class="mb-0 w-100 d-block d-flex justify-content-between"><i class="fa-solid fa-circle-right" style="color: #5161ce"></i><b>@Model.assignment.title</b> <span class="ms-auto fw-bold fs-6"><i class="fa-solid fa-clock text-danger"></i>@Model.assignment.deadline.ToString("dd/MM/yyyy HH:mm")</span></h6>
                                 <p>Maksimum Puan: 100 Puan</p>
-                                <a href="@Model.assignment.fileUrl" download style="color:cornflowerblue">Talimatlar</a>
-                                <br />
-                                <br />
+                                @if (Model.assignment.fileUrl != null)
+                                {
+                                    <a href="@Model.assignment.fileUrl" download style="color:cornflowerblue">Talimatlar</a>
+                                    <br />
+                                    <br />
+                                }
                                 <b><i class="fa-solid fa-circle-info" style="color: #5161ce"></i>Problem Tanımı:</b>
                                 <br />
                                 @Model.assignment.definition
@@ -40,184 +39,178 @@
                                 <br />
                                 @Model.assignment.description
                                 <br />
-                            }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @if (!Model.isTeacher())
-        {
-            <div class="col-md-3">
-                <div class="card p-3 mb-2">
-                    <div class="d-flex justify-content-between w-100">
-                        <div class="d-flex flex-column align-items-center w-100">
-                            <div class="ms-2 c-details d-flex flex-row align-items-center">
-                                <h6 class="mb-0">Çalışmanız: &nbsp;</h6>
-                                @if (Model.findStudentFile() == "")
-                                {
-                                    <span style="color:red;font-size:medium">
-                                        Teslim Edilmedi
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span style="color:limegreen;font-size:medium">
-                                        Teslim Edildi
-                                    </span>
-                                }
-                            </div>
-                            <div class="loadButton w-100">
-                                @if (Model.findStudentFile() == "")
-                                {
-                                    <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile" class="w-100 d-flex flex-column align-items-center justify-content-center">
+            @if (!Model.isTeacher())
+            {
+                <div class="col-md-3">
+                    <div class="card p-3 mb-2">
+                        <div class="d-flex justify-content-between w-100">
+                            <div class="d-flex flex-column align-items-center w-100">
+                                <div class="ms-2 c-details d-flex flex-row align-items-center">
+                                    <h6 class="mb-0">Çalışmanız: &nbsp;</h6>
+                                    @if (Model.findStudentFile() == "")
+                                    {
+                                        <span style="color:red;font-size:medium">
+                                            Teslim Edilmedi
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:limegreen;font-size:medium">
+                                            Teslim Edildi
+                                        </span>
+                                    }
+                                </div>
+                                <div class="loadButton w-100">
+                                    @if (Model.findStudentFile() == "")
+                                    {
+                                        <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile" class="w-100 d-flex flex-column align-items-center justify-content-center">
+                                            @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
+                                            {
+                                                <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.txt,.c,.cpp,.cs,.py,.java" class="form-control" />
+                                                <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
+                                                <input type="hidden" name="cuser_id" asp-for="cuser_id" value="@Model.currentUser.id" />
+                                                <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
+                                                <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
+                                                <button onclick="showLoader()" type="submit" class="btn btn-grade mt-2">Teslim Et</button>
+                                            }
+                                            else
+                                            {
+                                                <div class="row border rounded-3 border-danger justify-content-center align-items-center w-100">
+                                                    <p class="col-6 h-100 justify-content-center text-center w-100 m-0 p-0 d-flex">
+                                                        Maalesef süre dolduğu için teslim edemezsiniz.
+                                                    </p>
+                                                </div>
+                                            }
+                                        </form>
+
+                                    }
+                                    else
+                                    {
+
+                                        <div class="row border rounded-3 border-primary align-items-center w-100 mx-auto">
+                                            <p class="col-6 h-100 justify-content-center m-0 p-0 d-flex">
+                                                Çalışmanız
+                                            </p>
+                                            <a href="@Model.findStudentFile()" download class="btn btn-grade rounded-0 rounded-end col-6">Dosyayı İndir</a>
+                                        </div>
                                         @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
                                         {
-                                            <input type="file" required value="@Model.findStudentFile()" name="file" accept=".pdf,.zip,.txt,.c,.cpp,.cs,.py,.java" class="form-control" />
-                                            <input type="hidden" name="assignmentId" value="@Model.assignment.id" />
-                                            <input type="hidden" name="cuser_id" asp-for="cuser_id" value="@Model.currentUser.id" />
-                                            <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
-                                            <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
-                                            <button onclick="showLoader()" type="submit" class="btn btn-grade mt-2">Teslim Et</button>
-                                        }
-                                        else
-                                        {
-                                            <div class="row border rounded-3 border-danger justify-content-center align-items-center w-100">
-                                                <p class="col-6 h-100 justify-content-center text-center w-100 m-0 p-0 d-flex">
-                                                    Maalesef süre dolduğu için teslim edemezsiniz.
-                                                </p>
-                                            </div>
-                                        }
-                                    </form>
 
-                                }
-                                else
-                                {
-
-                                    <div class="row border rounded-3 border-primary align-items-center w-100 mx-auto">
-                                        <p class="col-6 h-100 justify-content-center m-0 p-0 d-flex">
-                                            Çalışmanız
-                                        </p>
-                                        <a href="@Model.findStudentFile()" download class="btn btn-grade rounded-0 rounded-end col-6">Dosyayı İndir</a>
-                                    </div>
-                                    @if (DateTime.Compare(Model.assignment.deadline, DateTime.Now) > 0)
-                                    {
-
-                                        <button type="submit" class="btn btn-danger mt-2 mx-0 px-0 w-100" data-bs-toggle="modal" data-bs-target="#deleteFile">Gönderimi İptal Et</button>
-                                        <!-- Delete Assignment -->
-                                        <div class="modal fade" id="deleteFile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <form id="deleteFile" method="post" asp-page-handler="DeleteFile">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Gönderimi silmek istediğine emin misin?</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-outline my-auto">
-                                                                <p class="py-1 mb-0">Ödev yüklemen silinecek emin misin?</p>
-                                                                <p>Gönderimi silmen halinde ödevi tekrar yüklemen gerekecek.</p>
+                                            <button type="submit" class="btn btn-danger mt-2 mx-0 px-0 w-100" data-bs-toggle="modal" data-bs-target="#deleteFile">Gönderimi İptal Et</button>
+                                            <!-- Delete Assignment -->
+                                            <div class="modal fade" id="deleteFile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <form id="deleteFile" method="post" asp-page-handler="DeleteFile">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Gönderimi silmek istediğine emin misin?</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer flex-nowrap">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                            <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
-                                                            <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
-                                                            <button onclick="showLoader()" type="submit" class="btn btn-danger">Gönderimi Sil</button>
-                                                        </div>
-                                                    </form>
+                                                            <div class="modal-body">
+                                                                <div class="form-outline my-auto">
+                                                                    <p class="py-1 mb-0">Ödev yüklemen silinecek emin misin?</p>
+                                                                    <p>Gönderimi silmen halinde ödevi tekrar yüklemen gerekecek.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer flex-nowrap">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                                <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
+                                                                <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
+                                                                <button onclick="showLoader()" type="submit" class="btn btn-danger">Gönderimi Sil</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- Delete Assignment End -->
+                                            <!-- Delete Assignment End -->
+                                        }
+
                                     }
 
-                                }
-
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-        else
-        {
-            <div class="col-md-3">
-                <div class="card p-3 mb-2">
-                    <div class="d-flex flex-column align-items-center justify-content-center">
-                        <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
-                            <h6 class="mb-0 text-center">
-                                Ödevi Teslim Eden Sayısı:
-                                <br />
-                                <br />
-                                @{
-                                    try
-                                    {
-                                        <span style="color:limegreen;font-size:medium;font-weight:bold;">@Model.assignment.uploadedHomeworks.Count()</span>
-                                    }
-                                    catch
-                                    {
-                                        <span style="color:limegreen;font-size:medium;font-weight:bold;">0</span>
-                                    }
-                                }
-                            </h6>
-                        </div>
-                        <div class="loadButton mt-2 w-100">
-                            <a onclick="showLoader()" type="submit" href="/NoteList?classId=@Model.Request.Query["classId"]&assignmentId=@Model.Request.Query["assignmentId"]" class="btn btn-grade mt-2 w-100">Ödevlere Git</a>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="card p-3 mb-2">
-                    <div class="d-flex justify-content-center">
-                        <div class="d-flex flex-column align-items-center w-100">
-                            <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center w-100">
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <div class="card p-3 mb-2">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center">
                                 <h6 class="mb-0 text-center">
-                                    Ödevi Sil
+                                    Ödevi Teslim Eden Sayısı:
+                                    <br />
+                                    <br />
+                                    @{
+                                        try
+                                        {
+                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">@Model.assignment.uploadedHomeworks.Count()</span>
+                                        }
+                                        catch
+                                        {
+                                            <span style="color:limegreen;font-size:medium;font-weight:bold;">0</span>
+                                        }
+                                    }
                                 </h6>
                             </div>
                             <div class="loadButton mt-2 w-100">
+                                <a onclick="showLoader()" type="submit" href="/NoteList?classId=@Model.Request.Query["classId"]&assignmentId=@Model.Request.Query["assignmentId"]" class="btn btn-grade mt-2 w-100">Ödevlere Git</a>
 
-                                <button type="submit" class="btn btn-danger mt-2 mx-auto w-100" data-bs-toggle="modal" data-bs-target="#deleteAssignment">Ödevi Sil</button>
-                                <!-- Delete Assignment -->
-                                <div class="modal fade" id="deleteAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                        <div class="modal-content">
-                                            <form id="deleteAssignment" method="post" asp-page-handler="DeleteAssignment">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Ödevi silmek istediğine emin misin?</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-outline my-auto">
-                                                        <p class="py-1 mb-0"><b>@Model.assignment.title</b> ödevi silinecek emin misin?</p>
-                                                        <p>Ödevi silmen durumunda içindeki ödevler silinir.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-3 mb-2">
+                        <div class="d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-center w-100">
+                                <div class="ms-2 c-details d-flex flex-row align-items-center justify-content-center w-100">
+                                    <h6 class="mb-0 text-center">
+                                        Ödevi Sil
+                                    </h6>
+                                </div>
+                                <div class="loadButton mt-2 w-100">
+
+                                    <button type="submit" class="btn btn-danger mt-2 mx-auto w-100" data-bs-toggle="modal" data-bs-target="#deleteAssignment">Ödevi Sil</button>
+                                    <!-- Delete Assignment -->
+                                    <div class="modal fade" id="deleteAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <form id="deleteAssignment" method="post" asp-page-handler="DeleteAssignment">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ödevi silmek istediğine emin misin?</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer flex-nowrap">
-                                                    <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
-                                                    <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                    <button onclick="showLoader()" type="submit" class="btn btn-danger">Ödevi Sil</button>
-                                                </div>
-                                            </form>
+                                                    <div class="modal-body">
+                                                        <div class="form-outline my-auto">
+                                                            <p class="py-1 mb-0"><b>@Model.assignment.title</b> ödevi silinecek emin misin?</p>
+                                                            <p>Ödevi silmen durumunda içindeki ödevler silinir.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer flex-nowrap">
+                                                        <input type="hidden" asp-for="assignmentId" name="assignmentId" value="@Model.assignment.id" />
+                                                        <input type="hidden" asp-for="classId" name="classId" value="@Model.classId" />
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                        <button onclick="showLoader()" type="submit" class="btn btn-danger">Ödevi Sil</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- Delete Assignment End -->
                                 </div>
-                                <!-- Delete Assignment End -->
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
-
-
-
-
-
 }
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <!--Toast Success-->
