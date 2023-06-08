@@ -4,20 +4,22 @@
     ViewData["Title"] = "Öğrenciler";
 }
 
-
-<div class="col-8 mx-auto fs-2 mt-2">
-    <div class="row">
-        <div class="col-10">Öğretmenler</div>
-        @if (Model.isTeacher())
-        {
-        <div class="col-2">
-                <button class="btn btn-grade invite" data-bs-toggle="modal" data-bs-target="#inviteTeacher">+ Ekle</button>
+@if (Model.classTeachers != null)
+{
+    <div class="col-8 mx-auto fs-2 mt-2">
+        <div class="row">
+            <div class="col-10">Öğretmenler</div>
+            @if (Model.isTeacher())
+            {
+                <div class="col-2">
+                    <button class="btn btn-grade invite" data-bs-toggle="modal" data-bs-target="#inviteTeacher">+ Ekle</button>
+                </div>
+            }
         </div>
-        }
-    </div>
 
-    <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
-</div>
+        <div class="dropdown-divider border-2 mb-4" style="background-color: #5161ce"></div>
+    </div>
+}
 <div class="col-8 mx-auto d-flex flex-column justify-content-center ">
 
     @if (Model.classTeachers != null)
@@ -47,6 +49,7 @@
 <div class="col-8 mx-auto d-flex flex-column justify-content-center ">
     @{
         if (Model.classStudents != null)
+        {
             for (int i = 0; i < Model.classStudents.Count; i++)
             {
                 <div class="card w-100 card-class rounded-3" style=" @(i == Model.classStudents.Count - 1 ? "border:1px solid #eee;" : "")">
@@ -62,33 +65,35 @@
                     </ul>
                 </div>
             }
+        }
     }
 </div>
 
 
-
-<div class="modal fade" id="inviteTeacher" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <form id="inviteTeacher" method="post" enctype="multipart/form-data" asp-page-handler="InviteTeacher">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Davet Et</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-outline mb-4">
-                        <input  type="hidden" name="classId" value="@Model.classId"/>
-                        <input required type="text" id="teacherMail" asp-for="teacherMail" value="" placeholder="Mail" class="form-control form-control-lg mt-2" />
+@if (Model.classId != null)
+{
+    <div class="modal fade" id="inviteTeacher" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <form id="inviteTeacher" method="post" enctype="multipart/form-data" asp-page-handler="InviteTeacher">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Davet Et</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center ">
-                    <button onclick="showLoader()" type="submit" class="btn btn-grade">Gönder</button>
-                </div>
-            </form>
+                    <div class="modal-body">
+                        <div class="form-outline mb-4">
+                            <input type="hidden" name="classId" value="@Model.classId" />
+                            <input required type="text" id="teacherMail" asp-for="teacherMail" value="" placeholder="Mail" class="form-control form-control-lg mt-2" />
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center ">
+                        <button onclick="showLoader()" type="submit" class="btn btn-grade">Gönder</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
+}
 
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <!--Toast Success-->

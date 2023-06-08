@@ -25,6 +25,18 @@ namespace IntelliGradeUI.Pages
 
         public void OnGet()
         {
+            if (Request.Cookies["Token"] == null)
+            {
+                Response.Redirect("/Login");
+            }
+            else if (classId == null ||classId=="")
+            {
+                ToastService.createErrorToast("Sýnýf bulunamadý", Response);
+                Response.Redirect("/Index");
+            }
+            else { 
+
+
             ToastService.deleteToasts(Response);
             // teacher list
 
@@ -36,7 +48,7 @@ namespace IntelliGradeUI.Pages
 
             string strStudents = GetRequests.Get("lesson", "getstudents/" + classId, Request.Cookies["Token"]).message;
             classStudents = JsonConvert.DeserializeObject<List<User>>(strStudents);
-
+            }
         }
 
         public bool isTeacher()
@@ -44,6 +56,8 @@ namespace IntelliGradeUI.Pages
             string result = GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message;
             User currentUser = JsonConvert.DeserializeObject<User>(result);
             bool isTeacher = false;
+            if (classTeachers != null)
+            {
             classTeachers.ForEach(teacher =>
             {
                 if (currentUser.id == teacher.id)
@@ -51,8 +65,7 @@ namespace IntelliGradeUI.Pages
                     isTeacher = true;
                 }
             });
-
-
+            }
             return isTeacher;
         }
 

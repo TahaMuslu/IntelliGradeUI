@@ -51,7 +51,7 @@ namespace IntelliGradeUI.Pages
             {
                 Response.Redirect("/Login");
             }
-            else if (classId == null)
+            else if (classId == null || classId=="")
             {
                 ToastService.createErrorToast("Sýnýf bulunamadý", Response);
                 Response.Redirect("/Index");

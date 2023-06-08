@@ -33,10 +33,17 @@ namespace IntelliGradeUI.Pages
             {
                 Response.Redirect("/Login");
             }
-            string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
-            assignment = JsonConvert.DeserializeObject<Assignment>(result);
-            currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message);
-            ToastService.deleteToasts(Response);
+            else if (assignmentId == null || classId == null || assignmentId == "" || classId == "")
+            {
+                Response.Redirect("/Index");
+            }
+            else
+            {
+                string result = GetRequests.Get("Assignment", "getbyid/" + assignmentId, Request.Cookies["Token"]).message;
+                assignment = JsonConvert.DeserializeObject<Assignment>(result);
+                currentUser = JsonConvert.DeserializeObject<User>(GetRequests.Get("user", "getuser", Request.Cookies["Token"]).message);
+                ToastService.deleteToasts(Response);
+            }
         }
 
 
@@ -49,33 +56,33 @@ namespace IntelliGradeUI.Pages
             formContent.Add(new StringContent(""), "Homework.FileUrl");
             formContent.Add(new StringContent(""), "Homework.FileName");
             formContent.Add(new StringContent(Guid.NewGuid().ToString()), "Homework.Id");
-            formContent.Add(new StreamContent(file.OpenReadStream()),"File",ExtensionGetter.GetExtension(file.FileName));
-            if(PostRequests.PostOnFormData(formContent, "Assignment", "addhomework/" + assignmentId, Request.Cookies["Token"].ToString()).status== "OK")
+            formContent.Add(new StreamContent(file.OpenReadStream()), "File", ExtensionGetter.GetExtension(file.FileName));
+            if (PostRequests.PostOnFormData(formContent, "Assignment", "addhomework/" + assignmentId, Request.Cookies["Token"].ToString()).status == "OK")
                 ToastService.createSuccessToast("Dosya baþarýyla yüklendi.", Response);
             else
                 ToastService.createErrorToast("Dosya yüklenirken hata oluþtu.", Response);
 
-            if(GetRequests.Get("AI", "getnote?aid=" + assignmentId + "&uid=" + cuser_id, Request.Cookies["Token"]).status== "OK")
+            if (GetRequests.Get("AI", "getnote?aid=" + assignmentId + "&uid=" + cuser_id, Request.Cookies["Token"]).status == "OK")
                 ToastService.createSuccessToast("Dosya notlandýrýldý.", Response);
             else
                 ToastService.createErrorToast("Dosya notlandýrýlmasýnda hata oluþtu.", Response);
-            Response.Redirect("/Assignment?assignmentId=" + assignmentId+"&classId="+classId);
+            Response.Redirect("/Assignment?assignmentId=" + assignmentId + "&classId=" + classId);
         }
 
         public void OnPostDeleteFile()
         {
-            if(DeleteRequests.Delete("Assignment", "removehomework/" + assignmentId, Request.Cookies["Token"].ToString()).status== "OK")
+            if (DeleteRequests.Delete("Assignment", "removehomework/" + assignmentId, Request.Cookies["Token"].ToString()).status == "OK")
                 ToastService.createSuccessToast("Dosya baþarýyla silindi.", Response);
             else
                 ToastService.createErrorToast("Dosya silinirken hata oluþtu.", Response);
-            
 
-            Response.Redirect("/Assignment?assignmentId=" + assignmentId);
+
+            Response.Redirect("/Assignment?assignmentId=" + assignmentId + "&classId=" + classId);
         }
 
         public void OnPostDeleteAssignment()
         {
-            if(DeleteRequests.Delete("Assignment", "delete/" + assignmentId + "/" + classId, Request.Cookies["Token"].ToString()).status=="OK")
+            if (DeleteRequests.Delete("Assignment", "delete/" + assignmentId + "/" + classId, Request.Cookies["Token"].ToString()).status == "OK")
                 ToastService.createSuccessToast("Ödev baþarýyla silindi.", Response);
             else
                 ToastService.createErrorToast("Ödev silinirken hata oluþtu.", Response);
@@ -89,14 +96,15 @@ namespace IntelliGradeUI.Pages
             string file = "";
             try
             {
-            assignment.uploadedHomeworks.ForEach(homework =>
-            {
-                if (homework.userId == currentUser.id)
+                assignment.uploadedHomeworks.ForEach(homework =>
                 {
-                    file = homework.fileUrl;
-                }
-            });
-            }catch(System.Exception e)
+                    if (homework.userId == currentUser.id)
+                    {
+                        file = homework.fileUrl;
+                    }
+                });
+            }
+            catch (System.Exception e)
             {
                 Debug.WriteLine(e.Message);
             }

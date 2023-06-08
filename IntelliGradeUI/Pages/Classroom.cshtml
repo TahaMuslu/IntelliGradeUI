@@ -4,244 +4,247 @@
     ViewData["Title"] = "Akış";
     Layout = "_Layout";
 }
-<div class="container  mb-3">
-    <div class="col-md-6 mx-auto mb-4">
-        <div class="header-card p-3 mb-2" style="background-color:none;">
-            <div class="d-flex  flex-row justify-content-center " style="width:100%;">
-                <div class="d-flex flex-row alignt-items-center mt-3">
-                    <div class=" c-details me-3">
-                        @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
-                            @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
-                            {
-                                <form class="d-flex justify-content-center " onsubmit="return false;">
-                                    <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
-                                        <i class="fa-solid fa-bookmark"></i>Ödev Oluştur
-                                    </button>
-                                </form>
+@if (Model.lesson != null && Model.currentUser != null && Model.quizzes != null && Model.assignment!=null)
+{
+    <div class="container  mb-3">
+        <div class="col-md-6 mx-auto mb-4">
+            <div class="header-card p-3 mb-2" style="background-color:none;">
+                <div class="d-flex  flex-row justify-content-center " style="width:100%;">
+                    <div class="d-flex flex-row alignt-items-center mt-3">
+                        <div class=" c-details me-3">
+                            @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
+                                @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+                                {
+                                    <form class="d-flex justify-content-center " onsubmit="return false;">
+                                        <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createAssignment">
+                                            <i class="fa-solid fa-bookmark"></i>Ödev Oluştur
+                                        </button>
+                                    </form>
 
-                            }
+                                }
+                        </div>
+
+                        <div class=" c-details me-3">
+                            @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
+                                @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
+                                {
+                                    <form class="d-flex justify-content-center " onsubmit="return false;">
+                                        <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createQuiz">
+                                            <i class="fa-solid fa-clock"></i>Quiz Oluştur
+                                        </button>
+                                    </form>
+
+                                }
+                        </div>
                     </div>
 
-                    <div class=" c-details me-3">
-                        @if (Model.lesson != null && Model.lesson.teacherIds != null && Model.currentUser != null)
-                            @if (Model.lesson.teacherIds.Contains(Model.currentUser.id))
-                            {
-                                <form class="d-flex justify-content-center " onsubmit="return false;">
-                                    <button class="btn btn-grade" data-bs-toggle="modal" data-bs-target="#createQuiz">
-                                        <i class="fa-solid fa-clock"></i>Quiz Oluştur
-                                    </button>
-                                </form>
-
-                            }
-                    </div>
                 </div>
 
             </div>
-
         </div>
-    </div>
 
 
-    @if (Model.quizzes != null)
-    {
-        for (int i = 0; i < Model.quizzes.Count; i++)
+        @if (Model.quizzes != null)
         {
-            <div class="col-md-6 mx-auto mb-4">
-                <div class="quiz-card p-3 mb-2">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row alignt-items-center">
-                            <div class="icon">
-                                <img src="../assets/images/class.png" alt="" />
+            for (int i = 0; i < Model.quizzes.Count; i++)
+            {
+                <div class="col-md-6 mx-auto mb-4">
+                    <div class="quiz-card p-3 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row alignt-items-center">
+                                <div class="icon">
+                                    <img src="../assets/images/class.png" alt="" />
+                                </div>
+                                <div class="ms-2 c-details">
+                                    <h6 class="mb-0">@Model.quizzes[i].topics</h6>
+                                    <span>@Model.quizzes[i].startTime</span>
+                                    <span>  -  </span>
+                                    <span>@Model.quizzes[i].endTime</span>
+                                </div>
                             </div>
-                            <div class="ms-2 c-details">
-                                <h6 class="mb-0">@Model.quizzes[i].topics</h6>
-                                <span>@Model.quizzes[i].startTime</span>
-                                <span>  -  </span>
-                                <span>@Model.quizzes[i].endTime</span>
-                            </div>
-                        </div>
-                        @if (Model.isTeacher())
-                        {
-                            <!--Öğretmen ise-->
-                            <div class="quiz-badge">
-                                <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
-                                    <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <!--Öğrenci ise-->
-                            @if (DateTime.Compare(Model.quizzes[i].endTime, DateTime.Now) > 0)
+                            @if (Model.isTeacher())
                             {
-                                <!--Süre geçmediyse-->
-                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
-                                {
-                                    <!--Quize girdiyse-->
-                                    <span class="fw-bold d-flex justify-content-center align-items-center">
-                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <!--Quize girmediyse-->
-                                    <div class="quiz-badge">
-                                        <a onclick="showLoader('Quize giriliyor...')" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
-                                            <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
-                                        </a>
-                                    </div>
-                                }
+                                <!--Öğretmen ise-->
+                                <div class="quiz-badge">
+                                    <a onclick="showLoader()" class="text-white text-decoration-none cursor-pointer" href="/NoteListQuiz?classId=@(Model.classId)&quizId=@(Model.quizzes[i].id)">
+                                        <p><i class="fa-solid fa-circle-play"></i>Quiz Sonuçları</p>
+                                    </a>
+                                </div>
                             }
                             else
                             {
-                                <!--Süre geçtiyse-->
-                                @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                <!--Öğrenci ise-->
+                                @if (DateTime.Compare(Model.quizzes[i].endTime, DateTime.Now) > 0)
                                 {
-                                    <!--Quize girdiyse-->
-                                    <span class="fw-bold d-flex justify-content-center align-items-center">
-                                        Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
-                                    </span>
+                                    <!--Süre geçmediyse-->
+                                    @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                    {
+                                        <!--Quize girdiyse-->
+                                        <span class="fw-bold d-flex justify-content-center align-items-center">
+                                            Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <!--Quize girmediyse-->
+                                        <div class="quiz-badge">
+                                            <a onclick="showLoader('Quize giriliyor...')" class="text-white text-decoration-none cursor-pointer" href="/Quiz?quizId=@Model.quizzes[i].id&classId=@Model.classId">
+                                                <p><i class="fa-solid fa-circle-play"></i>Başlat</p>
+                                            </a>
+                                        </div>
+                                    }
                                 }
                                 else
                                 {
-                                    <!--Quize girmediyse-->
-                                    <span class="fw-bold text-danger d-flex justify-content-center align-items-center">Quiz süresi doldu.</span>
+                                    <!--Süre geçtiyse-->
+                                    @if (Model.isEnterQuiz(Model.quizzes[i].id))
+                                    {
+                                        <!--Quize girdiyse-->
+                                        <span class="fw-bold d-flex justify-content-center align-items-center">
+                                            Notunuz: @Model.getQuizNote(Model.quizzes[i].id)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <!--Quize girmediyse-->
+                                        <span class="fw-bold text-danger d-flex justify-content-center align-items-center">Quiz süresi doldu.</span>
+                                    }
                                 }
                             }
-                        }
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+        @if (Model.assignment != null)
+            @for (int i = @Model.assignment.Count() - 1; i >= 0; i--)
+            {
+                <div class="col-md-6 mx-auto mb-4">
+                    <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id');showLoader()">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row alignt-items-center">
+                                <div class="icon">
+                                    <img src="../assets/images/class.png" alt="" />
+                                </div>
+                                <div class="ms-2 c-details">
+                                    <h6 class="mb-0">@Model.assignment[i].title</h6>
+                                    <span>@Model.assignment[i].date.ToShortDateString()</span>
+                                </div>
+                            </div>
+
+                            <div class="badge">
+                                <p>@Model.assignment[i].deadline</p>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <b>Ödev Tanımı:</b>
+                            <p id="def-p">@Model.assignment[i].title</p>
+                        </div>
+                        <div class="mt-2">
+                            <b>Ödev Açıklaması:</b>
+                            <p id="def-p">
+                                @Model.assignment[i].description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+    </div>
+
+    <form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
+
+        <div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ödev Oluştur</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-dialog-scrollable" style="overflow-y: auto;">
+                            <!-- scrollable içeriği buraya taşıyın -->
+                            <div id="assignmentForm">
+                                <div class="form-outline mb-4">
+                                    <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" asp-for="assignmentTitle" />
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" asp-for="assignmentDefinition" />
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama" asp-for="assignmentDescription"></textarea>
+                                </div>
+                                <div id="requirementsDiv">
+                                    <div class="form-outline mb-4 d-flex">
+                                        <input type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
+                                        <button type="button" class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
+
+                                    </div>
+
+                                    <div class="form-outline mb-4 d-flex" id="requirementsContainer">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-outline mb-4">
+                                    <input required type="datetime-local" id="assignmentDeadline" value="@DateTime.Now" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <input type="hidden" id="classId" name="classId" value="@Model.classId" />
+                                    <input type="hidden" id="userId" name="userId" value="@Model.currentUser.id" />
+                                    <button onclick="showLoader()" type="submit" class="btn btn-grade">Ödev Oluştur</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
-        }
-    }
+        </div>
+    </form>
 
-    @if (Model.assignment != null)
-        @for (int i = @Model.assignment.Count() - 1; i >= 0; i--)
-        {
-            <div class="col-md-6 mx-auto mb-4">
-                <div class="card p-3 mb-2" onclick="redirectToAssignmentPage('@Model.assignment[i].id','@Model.lesson.id');showLoader()">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row alignt-items-center">
-                            <div class="icon">
-                                <img src="../assets/images/class.png" alt="" />
-                            </div>
-                            <div class="ms-2 c-details">
-                                <h6 class="mb-0">@Model.assignment[i].title</h6>
-                                <span>@Model.assignment[i].date.ToShortDateString()</span>
-                            </div>
-                        </div>
-
-                        <div class="badge">
-                            <p>@Model.assignment[i].deadline</p>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <b>Ödev Tanımı:</b>
-                        <p id="def-p">@Model.assignment[i].title</p>
-                    </div>
-                    <div class="mt-2">
-                        <b>Ödev Açıklaması:</b>
-                        <p id="def-p">
-                            @Model.assignment[i].description
-                        </p>
-                    </div>
-                </div>
-            </div>
-        }
-
-</div>
-
-<form id="createAssingment" method="post" enctype="multipart/form-data" asp-page-handler="CreateAssignment">
-
-    <div class="modal fade" id="createAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="createQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Ödev Oluştur</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Quiz Oluştur</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-dialog-scrollable" style="overflow-y: auto;">
+                    <div class="modal-dialog-scrollable" style="overflow-y: auto;" id="quiz-questions">
                         <!-- scrollable içeriği buraya taşıyın -->
-                        <div id="assignmentForm">
-                            <div class="form-outline mb-4">
-                                <input required type="text" id="assignmentTitle" placeholder="Başlık" class="form-control form-control-lg mt-2" asp-for="assignmentTitle" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <input required type="text" id="assignmentDefinition" placeholder="Tanım" class="form-control form-control-lg mt-2" asp-for="assignmentDefinition" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <textarea required class="form-control mt-2" id="assignmentDescription" rows="4" placeholder="Açıklama" asp-for="assignmentDescription"></textarea>
-                            </div>
-                            <div id="requirementsDiv">
-                                <div class="form-outline mb-4 d-flex">
-                                    <input type="text" value="" placeholder="Gereksinimler" class="form-control form-control-lg h-100 requirement-input" id="requirementInput" />
-                                    <button type="button" class="btn btn-grade ms-2" id="addRequirementButton"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
-
-                                </div>
-
-                                <div class="form-outline mb-4 d-flex" id="requirementsContainer">
-                                </div>
-                            </div>
-
-
-                            <div class="form-outline mb-4">
-                                <input required type="datetime-local" id="assignmentDeadline" value="@DateTime.Now" placeholder="Teslim Tarihi" class="form-control form-control-lg mt-2" asp-for="assignmentDeadline" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <input type="file" id="fileInput" accept=".pdf,.zip,.rar" class="form-control mt-2" />
-                            </div>
-                            <div class="modal-footer d-flex justify-content-center">
-                                <input type="hidden" id="classId" name="classId" value="@Model.classId" />
-                                <input type="hidden" id="userId" name="userId" value="@Model.currentUser.id" />
-                                <button onclick="showLoader()" type="submit" class="btn btn-grade">Ödev Oluştur</button>
-                            </div>
+                        <div class="form-outline mb-4 d-flex ">
+                            <input required type="datetime-local" id="startTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
+                            <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center" style="cursor:default;">Başlangıç </span>
+                        </div>
+                        <div class="form-outline mb-4 d-flex ">
+                            <input required type="datetime-local" id="endTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
+                            <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center " style="min-width:104px;cursor:default;">Bitiş </span>
+                        </div>
+                        <div class="form-outline mb-4 d-flex ">
+                            <input required type="number" id="questionCountInput" class="form-control form-control-lg h-100 " min="1" max="10" placeholder="Soru Sayısı" />
+                        </div>
+                        <div class="form-outline mb-4 d-flex ">
+                            <input type="text" value="" placeholder="Konu Giriniz" class="form-control form-control-lg h-100" id="quizContentInput" />
+                            <button class="btn btn-grade ms-2" id="addQuizContent"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
+                        </div>
+                        <div class="form-outline mb-2 d-flex quiz-questions ">
                         </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-</form>
-
-<div class="modal fade" id="createQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Quiz Oluştur</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-dialog-scrollable" style="overflow-y: auto;" id="quiz-questions">
-                    <!-- scrollable içeriği buraya taşıyın -->
-                    <div class="form-outline mb-4 d-flex ">
-                        <input required type="datetime-local" id="startTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
-                        <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center" style="cursor:default;">Başlangıç </span>
-                    </div>
-                    <div class="form-outline mb-4 d-flex ">
-                        <input required type="datetime-local" id="endTimeInput" value="" data-format="dd/MM/yyyy hh:mm:ss" class="form-control form-control-lg mt-2" />
-                        <span class="input-group-text btn btn-grade ms-2 mt-2 d-flex justify-content-center text-center align-items-center " style="min-width:104px;cursor:default;">Bitiş </span>
-                    </div>
-                    <div class="form-outline mb-4 d-flex ">
-                        <input required type="number" id="questionCountInput" class="form-control form-control-lg h-100 " min="1" max="10" placeholder="Soru Sayısı" />
-                    </div>
-                    <div class="form-outline mb-4 d-flex ">
-                        <input type="text" value="" placeholder="Konu Giriniz" class="form-control form-control-lg h-100" id="quizContentInput" />
-                        <button class="btn btn-grade ms-2" id="addQuizContent"><i class="fa-solid fa-plus fa-lg mx-auto "></i></button>
-                    </div>
-                    <div class="form-outline mb-2 d-flex quiz-questions ">
-                    </div>
+                <div class="w-100 text-center m-2"><i class="fa-sharp fa-solid fa-circle-info"></i> Quiz Oluşturma işlemi 20-60 saniye sürmektedir.</div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="submitQuizBtn" class="btn btn-grade" onclick="showLoader('Quiz Oluşturuluyor...');submitQuiz();">Quiz Oluştur</button>
                 </div>
             </div>
-            <div class="w-100 text-center m-2"><i class="fa-sharp fa-solid fa-circle-info"></i> Quiz Oluşturma işlemi 20-60 saniye sürmektedir.</div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button id="submitQuizBtn" class="btn btn-grade" onclick="showLoader('Quiz Oluşturuluyor...');submitQuiz();">Quiz Oluştur</button>
-            </div>
         </div>
     </div>
-</div>
+}
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999;">
     <!--Toast Success-->
     <div class="toast align-items-center text-bg-primary border-0 bg-success @Request.Cookies["Success"] text-white" id="content_success" data-bs-delay="5000" role="status" aria-live="polite" aria-atomic="true">
@@ -307,9 +310,9 @@
                     let k = 0;
                     requirements.forEach((requirement) => {
                         if (k != 0) {
-                            requirement.name = `assignmentRequirements[${k-1}]`;
-                            requirement.id = `assignmentRequirements_${k-1}_`;
-                            requirement.setAttribute("asp-for", `assignmentRequirements[${k-1}]`);
+                            requirement.name = `assignmentRequirements[${k - 1}]`;
+                            requirement.id = `assignmentRequirements_${k - 1}_`;
+                            requirement.setAttribute("asp-for", `assignmentRequirements[${k - 1}]`);
                         }
                         k++;
                     });

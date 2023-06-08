@@ -48,7 +48,7 @@ namespace IntelliGradeUI.Pages
             }
             else
             {
-                ToastService.createErrorToast("Sýnýf bulunamadý", Response);
+                ToastService.createErrorToast("Quiz bulunamadý", Response);
                 Response.Redirect("/Index");
             }
 

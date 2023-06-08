@@ -27,7 +27,7 @@ namespace IntelliGradeUI.Pages
             if (Request.Cookies["Token"] == null)
             {
                 Response.Redirect("/Login");
-            }else if(assignmentId == null || classId==null || GetRequests.Get("user","isteacher/"+classId, Request.Cookies["Token"]).message!="true")
+            }else if(assignmentId == null || classId==null || assignmentId=="" || classId=="" || GetRequests.Get("user","isteacher/"+classId, Request.Cookies["Token"]).message!="true")
             {
                 Response.Redirect("/Index");
             }
